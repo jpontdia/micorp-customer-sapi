@@ -9,10 +9,6 @@ on:
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
 
-# Global environment variables from GitHub Secrets
-env:
-  AZURE_CREDENTIALS: ${{ secrets.AZURE_CREDENTIALS }}
-
 jobs:
   build-deploy:
     # The type of runner that the job will run on 
@@ -38,17 +34,13 @@ jobs:
           
       - uses: Azure/get-keyvault-secrets@v1
         with:
-          keyvault: "jpworks-keyvault" # name of key vault in Azure portal
+          keyvault: "jpworks-keyvault" # The name of KeyVault in Azure
           secrets: 'anypoint-environment-clientid, anypoint-environment-secret, cicd-connectedapp-clientid, cicd-connectedapp-secret, encrypt-key, salesforce-token, salesforce-password, salesforce-user, anypoint-user, anypoint-password'  # comma separated list of secret keys to fetch from key vault 
         id: secretmanager # ID for secrets that you will reference
       
-      - name: DEBUG - Never in a real workflow
-        run: |
-          echo ${{ steps.secretmanager.outputs.client-id }} | sed 's/./& /g'
-      
+      # Creates a settings.xml file and configure the anypoint repositories for the organization and the mulesoft EE
       - name: maven-settings-xml-action
         uses: whelk-io/maven-settings-xml-action@v20
-        if: ${{ true }}
         with:
           servers: >
             [
@@ -116,6 +108,7 @@ jobs:
             ]
         
       - name: DEBUG - Show settings file
+        if: ${{ false }}
         run: |
           ls -la $HOME
           cat $HOME/.m2/settings.xml
@@ -141,6 +134,7 @@ jobs:
            -Dcommit.hash=-$commitHash \
            -Dbuild.id=-${{ github.run_number }}  
     
+      # Upload the jar file as an artifact to GitHub Actions
       - name: Upload artifact 
         if: ${{ false }}
         uses: actions/upload-artifact@master
