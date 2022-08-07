@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule
+	xmlns:json-logger="http://www.mulesoft.org/schema/mule/json-logger"
+	xmlns:validation="http://www.mulesoft.org/schema/mule/validation"
+	xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core"
+	xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:munit="http://www.mulesoft.org/schema/mule/munit"
+	xmlns:munit-tools="http://www.mulesoft.org/schema/mule/munit-tools"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xsi:schemaLocation="
+		http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+		http://www.mulesoft.org/schema/mule/munit http://www.mulesoft.org/schema/mule/munit/current/mule-munit.xsd
+		http://www.mulesoft.org/schema/mule/munit-tools  http://www.mulesoft.org/schema/mule/munit-tools/current/mule-munit-tools.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd
+http://www.mulesoft.org/schema/mule/validation http://www.mulesoft.org/schema/mule/validation/current/mule-validation.xsd
+http://www.mulesoft.org/schema/mule/json-logger http://www.mulesoft.org/schema/mule/json-logger/current/mule-json-logger.xsd">
+	<munit:config name="backend-errors" />
+
+	<munit:test
+		name="post-customer-not-created"
+		description="post-customer-not-created"
+		doc:id="c2d58ddf-f36b-40e5-87c6-cde2041683e2">
+		
+		<munit:enable-flow-sources>
+			<munit:enable-flow-source value="api-main" />
+			<munit:enable-flow-source value="get:\customers:api-config" />
+			<munit:enable-flow-source value="get:\customers\(customerId):api-config" />
+			<munit:enable-flow-source value="delete:\customers\(customerId):api-config" />
+			<munit:enable-flow-source value="post:\customers:application\json:api-config" />
+		</munit:enable-flow-sources>
+		
+				
+		<munit:behavior>
+			<munit:set-event
+				doc:name="Set Input"
+				doc:id="ee5c701f-bc3b-48a6-b70f-e62dff2a0317">
+				<munit:payload
+					value="#[readUrl('classpath://post/set-event_payload.dwl')]"
+					encoding="UTF-8" />
+				<munit:attributes value="#[readUrl('classpath://orderapiconsoletest/set-event_attributes.dwl')]" />
+			</munit:set-event>
+			<munit-tools:mock-when
+				doc:name="no Customer on Database"
+				doc:id="3faf0a68-495a-4736-b041-93f1e35604d7"
+				processor="flow-ref">
+				<munit-tools:with-attributes>
+					<munit-tools:with-attribute
+						whereValue="queryCustomer"
+						attributeName="name" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return>
+					<munit-tools:payload value="#[&#10;[]&#10;]" />
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+			<munit-tools:mock-when
+				doc:name="Salesforce not success"
+				doc:id="73be5b07-b36a-4d07-b800-58b8cc8e5a6d"
+				processor="salesforce:create">
+				<munit-tools:with-attributes>
+					<munit-tools:with-attribute
+						whereValue="Customer__c"
+						attributeName="type" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return>
+					<munit-tools:payload
+						value='#[&#10;%dw 2.0&#10;output application/json&#10;---&#10;{ "successful": "false"}&#10;]'
+						encoding="UTF-8" />
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+		</munit:behavior>
+		<munit:execution>
+			<flow-ref
+				doc:name="post"
+				doc:id="72262c22-5481-486c-931e-9cc17b1bb790"
+				name="post:\customers" />
+			<json-logger:log-flow
+				doc:name="result"
+				config-ref="JSON_Logger_Config"
+				message='#["status: " ++ vars.httpStatus]' />
+				
+		</munit:execution>
+		<munit:validation>
+			<munit-tools:assert-equals
+				doc:name="status 500"
+				doc:id="5b3a56ae-45ff-41c4-a1d8-0a44c697c0a0"
+				actual="#[vars.httpStatus]"
+				expected='#["500"]'
+				message="The status code must be 500" />
+			<munit-tools:assert-that
+				doc:name="verify response"
+				doc:id="f0a119d7-96ac-4e8d-8c0b-0f12b9e685e8"
+				expression='#[payload.message contains "${messages.customer-error}"]'
+				is="#[MunitTools::notNullValue()]" />
+		</munit:validation>
+	</munit:test>
+
+
+	<munit:test
+		name="post-customer-backend-exception"
+		doc:id="1e2f6512-c08d-4666-a480-61713b17accd">
+		<munit:behavior>
+			<munit:set-event
+				doc:name="Set Input"
+				doc:id="32a60db6-e1e3-4cb5-b903-cb8b26303ccc">
+				<munit:payload
+					value="#[readUrl('classpath://post/set-event_payload.dwl')]"
+					encoding="UTF-8" />
+				<munit:attributes value="#[readUrl('classpath://orderapiconsoletest/set-event_attributes.dwl')]" />
+			</munit:set-event>
+			<munit-tools:mock-when
+				doc:name="no Customer on Database"
+				doc:id="b5541543-3c5f-4d92-879a-e499561f537e"
+				processor="flow-ref">
+				<munit-tools:with-attributes>
+					<munit-tools:with-attribute
+						whereValue="queryCustomer"
+						attributeName="name" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return>
+					<munit-tools:payload value="#[&#10;[]&#10;]" />
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+			<munit-tools:mock-when
+				doc:name="Salesforce not success"
+				doc:id="094fb715-2617-4f95-9351-f3b87f6e24eb"
+				processor="salesforce:create">
+				<munit-tools:with-attributes>
+					<munit-tools:with-attribute
+						whereValue="Customer__c"
+						attributeName="type" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return>
+					<munit-tools:payload
+						value='#[&#10;%dw 2.0&#10;output application/json&#10;---&#10;{ "successful": "false"}&#10;]'
+						encoding="UTF-8" />
+					<munit-tools:error typeId="ANY" />
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+		</munit:behavior>
+		<munit:execution>
+			<try
+				doc:name="Try"
+				doc:id="3c0b8cf9-a2dc-4034-b22d-50dd53cce815">
+				<flow-ref
+					doc:name="post"
+					doc:id="dc7d6337-59aa-43ce-ad86-29d1c74d2732"
+					name="post:\customers" />
+				<error-handler>
+					<on-error-continue
+						enableNotifications="true"
+						logException="true"
+						doc:name="On Error Continue"
+						doc:id="a0484362-987b-4d22-8e52-e4a3bd76cf2a">
+						<logger
+							level="INFO"
+							doc:name="Logger"
+							doc:id="3d9cda2d-bd1c-4697-9972-92d3d822bc02"
+							message="An error was produced in the tested flow" />
+					</on-error-continue>
+				</error-handler>
+			</try>
+			<json-logger:log-flow
+				doc:name="result"
+				doc:id="76761ca1-23d0-49ec-a3c7-3099d744ee5e"
+				config-ref="JSON_Logger_Config"
+				message='#["status: " ++ vars.httpStatus]' />
+		</munit:execution>
+		<munit:validation>
+			<munit-tools:assert-equals
+				doc:name="status 500"
+				doc:id="96ed04c5-4013-42de-b30b-32969d05491f"
+				actual="#[vars.httpStatus]"
+				expected='#["500"]'
+				message="The status code must be 500" />
+			<munit-tools:assert-that
+				doc:name="verify response"
+				doc:id="1bff4e12-e359-4343-91f1-463e3d9d7240"
+				expression='#[payload.message contains "${messages.backend-error}"]'
+				is="#[MunitTools::notNullValue()]" />
+		</munit:validation>
+	</munit:test>
+
+</mule>

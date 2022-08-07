@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:json-logger="http://www.mulesoft.org/schema/mule/json-logger"
+	xmlns:salesforce="http://www.mulesoft.org/schema/mule/salesforce" xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/salesforce http://www.mulesoft.org/schema/mule/salesforce/current/mule-salesforce.xsd
+http://www.mulesoft.org/schema/mule/json-logger http://www.mulesoft.org/schema/mule/json-logger/current/mule-json-logger.xsd">
+	<flow name="queryCustomer" doc:id="1921a8f0-6bb9-4ee6-b21f-b1a48465b6ed" >
+		<ee:transform doc:name="Where Filter" doc:id="98882926-8497-44cb-92f4-4d3e1ba9ca41" >
+			<ee:message >
+			</ee:message>
+			<ee:variables >
+				<ee:set-variable variableName="soqlFilter" ><![CDATA[%dw 2.0
+import modules::soql
+
+var sqlFilter1 = soql::soqlBuilder("", "AND",
+        soql::stringParameter("firstName__c", vars.firstName))
+var sqlFilter2 = soql::soqlBuilder(sqlFilter1, "AND",
+        soql::stringParameter("lastName__c", vars.lastName))
+var sqlFilter3 = soql::soqlBuilder(sqlFilter2, "AND",
+        soql::stringParameter("Id", vars.customerId))
+output application/json
+---
+sqlFilter3	]]></ee:set-variable>
+			</ee:variables>
+		</ee:transform>
+		
+		
+		<salesforce:query doc:name="Customer" doc:id="6c1f1ee6-a895-49b2-9cf7-aa19397fe187" config-ref="Salesforce_Config">
+			<salesforce:salesforce-query ><![CDATA[SELECT firstName__c, lastName__c, address__c, Id 
+FROM Customer__c 
+ :soqlFilter]]></salesforce:salesforce-query>
+			<salesforce:parameters ><![CDATA[#[output application/java
+---
+{
+	soqlFilter : vars.soqlFilter
+}]]]></salesforce:parameters>
+		</salesforce:query>
+		<ee:transform doc:name="Customer Payload" doc:id="2add41b8-bcb0-45af-8132-3039bdfe068d" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output json
+
+---
+payload map (item, value) ->
+{
+    firstName: item.firstName__c,
+    lastName: item.lastName__c,
+    address: item.address__c,
+    customerId: item.Id
+}    ]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<error-handler ref="global-error-handler" />
+	</flow>
+	<flow name="getByName" doc:id="a2f2ef9f-b7dc-4bf8-a0ea-ffee34658749" >
+		<json-logger:log-start doc:name="Log start" doc:id="4c9736e5-f42e-4332-8cce-246abf54a992" config-ref="JSON_Logger_Config" message="Start of getCustomers"/>
+		<set-variable value="#[attributes.queryParams.firstName]" doc:name="firstName" doc:id="a11096b2-5a2b-4be4-b17d-900871366c20" variableName="firstName"/>
+		<set-variable value="#[attributes.queryParams.lastName]" doc:name="lastName" doc:id="78be75c9-3c31-4aaa-84cb-3f9e73347dd9" variableName="lastName"/>
+		<flow-ref doc:name="queryCustomer" doc:id="1774a398-fdd4-428e-86f6-5160194044f5" name="queryCustomer"/>
+		<json-logger:log-end doc:name="Log end" doc:id="747273b4-5a14-4d01-b18f-a1eb14237128" config-ref="JSON_Logger_Config" message="End of getCustomers"/>
+	</flow>
+
+	<flow name="getById" doc:id="dafe3155-a626-444b-aaa6-5a5daba53ddb" >
+		<ee:transform doc:name="get customerId" doc:id="64ca68fe-c777-4988-9bc2-3fefa3d4bd82" >
+			<ee:variables >
+				<ee:set-variable variableName="customerId" ><![CDATA[attributes.uriParams.'customerId']]></ee:set-variable>
+			</ee:variables>
+		</ee:transform>
+		<flow-ref doc:name="queryCustomer" doc:id="b9af10e2-e10a-415c-abc1-4f8a9607bea3" name="queryCustomer"/>
+		<ee:transform doc:name="get Customer" doc:id="e617460a-39e0-4eda-a8b3-6510ddd692ae" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+if (payload[0] == null) "" else payload[0]]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+	</flow>
+</mule>

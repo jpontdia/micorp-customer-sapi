@@ -1,0 +1,496 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule
+	xmlns:validation="http://www.mulesoft.org/schema/mule/validation"
+	xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns:json-logger="http://www.mulesoft.org/schema/mule/json-logger"
+	xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:munit="http://www.mulesoft.org/schema/mule/munit"
+	xmlns:munit-tools="http://www.mulesoft.org/schema/mule/munit-tools"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xsi:schemaLocation="
+		http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+		http://www.mulesoft.org/schema/mule/munit http://www.mulesoft.org/schema/mule/munit/current/mule-munit.xsd
+		http://www.mulesoft.org/schema/mule/munit-tools  http://www.mulesoft.org/schema/mule/munit-tools/current/mule-munit-tools.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd
+http://www.mulesoft.org/schema/mule/json-logger http://www.mulesoft.org/schema/mule/json-logger/current/mule-json-logger.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/validation http://www.mulesoft.org/schema/mule/validation/current/mule-validation.xsd">
+
+	<http:request-config
+		name="http_test_local_configuration"
+		doc:name="HTTP Request configuration"
+		doc:id="bd1a231f-511d-481b-8b36-3c8369118810">
+		<http:request-connection
+			host="localhost"
+			port="8081" />
+	</http:request-config>
+
+
+	<munit:config
+		name="error-scenarios.xml"
+		minMuleVersion="4.3.0" />
+	<munit:test name="delete-with-fake-id">
+		<munit:enable-flow-sources>
+			<munit:enable-flow-source value="api-main" />
+			<munit:enable-flow-source value="get:\customers:api-config" />
+			<munit:enable-flow-source value="get:\customers\(customerId):api-config" />
+			<munit:enable-flow-source value="delete:\customers\(customerId):api-config" />
+			<munit:enable-flow-source value="post:\customers:application\json:api-config" />
+		</munit:enable-flow-sources>
+
+		<munit:execution>
+			<json-logger:log-flow
+				doc:name="Test delete with fake id"
+				config-ref="JSON_Logger_Config"
+				message='Test delete with fake id' />
+
+			<http:request
+				method="DELETE"
+				doc:name="Delete"
+				doc:id="f3a7b026-ffea-4d2b-9304-759cf5c07685"
+				config-ref="http_test_local_configuration"
+				path="/api/customers/{customerId}">
+				<http:headers><![CDATA[#[output application/java
+---
+{
+	"Content-Type" : "application/json"
+}]]]></http:headers>
+				<http:uri-params><![CDATA[#[output application/java
+---
+{
+	"customerId" : "a018b00000yYNxGAA1"
+}]]]></http:uri-params>
+				<http:response-validator>
+					<http:success-status-code-validator values="200,400" />
+				</http:response-validator>
+			</http:request>
+			<json-logger:log-flow
+				doc:name="Result"
+				doc:id="3badef61-f25a-406d-a9d4-3006ff3b8dbd"
+				config-ref="JSON_Logger_Config"
+				message="Result" />
+
+		</munit:execution>
+		<munit:validation>
+			<munit-tools:assert-equals
+				actual="#[attributes.statusCode]"
+				expected="#[400]"
+				message="The status code must be 400"
+				doc:name="status 400" />
+			<munit-tools:assert-that
+				doc:name="verify message"
+				doc:id="ce0fd605-ca65-47c5-b96e-5156c843f119"
+				expression='#[payload.message contains "${messages.customer-doesnt-exist-relations}"]'
+				is="#[MunitTools::notNullValue()]" />
+		</munit:validation>
+	</munit:test>
+
+
+	<munit:test name="apikit-status-400">
+		<munit:enable-flow-sources>
+			<munit:enable-flow-source value="api-main" />
+			<munit:enable-flow-source value="get:\customers:api-config" />
+			<munit:enable-flow-source value="get:\customers\(customerId):api-config" />
+			<munit:enable-flow-source value="delete:\customers\(customerId):api-config" />
+			<munit:enable-flow-source value="post:\customers:application\json:api-config" />
+
+		</munit:enable-flow-sources>
+
+		<munit:execution>
+			<json-logger:log-flow
+				doc:name="Test apikit 400 scenario"
+				config-ref="JSON_Logger_Config"
+				message='Test apikit 400 scenario' />
+
+			<http:request
+				method="POST"
+				doc:name="Connect"
+				doc:id="02eb3f2b-c35e-48e1-952e-3377ba580bd8"
+				config-ref="http_test_local_configuration"
+				path="/api/customers">
+				<http:body><![CDATA[This is a test]]></http:body>
+				<http:headers><![CDATA[#[output application/java
+---
+{
+	"Content-Type" : "application/json"
+}]]]></http:headers>
+				<http:uri-params><![CDATA[#[output application/java
+---
+{
+	"customerId" : "a138E000000N9dr"
+}]]]></http:uri-params>
+				<http:response-validator>
+					<http:success-status-code-validator values="400" />
+				</http:response-validator>
+			</http:request>
+			<json-logger:log-flow
+				doc:name="Result"
+				doc:id="214e2020-bf85-433a-8f63-89fe1421acbd"
+				config-ref="JSON_Logger_Config"
+				message="Result" />
+
+		</munit:execution>
+		<munit:validation>
+			<munit-tools:assert-equals
+				actual="#[attributes.statusCode]"
+				expected="#[400]"
+				message="The status code must be 405"
+				doc:name="status 400" />
+			<munit-tools:assert-that
+				doc:name="verify message"
+				doc:id="46bfd03e-d23f-48cf-89e5-43e89a6832fd"
+				expression='#[payload.message contains "${messages.apikit-400}"]'
+				is="#[MunitTools::notNullValue()]" />
+		</munit:validation>
+	</munit:test>
+
+	<munit:test name="apikit-status-404">
+		<munit:enable-flow-sources>
+			<munit:enable-flow-source value="api-main" />
+			<munit:enable-flow-source value="get:\customers:api-config" />
+			<munit:enable-flow-source value="get:\customers\(customerId):api-config" />
+			<munit:enable-flow-source value="delete:\customers\(customerId):api-config" />
+			<munit:enable-flow-source value="post:\customers:application\json:api-config" />
+
+		</munit:enable-flow-sources>
+
+		<munit:execution>
+			<json-logger:log-flow
+				doc:name="Test apikit 404 scenario"
+				config-ref="JSON_Logger_Config"
+				message='Test apikit 404 scenario' />
+
+			<http:request
+				method="POST"
+				doc:name="Connect"
+				doc:id="712a252b-bb08-43dd-8207-6303cfab9600"
+				config-ref="http_test_local_configuration"
+				path="/api/fake">
+				<http:headers><![CDATA[#[output application/java
+---
+{
+	"Content-Type" : "application/json"
+}]]]></http:headers>
+				<http:uri-params><![CDATA[#[output application/java
+---
+{
+	"customerId" : "a138E000000N9dr"
+}]]]></http:uri-params>
+				<http:response-validator>
+					<http:success-status-code-validator values="404" />
+				</http:response-validator>
+			</http:request>
+			<json-logger:log-flow
+				doc:name="Result"
+				doc:id="24d52d1d-9012-4611-bd73-e9d1b8e3dd50"
+				config-ref="JSON_Logger_Config"
+				message="Result" />
+
+		</munit:execution>
+		<munit:validation>
+			<munit-tools:assert-equals
+				actual="#[attributes.statusCode]"
+				expected="#[404]"
+				message="The status code must be 404"
+				doc:name="status 404" />
+			<munit-tools:assert-that
+				doc:name="verify message"
+				doc:id="965565fe-9cb3-499b-b514-a2a7acacf65c"
+				expression='#[payload.message contains "${messages.apikit-404}"]'
+				is="#[MunitTools::notNullValue()]" />
+		</munit:validation>
+	</munit:test>
+
+
+
+	<munit:test name="apikit-status-405">
+		<munit:enable-flow-sources>
+			<munit:enable-flow-source value="api-main" />
+			<munit:enable-flow-source value="get:\customers:api-config" />
+			<munit:enable-flow-source value="get:\customers\(customerId):api-config" />
+			<munit:enable-flow-source value="delete:\customers\(customerId):api-config" />
+			<munit:enable-flow-source value="post:\customers:application\json:api-config" />
+		</munit:enable-flow-sources>
+
+		<munit:execution>
+			<json-logger:log-flow
+				doc:name="Test apikit 405 scenario"
+				config-ref="JSON_Logger_Config"
+				message='Test apikit 405 scenario' />
+
+			<http:request
+				method="OPTIONS"
+				doc:name="Connect"
+				doc:id="02eb3f2b-c35e-48e1-952e-3377ba580bd8"
+				config-ref="http_test_local_configuration"
+				path="/api/customers/{customerId}">
+				<http:headers><![CDATA[#[output application/java
+---
+{
+	"Content-Type" : "application/json"
+}]]]></http:headers>
+				<http:uri-params><![CDATA[#[output application/java
+---
+{
+	"customerId" : "a138E000000N9dr"
+}]]]></http:uri-params>
+				<http:response-validator>
+					<http:success-status-code-validator values="405" />
+				</http:response-validator>
+			</http:request>
+			<json-logger:log-flow
+				doc:name="Result"
+				doc:id="214e2020-bf85-433a-8f63-89fe1421acbd"
+				config-ref="JSON_Logger_Config"
+				message="Result" />
+
+		</munit:execution>
+		<munit:validation>
+			<munit-tools:assert-equals
+				actual="#[attributes.statusCode]"
+				expected="#[405]"
+				message="The status code must be 405"
+				doc:name="status 405" />
+			<munit-tools:assert-that
+				doc:name="verify message"
+				doc:id="46bfd03e-d23f-48cf-89e5-43e89a6832fd"
+				expression='#[payload.message contains "${messages.apikit-405}"]'
+				is="#[MunitTools::notNullValue()]" />
+		</munit:validation>
+	</munit:test>
+
+
+	<munit:test name="apikit-status-406">
+		<munit:enable-flow-sources>
+			<munit:enable-flow-source value="api-main" />
+			<munit:enable-flow-source value="get:\customers:api-config" />
+			<munit:enable-flow-source value="get:\customers\(customerId):api-config" />
+			<munit:enable-flow-source value="delete:\customers\(customerId):api-config" />
+			<munit:enable-flow-source value="post:\customers:application\json:api-config" />
+		</munit:enable-flow-sources>
+
+		<munit:execution>
+			<json-logger:log-flow
+				doc:name="Test apikit 406 scenario"
+				config-ref="JSON_Logger_Config"
+				message='Test apikit 406 scenario' />
+
+			<http:request
+				method="POST"
+				doc:name="POST"
+				doc:id="e766b1bc-7a63-4842-b458-670ea48ae23c"
+				config-ref="http_test_local_configuration"
+				path="/api/customers">
+				<http:headers><![CDATA[#[output application/java
+---
+{
+	"Accept" : "fake"
+}]]]></http:headers>
+				<http:response-validator>
+					<http:success-status-code-validator values="406" />
+				</http:response-validator>
+			</http:request>
+			<json-logger:log-flow
+				doc:name="Result"
+				doc:id="38a68e57-c135-41f1-a301-1c45227ebe7d"
+				config-ref="JSON_Logger_Config"
+				message="Result" />
+
+		</munit:execution>
+		<munit:validation>
+			<munit-tools:assert-equals
+				actual="#[attributes.statusCode]"
+				expected="#[406]"
+				message="The status code must be 406"
+				doc:name="status 406" />
+			<munit-tools:assert-that
+				doc:name="verify message"
+				doc:id="f677f1fd-e919-4557-918c-35de235285f2"
+				expression='#[payload.message contains "${messages.apikit-406}"]'
+				is="#[MunitTools::notNullValue()]" />
+		</munit:validation>
+	</munit:test>
+
+
+	<munit:test name="apikit-status-415">
+		<munit:enable-flow-sources>
+			<munit:enable-flow-source value="api-main" />
+			<munit:enable-flow-source value="get:\customers:api-config" />
+			<munit:enable-flow-source value="get:\customers\(customerId):api-config" />
+			<munit:enable-flow-source value="delete:\customers\(customerId):api-config" />
+			<munit:enable-flow-source value="post:\customers:application\json:api-config" />
+		</munit:enable-flow-sources>
+
+		<munit:execution>
+			<json-logger:log-flow
+				doc:name="Test apikit 415 scenario"
+				config-ref="JSON_Logger_Config"
+				message='Test apikit 415 scenario' />
+
+			<http:request
+				method="POST"
+				doc:name="POST"
+				doc:id="468e1d2e-b3ad-4dc8-b3c7-eae0dc07d6e6"
+				config-ref="http_test_local_configuration"
+				path="/api/customers">
+				<http:headers><![CDATA[#[output application/java
+---
+{
+	"Content-Type" : "fake-format"
+}]]]></http:headers>
+				<http:response-validator>
+					<http:success-status-code-validator values="415" />
+				</http:response-validator>
+			</http:request>
+			<json-logger:log-flow
+				doc:name="Result"
+				doc:id="90a610e8-3fb3-439f-8149-bc1090db7bb1"
+				config-ref="JSON_Logger_Config"
+				message="Result" />
+
+		</munit:execution>
+		<munit:validation>
+			<munit-tools:assert-equals
+				actual="#[attributes.statusCode]"
+				expected="#[415]"
+				message="The status code must be 415"
+				doc:name="status 415" />
+			<munit-tools:assert-that
+				doc:name="verify message"
+				doc:id="8dd77cc8-1024-46bd-8ad0-a34bff9cbdd3"
+				expression='#[payload.message contains "${messages.apikit-415}"]'
+				is="#[MunitTools::notNullValue()]" />
+		</munit:validation>
+	</munit:test>
+
+
+	<munit:test name="apikit-status-501">
+		<munit:enable-flow-sources>
+			<munit:enable-flow-source value="api-main" />
+			<munit:enable-flow-source value="get:\customers:api-config" />
+			<munit:enable-flow-source value="get:\customers\(customerId):api-config" />
+			<munit:enable-flow-source value="delete:\customers\(customerId):api-config" />
+			<munit:enable-flow-source value="post:\customers:application\json:api-config" />
+		</munit:enable-flow-sources>
+
+		<munit:behavior>
+			<munit-tools:mock-when
+				doc:name="Mock when"
+				doc:id="bfa55634-89d2-4eae-93ca-09e4a1e45d8d"
+				processor="apikit:router">
+				<munit-tools:with-attributes>
+					<munit-tools:with-attribute
+						whereValue="api-config"
+						attributeName="config-ref" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return>
+					<munit-tools:error typeId="APIKIT:NOT_IMPLEMENTED" />
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+		</munit:behavior>
+		<munit:execution>
+			<json-logger:log-flow
+				doc:name="Test apikit 501 scenario"
+				config-ref="JSON_Logger_Config"
+				message='Test apikit 415 scenario' />
+
+			<http:request
+				method="POST"
+				doc:name="POST"
+				doc:id="46d0b813-4c56-441b-b831-fb05ad79a01b"
+				config-ref="http_test_local_configuration"
+				path="/api/customers">
+				<http:headers><![CDATA[#[output application/java
+---
+{
+	"Content-Type" : "fake-format"
+}]]]></http:headers>
+				<http:response-validator>
+					<http:success-status-code-validator values="501" />
+				</http:response-validator>
+			</http:request>
+			<json-logger:log-flow
+				doc:name="Result"
+				doc:id="1d839e60-e030-49e6-a197-d7ffd0915f9f"
+				config-ref="JSON_Logger_Config"
+				message="Result" />
+
+		</munit:execution>
+		<munit:validation>
+			<munit-tools:assert-equals
+				actual="#[attributes.statusCode]"
+				expected="#[501]"
+				message="The status code must be 501"
+				doc:name="status 501" />
+			<munit-tools:assert-that
+				doc:name="verify message"
+				doc:id="032bc5dd-3e53-4bdf-9435-35a18792cb3b"
+				expression='#[payload.message contains "${messages.apikit-501}"]'
+				is="#[MunitTools::notNullValue()]" />
+		</munit:validation>
+	</munit:test>
+
+
+
+
+
+
+	<munit:test
+		name="test-console"
+		doc:id="a5e95897-cf92-4a76-aef7-779a626f5b0e">
+		<munit:enable-flow-sources>
+			<munit:enable-flow-source value="api-main" />
+			<munit:enable-flow-source value="get:\customers:api-config" />
+			<munit:enable-flow-source value="get:\customers\(customerId):api-config" />
+			<munit:enable-flow-source value="delete:\customers\(customerId):api-config" />
+			<munit:enable-flow-source value="post:\customers:application\json:api-config" />
+			<munit:enable-flow-source value="api-console" />
+		</munit:enable-flow-sources>
+		<munit:execution>
+			<json-logger:log-flow
+				doc:name="Log flow"
+				doc:id="4477cf77-b0a7-4842-8a8e-6ce09b42feb7"
+				config-ref="JSON_Logger_Config"
+				message="Test console" />
+			<http:request
+				method="GET"
+				doc:name="Console"
+				doc:id="6465c4a7-4edd-49a5-baed-05ddfc0db02a"
+				path="/console"
+				config-ref="http_test_local_configuration">
+				<http:headers><![CDATA[#[output application/java
+---
+{
+	"Content-Type" : "text/html"
+}]]]></http:headers>
+			</http:request>
+			<ee:transform
+				doc:name="Transform Message"
+				doc:id="52315af4-74df-4118-a7ef-00110cf82a59">
+				<ee:message>
+					<ee:set-payload><![CDATA[%dw 2.0
+output text
+---
+payload as String]]></ee:set-payload>
+				</ee:message>
+			</ee:transform>
+			<json-logger:log-flow
+				doc:name="Log flow"
+				doc:id="c5f52165-6f4c-4318-86ab-5a38668e1e7d"
+				config-ref="JSON_Logger_Config"
+				message="Response from ApiKit Console" />
+		</munit:execution>
+		<munit:validation>
+			<munit-tools:assert-that
+				doc:name="Assert that"
+				doc:id="9bd83290-e65a-44fb-9c54-fbc12abbd348"
+				is="#[MunitTools::notNullValue()]"
+				expression='#[payload contains "APIkit Console"]'
+				message="The APIKit is not correctly configured" />
+		</munit:validation>
+	</munit:test>
+
+</mule>

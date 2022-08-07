@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mule
+	xmlns:api-gateway="http://www.mulesoft.org/schema/mule/api-gateway"
+	xmlns:validation="http://www.mulesoft.org/schema/mule/validation"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:apikit="http://www.mulesoft.org/schema/mule/mule-apikit"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns:json-logger="http://www.mulesoft.org/schema/mule/json-logger"
+	xmlns:salesforce="http://www.mulesoft.org/schema/mule/salesforce"
+	xmlns:secure-properties="http://www.mulesoft.org/schema/mule/secure-properties"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="
+http://www.mulesoft.org/schema/mule/api-gateway http://www.mulesoft.org/schema/mule/api-gateway/current/mule-api-gateway.xsd 
+http://www.mulesoft.org/schema/mule/validation http://www.mulesoft.org/schema/mule/validation/current/mule-validation.xsd  http://www.mulesoft.org/schema/mule/mule-apikit http://www.mulesoft.org/schema/mule/mule-apikit/current/mule-apikit.xsd  http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd http://www.mulesoft.org/schema/mule/salesforce http://www.mulesoft.org/schema/mule/salesforce/current/mule-salesforce.xsd http://www.mulesoft.org/schema/mule/secure-properties http://www.mulesoft.org/schema/mule/secure-properties/current/mule-secure-properties.xsd http://www.mulesoft.org/schema/mule/json-logger http://www.mulesoft.org/schema/mule/json-logger/current/mule-json-logger.xsd">
+
+	<configuration-properties
+		doc:name="Configuration properties"
+		doc:id="4a1c4b94-2e13-4fa7-9cdf-51c20581e84e"
+		file="config.yaml" />
+
+	<salesforce:sfdc-config
+		name="Salesforce_Config"
+		doc:name="Salesforce Config">
+		<salesforce:basic-connection
+			username="${salesforce.user}"
+			password="${salesforce.password}"
+			securityToken="${salesforce.token}" />
+	</salesforce:sfdc-config>
+
+
+	<http:listener-config name="api-httpListenerConfig">
+		<http:listener-connection
+			host="0.0.0.0"
+			port="${http.port}" />
+	</http:listener-config>
+
+
+	<apikit:config
+		name="api-config"
+		api="${api.spec}"
+		outboundHeadersMapName="outboundHeaders"
+		httpStatusVarName="httpStatus" />
+
+
+	<secure-properties:config
+		name="Secure_Properties_Config"
+		doc:name="Secure Properties Config"
+		file="config-secure.yaml"
+		key="${encrypt.key}" >
+	</secure-properties:config>
+
+	<global-property
+		doc:name="Global Property"
+		doc:id="18df1160-6341-4c46-b882-61008eaf49d8"
+		name="env"
+		value="local" />
+
+	<api-gateway:autodiscovery
+		apiId="${api.id}"
+		ignoreBasePath="true"
+		doc:name="API Autodiscovery"
+		doc:id="92853cfc-bbfd-4e5c-9973-c2dbfd5d57e3"
+		flowRef="api-main" />
+	
+	<json-logger:config
+		name="JSON_Logger_Config"
+		doc:name="JSON Logger Config"
+		doc:id="34848090-dfaf-40bb-90b4-14822ee08a39"
+		environment="${env}"
+		applicationName="${project.artifact}"
+		applicationVersion="${project.version}" />
+
+	<validation:config
+		name="Validation_Config"
+		doc:name="Validation Config"
+		doc:id="ef305466-5381-4aa2-a02f-008f16bb2c8d" />
+</mule>

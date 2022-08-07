@@ -1,0 +1,34 @@
+# Listening port of the serivce
+http:
+  port: "8081"
+
+# The project artifact and version data 
+project:
+  artifact: "${project.artifactId}"
+  version: "${project.version}"
+
+# Salesfoce authentication    
+salesforce:
+  user: "myuser"
+  password: "mypassword"
+  token: "mytoken"
+
+# The RAML API and autodiscovery
+api:  
+  group: "${restconnector.api.spec.group}"
+  artifact: "${restconnector.api.spec.artifact}"
+  version: "${restconnector.api.spec.version}"
+  spec: "resource::${api.group}:${api.artifact}:${api.version}:raml:zip:api.raml"
+  id: "17868760"
+
+# Services Messages
+messages:
+  customer-doesnt-exist-relations: "Customer does not exist or has relations with other resources"
+  backend-error: "There was a problem while trying to access the backend repository"
+  customer-error: "There was a problme while trying to create the Customer"
+  apikit-400: "Bad request"
+  apikit-404: "Resource not found"
+  apikit-405: "Method not allowed"
+  apikit-406: "Not acceptable"
+  apikit-415: "Unsupported media type"
+  apikit-501: "Not Implemented"

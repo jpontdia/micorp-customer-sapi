@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:validation="http://www.mulesoft.org/schema/mule/validation" xmlns:salesforce="http://www.mulesoft.org/schema/mule/salesforce"
+	xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core"
+	xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd
+http://www.mulesoft.org/schema/mule/salesforce http://www.mulesoft.org/schema/mule/salesforce/current/mule-salesforce.xsd
+http://www.mulesoft.org/schema/mule/validation http://www.mulesoft.org/schema/mule/validation/current/mule-validation.xsd">
+	<flow name="deleteFlow" doc:id="7eaec4ec-9f52-4a54-bc95-bef41836cdf1" >
+		<ee:transform doc:name="get customerId" doc:id="503d81c8-6327-4f57-8f31-4d36389bf3e3" >
+			<ee:variables >
+				<ee:set-variable variableName="customerId" ><![CDATA[%dw 2.0
+output application/json
+---
+attributes.uriParams.'customerId']]></ee:set-variable>
+			</ee:variables>
+		</ee:transform>
+		<salesforce:delete doc:name="Delete" doc:id="b2c142e9-2edd-4426-b12e-efa2c051689f" config-ref="Salesforce_Config" >
+			<salesforce:ids ><![CDATA[#[[vars.customerId]]]]></salesforce:ids>
+		</salesforce:delete>
+		<validation:is-true doc:name="Is true" doc:id="1966d06d-b7a1-4c74-a485-865e21c452ca" expression="#[payload.successful]">
+			<error-mapping sourceType="VALIDATION:INVALID_BOOLEAN" targetType="DELETE:RELATIONSHIP" />
+		</validation:is-true>
+		<ee:transform doc:name="Success Message" doc:id="a5079758-0a68-4fbc-aa18-fdbd88a584b7" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+{
+  message: "Customer deleted successfully"
+}
+]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<error-handler ref="global-error-handler" />
+	</flow>
+</mule>

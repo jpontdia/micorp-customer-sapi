@@ -1,0 +1,3 @@
+# Secure properties file
+test:
+  test: value

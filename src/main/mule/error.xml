@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+	<error-handler name="global-error-handler" doc:id="ba0a49f7-dc22-47cd-88ba-5bf266b82dc3" >
+
+		<on-error-propagate enableNotifications="true" logException="true" doc:name="Propagate" doc:id="954838b7-2895-49ba-b303-e6890e916238" type="APIKIT:NOT_FOUND" >
+			<ee:transform doc:name="Response" doc:id="89c2dd28-031d-4a15-831a-4764e7f6edca" >
+				<ee:message >
+					<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+{message: "${messages.apikit-404}"}]]></ee:set-payload>
+				</ee:message>
+				<ee:variables >
+					<ee:set-variable variableName="httpStatus" ><![CDATA[404]]></ee:set-variable>
+				</ee:variables>
+			</ee:transform>
+		</on-error-propagate>
+		<on-error-propagate enableNotifications="true" logException="true" doc:name="Propagate" doc:id="bfa47c04-cdeb-4451-9a25-704792def1e3" type="APIKIT:BAD_REQUEST" >
+			<ee:transform doc:name="Response" doc:id="63cfac8c-4fd6-455d-922b-153421f3541e" >
+				<ee:message >
+					<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+{message: "${messages.apikit-400}"}]]></ee:set-payload>
+				</ee:message>
+				<ee:variables >
+					<ee:set-variable variableName="httpStatus" ><![CDATA[400]]></ee:set-variable>
+				</ee:variables>
+			</ee:transform>
+		</on-error-propagate>
+		<on-error-propagate enableNotifications="true" logException="true" doc:name="Propagate" doc:id="7ae03704-a67a-4b05-8be5-12f4d71adaf6" type="APIKIT:METHOD_NOT_ALLOWED" >
+			<ee:transform doc:name="Response" doc:id="b04aeba6-04b2-439d-aeba-35e071c87b43" >
+				<ee:message >
+					<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+{message: "${messages.apikit-405}"}]]></ee:set-payload>
+				</ee:message>
+				<ee:variables >
+					<ee:set-variable variableName="httpStatus" ><![CDATA[405]]></ee:set-variable>
+				</ee:variables>
+			</ee:transform>
+		</on-error-propagate>
+		<on-error-propagate enableNotifications="true" logException="true" doc:name="Propagate" doc:id="9a7e1ea9-88e4-4650-9966-9f8733c0ce50" type="APIKIT:NOT_ACCEPTABLE" >
+			<ee:transform doc:name="Response" doc:id="c08c31db-c859-48f0-a120-91861e120af0" >
+				<ee:message >
+					<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+{message: "${messages.apikit-406}"}]]></ee:set-payload>
+				</ee:message>
+				<ee:variables >
+					<ee:set-variable variableName="httpStatus" ><![CDATA[406]]></ee:set-variable>
+				</ee:variables>
+			</ee:transform>
+		</on-error-propagate>
+		<on-error-propagate enableNotifications="true" logException="true" doc:name="Propagate" doc:id="bd2426a5-03eb-4f3f-8fd3-82f6ec0d3dd8" type="APIKIT:NOT_IMPLEMENTED" >
+			<ee:transform doc:name="Response" doc:id="28bb9452-881c-4a9a-9576-f0114057337c" >
+				<ee:message >
+					<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+{message: "${messages.apikit-501}"}]]></ee:set-payload>
+				</ee:message>
+				<ee:variables >
+					<ee:set-variable variableName="httpStatus" ><![CDATA[501]]></ee:set-variable>
+				</ee:variables>
+			</ee:transform>
+		</on-error-propagate>
+		<on-error-propagate enableNotifications="true" logException="true" doc:name="Propagate" doc:id="aa423651-96be-40d1-995f-eb6eeacacc87" type="APIKIT:UNSUPPORTED_MEDIA_TYPE" >
+			<ee:transform doc:name="Response" doc:id="5f1c75a0-f2e6-461c-9cd2-bc54173e1001" >
+				<ee:message >
+					<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+{message: "${messages.apikit-415}"}]]></ee:set-payload>
+				</ee:message>
+				<ee:variables >
+					<ee:set-variable variableName="httpStatus" ><![CDATA[415]]></ee:set-variable>
+				</ee:variables>
+			</ee:transform>
+		</on-error-propagate>
+		
+		<on-error-propagate enableNotifications="true" logException="true" doc:name="propagate" doc:id="c22244cf-db5c-455c-92b3-40eea0dd7175" type="DELETE:RELATIONSHIP">
+			<set-variable value="400" doc:name="status 400" doc:id="36dad3ea-1481-42b3-bc09-a63a326460b1" variableName="httpStatus" />
+			<ee:transform doc:name="Response" doc:id="bbd874b1-5fac-4ab3-99fa-2916dc715bd9">
+				<ee:message>
+					<ee:set-payload><![CDATA[%dw 2.0
+output application/json
+---
+{
+  message: "${messages.customer-doesnt-exist-relations}"
+}
+]]></ee:set-payload>
+				</ee:message>
+			</ee:transform>
+		</on-error-propagate>
+
+		<on-error-propagate enableNotifications="true" logException="true" doc:name="propagate" doc:id="27b48531-771b-4722-a316-5f96a0e03f1a" type="ANY" >
+			<set-variable value="500" doc:name="status 500" doc:id="0775dc7f-cd51-494d-9934-27ee851636f9" variableName="httpStatus" />
+			<ee:transform doc:name="Response" doc:id="33f21b6e-8bc7-4879-8e73-ac8d9701e9d4" >
+				<ee:message >
+					<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+{message: "${messages.backend-error}"}
+]]></ee:set-payload>
+				</ee:message>
+			</ee:transform>
+		</on-error-propagate>
+
+	</error-handler>
+</mule>

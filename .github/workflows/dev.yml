@@ -1,0 +1,149 @@
+name: Build and deploy to dev
+on:
+  # Triggers the workflow on push or pull request events but only for the "main" branch
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+# Global environment variables from GitHub Secrets
+env:
+  AZURE_CREDENTIALS: ${{ secrets.AZURE_CREDENTIALS }}
+
+jobs:
+  build-deploy:
+    # The type of runner that the job will run on 
+    runs-on: ubuntu-latest
+
+    steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so the job can access it
+      - uses: actions/checkout@v3
+
+      - name: Set up JDK 8
+        uses: actions/setup-java@v3
+        with:
+          java-version: '8'
+          # Available options: liberica, corretto
+          distribution: 'temurin'
+          check-latest: true
+          #cache: 'maven'
+
+      - name: Log in with Azure
+        uses: azure/login@v1
+        with:
+          creds: '${{ secrets.AZURE_CREDENTIALS }}'
+          
+      - uses: Azure/get-keyvault-secrets@v1
+        with:
+          keyvault: "jpworks-keyvault" # name of key vault in Azure portal
+          secrets: 'anypoint-environment-clientid, anypoint-environment-secret, cicd-connectedapp-clientid, cicd-connectedapp-secret, encrypt-key, salesforce-token, salesforce-password, salesforce-user, anypoint-user, anypoint-password'  # comma separated list of secret keys to fetch from key vault 
+        id: secretmanager # ID for secrets that you will reference
+      
+      - name: DEBUG - Never in a real workflow
+        run: |
+          echo ${{ steps.secretmanager.outputs.client-id }} | sed 's/./& /g'
+      
+      - name: maven-settings-xml-action
+        uses: whelk-io/maven-settings-xml-action@v20
+        if: ${{ true }}
+        with:
+          servers: >
+            [
+              {
+                "id": "anypoint-exchange",
+                "username": "${{ steps.secretmanager.outputs.anypoint-user }}",
+                "password": "${{ steps.secretmanager.outputs.anypoint-password }}" 
+              },
+              {
+                "id": "mulesoft-enterprise-repository",
+                "username": "${{ steps.secretmanager.outputs.anypoint-user }}",
+                "password": "${{ steps.secretmanager.outputs.anypoint-password }}" 
+              }
+            ]
+          repositories: >
+            [
+              {
+                "id": "anypoint-exchange",
+                "name": "Assets for your anypoint organization",
+                "url": "https://maven.anypoint.mulesoft.com/api/v3/maven/"
+              },
+              {
+                "id": "mulesoft-releases",
+                "name": "mulesoft-releases",
+                "url": "https://repository-master.mulesoft.org/releases/"
+              },
+              {
+                "id": "mulesoft-snapshots",
+                "name": "MuleSoft Snapshot Repository",
+                "url": "https://repository-master.mulesoft.org/snapshots/"
+              },
+              {
+                "id": "mulesoft-enterprise-repository",
+                "name": "MuleSoft Enterprise Repository",
+                "url": "https://repository.mulesoft.org/nexus-ee/content/repositories/releases-ee/"
+              }
+            ]
+          plugin_repositories: >
+            [
+              {
+                "id": "mulesoft-plugins",
+                "name": "Mulesoft plugins-release",
+                "url": "https://repository.mulesoft.org/nexus/content/repositories/public/"
+              },
+              {
+                "id": "central-plugins",
+                "name": "plugins-release",
+                "url": "https://repo1.maven.org/maven2"
+              },
+              {
+                "id": "mulesoft-snapshots",
+                "name": "MuleSoft Snapshot Repository",
+                "url": "https://repository-master.mulesoft.org/snapshots/"
+              },
+              {
+                "id": "mulesoft-plugins-release",
+                "name": "Mulesoft plugins-release",
+                "url": "https://repository.mulesoft.org/releases/",
+                "snapshots": {
+                  "enabled": "false",
+                  "updatePolicy": "always",
+                  "checksumPolicy": "fail"
+                }
+              }              
+            ]
+        
+      - name: DEBUG - Show settings file
+        run: |
+          ls -la $HOME
+          cat $HOME/.m2/settings.xml
+          echo ${{ github.run_number }}
+        
+      - name: Package and Deploy
+        if: ${{ true }}
+        run: |
+          ## Get the git commit hash 
+          commitHash=$(git rev-parse --short "$GITHUB_SHA")
+
+          mvn clean deploy -DmuleDeploy \
+           -Dencrypt.key="${{ steps.secretmanager.outputs.encrypt-key }}" \
+           -Dsalesforce.user="${{ steps.secretmanager.outputs.salesforce-user }}" \
+           -Dsalesforce.password="${{ steps.secretmanager.outputs.salesforce-password }}" \
+           -Dsalesforce.token="${{ steps.secretmanager.outputs.salesforce-token }}" \
+           -Danypoint.environment.clientid="${{ steps.secretmanager.outputs.anypoint-environment-clientid }}" \
+           -Danypoint.environment.secret="${{ steps.secretmanager.outputs.anypoint-environment-secret }}" \
+           -Dcicd.connectedapp.clientid="${{ steps.secretmanager.outputs.cicd-connectedapp-clientid }}" \
+           -Dcicd.connectedapp.secret="${{ steps.secretmanager.outputs.cicd-connectedapp-secret }}" \
+           -Ddeployment.prefix= \
+           -Ddeployment.env=dev \
+           -Dcommit.hash=-$commitHash \
+           -Dbuild.id=-${{ github.run_number }}  
+    
+      - name: Upload artifact 
+        if: ${{ false }}
+        uses: actions/upload-artifact@master
+        with:
+          name: artifacts
+          path: target/*.jar

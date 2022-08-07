@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:salesforce="http://www.mulesoft.org/schema/mule/salesforce" xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd
+http://www.mulesoft.org/schema/mule/salesforce http://www.mulesoft.org/schema/mule/salesforce/current/mule-salesforce.xsd">
+	<flow name="post:\customers" doc:id="cea87749-52b5-418a-a782-c245faefe3e5" >
+		<set-variable value='#[attributes.requestUri ++ "/"]' doc:name="initialize location" doc:id="ffa18d57-86c2-42f7-8267-79af038b769f" variableName="location"/>
+		<set-variable value="#[payload.firstName]" doc:name="firstName" doc:id="fa42db80-4579-40b0-ac10-acf9c24a6300" variableName="firstName"/>
+		<set-variable value="#[payload.lastName]" doc:name="lastName" doc:id="7763edff-16e0-45eb-a2c8-916b4627a78d" variableName="lastName"/>
+		<set-variable value="#[payload]" doc:name="payload backup" doc:id="0e22601d-33a3-44ff-934d-7ab33484cabb" variableName="payloadBackup"/>
+		<flow-ref doc:name="Get Customer By FirstName and LastName" doc:id="8baa33d5-3033-43ab-9a29-c70301e7d078" name="queryCustomer"/>
+		<choice doc:name="Customer Exist?" doc:id="7848af51-bf96-4712-a51a-a2381ff76896" >
+			<when expression="#[sizeOf(payload) == 0]">
+				<ee:transform doc:name="Insert Payload" doc:id="07632f27-ec91-4b33-8323-4e7e4119e015" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+[
+	vars.payloadBackup mapObject ((value, key, index) -> 
+        ((key as String) ++ "__c") : value
+    )
+]]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<salesforce:create type="Customer__c" doc:name="Create Customer" doc:id="0fe83364-a8f6-4c17-83b5-0df207cca401" config-ref="Salesforce_Config"/>
+		<choice doc:name="Create Validation" doc:id="b2496193-5c00-4040-8330-1c365825336b" >
+			<when expression="#[payload.successful == true]">
+				<ee:transform doc:name="Set Header" doc:id="9a0d9201-b72e-40b2-b3c3-c4e258dec584">
+					<ee:message>
+						<ee:set-payload><![CDATA[%dw 2.0
+output application/java
+---
+{
+}]]></ee:set-payload>
+					</ee:message>
+					<ee:variables >
+						<ee:set-variable variableName="outboundHeaders" ><![CDATA[%dw 2.0
+output application/java
+---
+{"Location": 
+	( (vars.location as String)
+		++ (payload.items[0].id as String)
+	)
+}]]></ee:set-variable>
+					</ee:variables>
+				</ee:transform>
+				<ee:transform doc:name="Response" doc:id="66f11ad9-2eb0-431e-b36f-f4a1b613e11b">
+			<ee:message>
+				<ee:set-payload><![CDATA[%dw 2.0
+output application/json
+---
+{
+  message: "Customer created successfully"
+}
+]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+			</when>
+			<otherwise >
+				<set-variable value="500" doc:name="status 500" doc:id="1491f777-beb1-4620-8efa-913e88dfda5d" variableName="httpStatus"/>
+				<ee:transform doc:name="Response" doc:id="025a6809-9065-4107-9c87-6de0b89111f0" >
+					<ee:message >
+						<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+{
+  message: "${messages.customer-error}"
+}
+]]></ee:set-payload>
+					</ee:message>
+				</ee:transform>
+			</otherwise>
+		</choice>
+
+
+
+			</when>
+			<otherwise >
+				<set-variable value="409" doc:name="status 409" doc:id="49774166-567c-43d1-9585-3eda69be087f" variableName="httpStatus" />
+				<ee:transform doc:name="response" doc:id="ac7b727a-7f5e-4c52-8329-25974caddbd0" >
+					<ee:message >
+						<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+{
+  message: "Customer already exists"
+}
+]]></ee:set-payload>
+					</ee:message>
+				</ee:transform>
+			</otherwise>
+		</choice>
+		<error-handler ref="global-error-handler" />
+		
+		
+		
+		
+		
+		
+	</flow>
+
+</mule>

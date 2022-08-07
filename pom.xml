@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<parent>
+		<groupId>078efef1-d139-48ed-92f5-f8d4a0592374</groupId>
+		<artifactId>micorp-pom</artifactId>
+		<version>1.0.29</version>
+		<relativePath/>
+		<!--  <relativePath>../mule-micorp-pom/pom.xml</relativePath> -->
+	</parent>
+	
+	<groupId>078efef1-d139-48ed-92f5-f8d4a0592374</groupId>
+	<artifactId>micorp-customer-sapi</artifactId>
+	<version>1.0.9</version>
+	<packaging>mule-application</packaging>
+	<name>mule-micorp-customer-sapi</name>
+
+	<properties>
+		<!-- Anypoint Visualizer properties -->
+		<api.layer>system</api.layer>
+		<api.tags>micorp, salesforce, customer, sapi</api.tags>
+		
+		<!-- API spec rest Connector: customer-item-sapi -->
+		<restconnector.api.spec.group>${project.groupId}</restconnector.api.spec.group>
+		<restconnector.api.spec.artifact>micorp-customer-sapi</restconnector.api.spec.artifact>
+		<restconnector.api.spec.version>1.0.1</restconnector.api.spec.version>
+	</properties>
+
+	<dependencies>
+		<!-- Service Dependencies  -->
+		<!-- RAML: micorp-customer-sapi -->
+		<dependency>
+			<groupId>${restconnector.api.spec.group}</groupId>
+			<artifactId>${restconnector.api.spec.artifact}</artifactId>
+			<version>${restconnector.api.spec.version}</version>
+			<classifier>raml</classifier>
+			<type>zip</type>
+		</dependency>
+
+		<!-- JSON Logger dependencies -->
+		<dependency>
+			<groupId>com.mulesoft.connectors</groupId>
+			<artifactId>mule-amqp-connector</artifactId>
+			<classifier>mule-plugin</classifier>
+		</dependency>
+		<dependency>
+			<groupId>org.mule.connectors</groupId>
+			<artifactId>mule-jms-connector</artifactId>
+			<classifier>mule-plugin</classifier>
+		</dependency>
+		<dependency>
+			<groupId>078efef1-d139-48ed-92f5-f8d4a0592374</groupId>
+			<artifactId>json-logger</artifactId>
+			<classifier>mule-plugin</classifier>
+		</dependency>
+		<!-- Salesforce connector -->
+		<dependency>
+			<groupId>com.mulesoft.connectors</groupId>
+			<artifactId>mule-salesforce-connector</artifactId>
+			<classifier>mule-plugin</classifier>
+		</dependency>
+	</dependencies>
+	
+	<!--Don´t remove this repository, the first time service is compiled needs to know where to download the parent POM -->
+	<repositories>
+		<repository>
+			<id>anypoint-exchange</id>
+			<name>anypoint-exchange repository</name>
+			<url>https://maven.anypoint.mulesoft.com/api/v3/maven</url>
+			<layout>default</layout>
+		</repository>
+	</repositories>	
+</project>
