@@ -4,8 +4,7 @@
 ## Table of contents
 1. [Architecture](#architecture) 
 2. [Prerequisites](#prerequisites)
-3. [Compilation](#compilation)
-4. [Recommended content](#recommended-content)
+3. [Build and packaging](#build-and-packaging)
 
 <br>
 
@@ -21,32 +20,47 @@ Service for creating Customers in Salesforce using data from the Corporate Order
 To compile and build the project:
 * Java Development Kit (JDK) 8. Must be version 8!
 * Apache Maven, version 3.8 or later.
-* IDE, Anypoint Studio or IntelliJ.
+* A settings.xml with proper configuration to access the Anypoint organization and Mulesoft EE repositories 
+* Optional: Anypoint Studio.
 
 Deployment in Anypoint Exchange:
-* Anypoint account credentials
+* A connected app for maven deployment
 
 <br>
 
-## Compilation
+## Build and packaging
 
-### Environment variables
-The Sensitive data was removed from the application configuration. The next
-environment variables must be configured with the proper values:
-* encrypt.key. This is the phrase used to encrypt properties
-* anypoint.platform.client_secret. Anypoint Client Secret
-* anypoint.platform.client_id. Anypoint Client Id
+The sensitive data was removed from the configuration files. The next
+properties must be provided to run the service:
 
-> Note: Get the client id and secret from Anypoint Platform -> https://anypoint.mulesoft.com/accounts/. Select the organization and retrieve information.
+| Property    | Description |
+| ----------- | ----------- |
+| salesfoce.user      | Salesforce User       |
+| salesforce.password | Salesforce Password |
+| salesforce.token    | Salesforce Access Token |
+| encrypt.key         | Encryption key for secure properties       |
+| anypoint.environment.clientid | Anypoint environment client credentials for the runtime, Client-id |
+| anypoint.environment.secret   | Anypoint environment client credentials for the runtime, Secret |
+
 
 on mac example:
 ```bash
-export encrypt_key=my-encryption-key
-mvn clean package -Dencrypt.key=$encrypt_key
-```
+export encrypt_key=ThisIsAdemokey23434$
+export anypoint_environment_clientid=123423434fd40841a6a47bdcadfsdf
+export anypoint_environment_secret=F77CfFEA3a9741A19B211111111111
+export salesforce_user=myuser@mycompany.com
+export salesforce_password=MyPassword
+export salesforce_token=sdfjk3432hsdgskgjsg
 
-## Recommended content
-* [To Configure MUnit Maven Plugin From the POM File](https://docs.mulesoft.com/munit/2.0/to-configure-munit-maven-plugin-maven)
+# clean, compile, test and package the jar file
+mvn clean package \
+-Dencrypt.key=$encrypt_key \
+-Dsalesforce.user=$salesforce_user \
+-Dsalesforce.password=$salesforce_password \
+-Dsalesforce.token=$salesforce_token \
+-Dcommit.hash=-bc0be6e \
+-Dbuild.id=-00
+```
 
 ---
 [Markdown Cheatsheet](https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet)
