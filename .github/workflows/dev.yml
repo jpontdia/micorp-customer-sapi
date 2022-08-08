@@ -115,7 +115,7 @@ jobs:
           echo ${{ github.run_number }}
         
       - name: Package and Deploy
-        if: ${{ false }}
+        if: ${{ true }}
         run: |
           ## Get the git commit hash 
           commitHash=$(git rev-parse --short "$GITHUB_SHA")
