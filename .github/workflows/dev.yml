@@ -47,7 +47,7 @@ jobs:
               {
                 "id": "anypoint-exchange-v3",
                 "username": "~~~Client~~~",
-                "password": "${{ steps.secretmanager.outputs.anypoint-environment-clientid }}~?~${{ steps.secretmanager.outputs.anypoint-environment-secret }}" 
+                "password": "${{ steps.secretmanager.outputs.cicd-connectedapp-clientid }}~?~${{ steps.secretmanager.outputs.cicd-connectedapp-secret }}" 
               },
               {
                 "id": "mulesoft-enterprise-repository",
