@@ -108,14 +108,14 @@ jobs:
             ]
         
       - name: DEBUG - Show settings file
-        if: ${{ false }}
+        if: ${{ true }}
         run: |
           ls -la $HOME
           cat $HOME/.m2/settings.xml
           echo ${{ github.run_number }}
         
       - name: Package and Deploy
-        if: ${{ true }}
+        if: ${{ false }}
         run: |
           ## Get the git commit hash 
           commitHash=$(git rev-parse --short "$GITHUB_SHA")
