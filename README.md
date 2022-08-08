@@ -30,6 +30,8 @@ Deployment in Anypoint Exchange:
 
 ## Build and packaging
 
+The settings.xml file used for this service is here: https://github.com/jpontdia/mule-micorp-pom/blob/main/settings.xml
+
 The sensitive data was removed from the configuration files. The next
 properties must be provided to run the service:
 
