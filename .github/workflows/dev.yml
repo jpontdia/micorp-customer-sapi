@@ -45,7 +45,7 @@ jobs:
           servers: >
             [
               {
-                "id": "anypoint-exchange",
+                "id": "anypoint-exchange-v3",
                 "username": "${{ steps.secretmanager.outputs.anypoint-user }}",
                 "password": "${{ steps.secretmanager.outputs.anypoint-password }}" 
               },
@@ -58,7 +58,7 @@ jobs:
           repositories: >
             [
               {
-                "id": "anypoint-exchange",
+                "id": "anypoint-exchange-v3",
                 "name": "Assets for your anypoint organization",
                 "url": "https://maven.anypoint.mulesoft.com/api/v3/maven/"
               },

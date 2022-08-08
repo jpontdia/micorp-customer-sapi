@@ -11,7 +11,7 @@
 	
 	<groupId>078efef1-d139-48ed-92f5-f8d4a0592374</groupId>
 	<artifactId>micorp-customer-sapi</artifactId>
-	<version>1.0.9</version>
+	<version>1.0.10</version>
 	<packaging>mule-application</packaging>
 	<name>mule-micorp-customer-sapi</name>
 
@@ -61,13 +61,13 @@
 		</dependency>
 	</dependencies>
 	
-	<!--Don´t remove this repository, the first time service is compiled needs to know where to download the parent POM -->
+	<!--Mandatory repository to find the parent POM -->
 	<repositories>
 		<repository>
-			<id>anypoint-exchange</id>
+			<id>anypoint-exchange-v3</id>
 			<name>anypoint-exchange repository</name>
 			<url>https://maven.anypoint.mulesoft.com/api/v3/maven</url>
 			<layout>default</layout>
 		</repository>
-	</repositories>	
+	</repositories>		
 </project>
