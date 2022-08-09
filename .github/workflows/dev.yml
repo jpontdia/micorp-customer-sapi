@@ -148,12 +148,6 @@ jobs:
           name: munit-test-report
           path: target/surefire-reports/*
 
-      - name: Create a Release Jar
-        if: ${{ true }}
-        uses: softprops/action-gh-release@v1
-        with:
-          path: target/*.jar
-
       - name: Upload Jar as an artifact 
         if: ${{ false }}
         uses: actions/upload-artifact@master
