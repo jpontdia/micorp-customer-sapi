@@ -120,7 +120,7 @@ jobs:
           ## Get the git commit hash 
           commitHash=$(git rev-parse --short "$GITHUB_SHA")
 
-          mvn clean deploy -DmuleDeploy \
+          mvn clean package -DskipTests -DAdeploy -DAmuleDeploy \
            -Dencrypt.key="${{ steps.secretmanager.outputs.encrypt-key }}" \
            -Dsalesforce.user="${{ steps.secretmanager.outputs.salesforce-user }}" \
            -Dsalesforce.password="${{ steps.secretmanager.outputs.salesforce-password }}" \
@@ -133,9 +133,28 @@ jobs:
            -Ddeployment.env=dev \
            -Dcommit.hash=-$commitHash \
            -Dbuild.id=-${{ github.run_number }}  
-    
-      # Upload the jar file as an artifact to GitHub Actions
-      - name: Upload artifact 
+
+      - name: Publish MUnit Application Coverage Report
+        if: ${{ true }}
+        uses: actions/upload-artifact@master
+        with:
+          name: munit-application-coverage-report
+          path: target/site/munit/coverage/*
+      
+      - name: Publish MUnit Report
+        if: ${{ true }}
+        uses: actions/upload-artifact@master
+        with:
+          name: munit-test-report
+          path: target/surefire-reports/*
+
+      - name: Create a Release Jar
+        if: ${{ true }}
+        uses: softprops/action-gh-release@v1
+        with:
+          path: target/*.jar
+
+      - name: Upload Jar as an artifact 
         if: ${{ false }}
         uses: actions/upload-artifact@master
         with:

@@ -5,13 +5,13 @@
 	<parent>
 		<groupId>078efef1-d139-48ed-92f5-f8d4a0592374</groupId>
 		<artifactId>micorp-pom</artifactId>
-		<version>1.0.29</version>
+		<version>1.0.31</version>
 		<relativePath/>
 	</parent>
 	
 	<groupId>078efef1-d139-48ed-92f5-f8d4a0592374</groupId>
 	<artifactId>micorp-customer-sapi</artifactId>
-	<version>1.0.12</version>
+	<version>1.0.13</version>
 	<packaging>mule-application</packaging>
 	<name>mule-micorp-customer-sapi</name>
 
