@@ -120,7 +120,7 @@ jobs:
           ## Get the git commit hash 
           commitHash=$(git rev-parse --short "$GITHUB_SHA")
 
-          mvn clean package -DskipTests -DAdeploy -DAmuleDeploy \
+          mvn clean package -DAdeploy -DAmuleDeploy \
            -Dencrypt.key="${{ steps.secretmanager.outputs.encrypt-key }}" \
            -Dsalesforce.user="${{ steps.secretmanager.outputs.salesforce-user }}" \
            -Dsalesforce.password="${{ steps.secretmanager.outputs.salesforce-password }}" \
