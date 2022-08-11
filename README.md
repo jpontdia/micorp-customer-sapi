@@ -1,5 +1,7 @@
 # mule-micorp-customer-sapi
-> Mulesoft Demo System API - Micorp Salesforce Customer Repository
+![Build and deploy](https://github.com/jpontdia/mule-micorp-customer-sapi/actions/workflows/dev.yml/badge.svg)
+
+>Mulesoft Demo System API - Micorp Salesforce Customer Repository
 
 ## Table of contents
 1. [Architecture](#architecture) 

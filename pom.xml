@@ -62,7 +62,7 @@
 		</dependency>
 	</dependencies>
 	
-	<!--Mandatory repository to find the parent POM -->
+	<!--Repository to get the artifacts for your Organization -->
 	<repositories>
 		<repository>
 			<id>anypoint-exchange-v3</id>

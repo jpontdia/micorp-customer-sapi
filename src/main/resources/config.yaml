@@ -7,12 +7,6 @@ project:
   artifact: "${project.artifactId}"
   version: "${project.version}"
 
-# Salesfoce authentication    
-salesforce:
-  user: "myuser"
-  password: "mypassword"
-  token: "mytoken"
-
 # The RAML API and autodiscovery
 api:  
   group: "${restconnector.api.spec.group}"
@@ -32,3 +26,12 @@ messages:
   apikit-406: "Not acceptable"
   apikit-415: "Unsupported media type"
   apikit-501: "Not Implemented"
+  
+# All the below properties should be added as JVM arguments / Environment Properties.
+# Example: -Dsalesforce.user=myuser -Dsalesforce.password=mypassword
+
+# Salesfoce Connection    
+salesforce:
+  user: "myuser"
+  password: "mypassword"
+  token: "mytoken"
