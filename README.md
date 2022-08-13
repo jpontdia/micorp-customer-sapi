@@ -14,9 +14,10 @@
 
 Service for creating Customers in Salesforce using data from the Corporate Orders System. Next the architecture diagram:
 
-![architecture](./docs/architecture.png)
+![architecture](https://github.com/jpontdia/mule-micorp-customer-sapi/raw/main/docs/architecture.png)
 
 <br>
+API specification: ![Anypoint Exchange](https://anypoint.mulesoft.com/exchange/078efef1-d139-48ed-92f5-f8d4a0592374/micorp-customer-sapi/)
 
 ## Prerequisites
 To compile and build the project:
