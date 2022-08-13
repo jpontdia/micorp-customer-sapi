@@ -1,4 +1,4 @@
-# Customer SAPI for Salesforce
+# Salesforce Customer SAPI
 ![Build and deploy](https://github.com/jpontdia/mule-micorp-customer-sapi/actions/workflows/dev.yml/badge.svg)
 
 Personal Mulesoft demo service for the MICORP domain
@@ -7,7 +7,8 @@ Personal Mulesoft demo service for the MICORP domain
 1. [Description](#description) 
 2. [Prerequisites](#prerequisites)
 3. [Build and packaging](#build-and-packaging)
-3. [Exchange deployment](#exchange-deployment)
+4. [Exchange deployment](#exchange-deployment)
+5. [Additional runtime properties](#additional-runtime-properties)
 
 ## Description
 Mulesoft service for creating customers in Salesforce using data from the Corporate Orders System. The next diagram shows the architecture of the service:
@@ -16,13 +17,19 @@ Mulesoft service for creating customers in Salesforce using data from the Corpor
 
 <br>
 
-API specification for the service: [Anypoint Exchange](https://anypoint.mulesoft.com/exchange/078efef1-d139-48ed-92f5-f8d4a0592374/micorp-customer-sapi/)
+The API specification for the service can be reviewed at:
+* [Anypoint Exchange](https://anypoint.mulesoft.com/exchange/078efef1-d139-48ed-92f5-f8d4a0592374/micorp-customer-sapi/) (must provide auth credentials)
+* Micorp Developer Portal
+
+<br>
 
 ## Prerequisites
 To compile and build the project:
 * Java Development Kit (JDK) 8. Must be version 8!
 * Apache Maven, version 3.8 or later.
-* A settings.xml with proper configuration to access the Anypoint organization and Mulesoft EE repositories 
+* A settings.xml with proper configuration to access:
+  * The Anypoint organization maven repository
+  * The Mulesoft EE repositories (to run the test cases)
 * Optional: Anypoint Studio.
 
 Deployment in Anypoint Exchange:
@@ -60,6 +67,8 @@ mvn clean package \
 -Dcommit.hash=-bc0be6e \
 -Dbuild.id=-00
 ```
+
+<br>
 
 ## Exchange deployment
 
@@ -99,5 +108,20 @@ mvn deploy -DmuleDeploy \
 -Dbuild.id=-00
 ```
 
+<br>
+
+## Additional runtime properties
+
+The table below shows the additional properties that can be customized in the service:
+
+| Property    | Description |
+| ----------- | ----------- |
+| api.id    | API Manager instance id |
+| http.port | Listening port for the service |
+
+<br>
+
 ---
 [Markdown Cheatsheet](https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet)
+
+[Mulesoft Documentation](https://docs.mulesoft.com/general/)
