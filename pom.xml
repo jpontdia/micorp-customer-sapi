@@ -34,7 +34,7 @@
 			<artifactId>${restconnector.api.spec.artifact}</artifactId>
 			<version>${restconnector.api.spec.version}</version>
 			<classifier>raml</classifier>
-			<type>zip</type>
+			<type>zip</type> 
 		</dependency>
 
 		<!-- JSON Logger dependencies -->
