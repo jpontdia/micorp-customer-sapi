@@ -4,11 +4,13 @@
 Personal Mulesoft demo service for the MICORP domain
 
 ## Table of contents
-1. [Description](#description) 
-2. [Prerequisites](#prerequisites)
-3. [Build and packaging](#build-and-packaging)
-4. [Exchange deployment](#exchange-deployment)
-5. [Additional runtime properties](#additional-runtime-properties)
+1. [Description](#description)
+2. [Resources](#resources) 
+3. [Prerequisites](#prerequisites)
+4. [Build and packaging](#build-and-packaging)
+5. [Exchange deployment](#exchange-deployment)
+6. [Additional runtime properties](#additional-runtime-properties)
+7. [Anypoint Studio development](#anypoint-studio-development)
 
 ## Description
 Mulesoft service for creating customers in Salesforce using data from the Corporate Orders System. The next diagram shows the architecture of the service:
@@ -17,23 +19,28 @@ Mulesoft service for creating customers in Salesforce using data from the Corpor
 
 <br>
 
-The API specification for the service can be reviewed at:
-* [Anypoint Exchange](https://anypoint.mulesoft.com/exchange/078efef1-d139-48ed-92f5-f8d4a0592374/micorp-customer-sapi/) (must provide auth credentials)
-* Micorp Developer Portal
+## Resources
+The resources associated with the service are:
+
+ - API specification at [Anypoint Exchange](https://anypoint.mulesoft.com/exchange/078efef1-d139-48ed-92f5-f8d4a0592374/micorp-customer-sapi/) (must provide auth credentials)
+ - Micorp Developer Portal
+ - Source code [Github](https://github.com/jpontdia/mule-micorp-customer-sapi)
 
 <br>
 
 ## Prerequisites
 To compile and build the project:
-* Java Development Kit (JDK) 8. Must be version 8!
-* Apache Maven, version 3.8 or later.
-* A settings.xml with proper configuration to access:
-  * The Anypoint organization maven repository
-  * The Mulesoft EE repositories (to run the test cases)
-* Optional: Anypoint Studio.
+
+ - Java Development Kit (JDK) 8. Must be version 8!
+ - Apache Maven, version 3.8 or later.
+ - A settings.xml with proper configuration to access:
+   - The Anypoint organization maven repository
+   - The Mulesoft EE repositories (to run the test cases)
+ - Optional: Anypoint Studio.
 
 Deployment in Anypoint Exchange:
-* A connected app for maven deployment
+
+ - A connected app for maven deployment
 
 <br>
 
@@ -52,13 +59,13 @@ The sensitive data was removed from the configuration files. The next properties
 
 
 Mac example:
+
 ```bash
 export encrypt_key=ThisIsAdemokey23434$
 export salesforce_user=myuser@mycompany.com
 export salesforce_password=MyPassword
 export salesforce_token=sdfjk3432hsdgskgjsg
 
-# clean, compile, test and package the jar file
 mvn clean package \
 -Dencrypt.key=$encrypt_key \
 -Dsalesforce.user=$salesforce_user \
@@ -86,6 +93,7 @@ The next properties must be provided at the command line or the CICD pipeline:
 | build.id       | Build number appended to the name of the jar fiie |
 
 Mac example:
+
 ```bash
 export anypoint_environment_clientid=123423434fd40841a6a47bdcadfsdf
 export anypoint_environment_secret=F77CfFEA3a9741A19B211111111111
@@ -114,10 +122,24 @@ mvn deploy -DmuleDeploy \
 
 The table below shows the additional properties that can be customized in the service:
 
-| Property    | Description |
-| ----------- | ----------- |
+| Property  | Description |
+| --------- | ----------- |
 | api.id    | API Manager instance id |
 | http.port | Listening port for the service |
+
+<br>
+
+## Anypoint Studio development
+
+The next list of properties must be provided in Anypoint Studio in order to run the service:
+
+ - anypoint.environment.clientid
+ - anypoint.environment.secret 
+ - encrypt.key
+ - mule.env - Same as deployment.env, which is described in [Exchange deployment](#exchange-deployment)
+ - salesfoce.user
+ - salesforce.password
+ - salesforce.token  
 
 <br>
 
