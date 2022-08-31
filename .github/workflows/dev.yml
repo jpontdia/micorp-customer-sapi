@@ -141,7 +141,7 @@ jobs:
            -Danypoint.environment.secret="${{ steps.secretmanager.outputs.anypoint-environment-secret }}" \
            -Dcicd.connectedapp.clientid="${{ steps.secretmanager.outputs.cicd-connectedapp-clientid }}" \
            -Dcicd.connectedapp.secret="${{ steps.secretmanager.outputs.cicd-connectedapp-secret }}" \
-           -Dotel.exporter.otlp.traces.endpoint="${{ steps.secretmanager.outputs.otlp-collector-endpont }}" \
+           -Dotel.collectorendpoint="${{ steps.secretmanager.outputs.otlp-collector-endpont }}" \
            -Dlogzio.url="${{ steps.secretmanager.outputs.logzio-url }}" \
            -Ddeployment.prefix= \
            -Ddeployment.env=dev \

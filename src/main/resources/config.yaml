@@ -36,6 +36,10 @@ salesforce:
   password: "mypassword"
   token: "mytoken"
   
+#OpenTelemtry configuration
+otel:
+  collectorendpoint: "http://localhost:4317"
+  
 # Logging - Provide next values as system properties
 # logzio.token: "MyToken"
 # logzio.url: "MyLogzioURL"

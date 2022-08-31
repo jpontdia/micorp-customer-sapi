@@ -84,7 +84,7 @@ http://www.mulesoft.org/schema/mule/opentelemetry http://www.mulesoft.org/schema
 		doc:id="8c829ec5-4b8f-413a-97c0-a950eb826ac2"
 		serviceName="${deployment.name}">
 		<opentelemetry:exporter >
-			<opentelemetry:otlp-exporter/>
+			<opentelemetry:otlp-exporter collectorEndpoint="${otel.collectorendpoint}"/>
 		</opentelemetry:exporter>
 		<opentelemetry:resource-attributes >
 			<opentelemetry:attribute key="env" value="${env}" />
