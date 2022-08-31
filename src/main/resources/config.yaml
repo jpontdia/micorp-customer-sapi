@@ -42,4 +42,7 @@ otel:
   
 # Logging - Provide next values as system properties
 # logzio.token: "MyToken"
+# logzio.url: "MyUrl"
+
+
 # logzio.url: "MyLogzioURL"
