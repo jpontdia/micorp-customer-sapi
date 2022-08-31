@@ -36,19 +36,19 @@ jobs:
         with:
           keyvault: "jpworks-keyvault" # The name of KeyVault in Azure
           secrets: '
-            otlp-collector-endpont,
+            otel-collector-endpoint,
             logzio-token,
             logzio-url,
             anypoint-environment-clientid,
             anypoint-environment-secret,
             cicd-connectedapp-clientid,
-            cicd-connectedapp-secret, 
-            encrypt-key, 
-            salesforce-token, 
-            salesforce-password, 
-            salesforce-user, 
-            mulesoft-nexus-ee-user, 
-            mulesoft-nexus-ee-password'  # comma separated list of secret keys to fetch from key vault 
+            cicd-connectedapp-secret,
+            encrypt-key,
+            salesforce-token,
+            salesforce-password,
+            salesforce-user,
+            mulesoft-nexus-ee-user,
+            mulesoft-nexus-ee-password'
         id: secretmanager # ID for secrets that you will reference
       
       # Creates a settings.xml file and configure the anypoint repositories for the organization and the mulesoft EE
@@ -121,20 +121,19 @@ jobs:
             ]
         
       - name: DEBUG - Show settings file
-        if: ${{ true }}
         run: |
           ls -la $HOME
           cat $HOME/.m2/settings.xml
           echo ${{ github.run_number }}
         
       - name: Package and Deploy
-        if: ${{ true }}
         run: |
           ## Get the git commit hash 
           commitHash=$(git rev-parse --short "$GITHUB_SHA")
 
           mvn clean package deploy -DmuleDeploy \
            -Dencrypt.key="${{ steps.secretmanager.outputs.encrypt-key }}" \
+           -Dlogzio.token="${{ steps.secretmanager.outputs.logzio-token }}" \
            -Dsalesforce.user="${{ steps.secretmanager.outputs.salesforce-user }}" \
            -Dsalesforce.password="${{ steps.secretmanager.outputs.salesforce-password }}" \
            -Dsalesforce.token="${{ steps.secretmanager.outputs.salesforce-token }}" \
@@ -142,8 +141,7 @@ jobs:
            -Danypoint.environment.secret="${{ steps.secretmanager.outputs.anypoint-environment-secret }}" \
            -Dcicd.connectedapp.clientid="${{ steps.secretmanager.outputs.cicd-connectedapp-clientid }}" \
            -Dcicd.connectedapp.secret="${{ steps.secretmanager.outputs.cicd-connectedapp-secret }}" \
-           -Dotel.exporter.otlp.traces.endpoint=${{ steps.secretmanager.outputs.otlp-collector-endpont }}" \
-           -Dlogzio.token="${{ steps.secretmanager.outputs.logzio-token }}" \
+           -Dotel.exporter.otlp.traces.endpoint="${{ steps.secretmanager.outputs.otlp-collector-endpont }}" \
            -Dlogzio.url="${{ steps.secretmanager.outputs.logzio-url }}" \
            -Ddeployment.prefix= \
            -Ddeployment.env=dev \
@@ -163,7 +161,6 @@ jobs:
           path: target/surefire-reports/*
 
       - name: Upload Jar as an artifact 
-        if: ${{ true }}
         uses: actions/upload-artifact@master
         with:
           name: artifacts
