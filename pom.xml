@@ -5,13 +5,13 @@
 	<parent>
 		<groupId>078efef1-d139-48ed-92f5-f8d4a0592374</groupId>
 		<artifactId>micorp-pom</artifactId>
-		<version>1.0.31</version>
+		<version>1.0.37</version>
 		<relativePath/>
 	</parent>
 	
 	<groupId>078efef1-d139-48ed-92f5-f8d4a0592374</groupId>
 	<artifactId>micorp-customer-sapi</artifactId>
-	<version>1.0.18</version>
+	<version>1.0.19</version>
 	<packaging>mule-application</packaging>
 	<name>mule-micorp-customer-sapi</name>
 
@@ -60,28 +60,21 @@
 			<artifactId>json-logger</artifactId>
 			<classifier>mule-plugin</classifier>
 		</dependency>
-		<!-- https://mvnrepository.com/artifact/org.apache.logging.log4j/log4j-core -->
 		<dependency>
 		    <groupId>org.apache.logging.log4j</groupId>
 		    <artifactId>log4j-core</artifactId>
-		    <version>2.18.0</version>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.logging.log4j</groupId>
 			<artifactId>log4j-api</artifactId>
-			<version>2.18.0</version>
 		</dependency>		
-		<!-- https://mvnrepository.com/artifact/io.logz.log4j2/logzio-log4j2-appender -->
 		<dependency>
 		    <groupId>io.logz.log4j2</groupId>
 		    <artifactId>logzio-log4j2-appender</artifactId>
-		    <version>1.0.16</version>
 		</dependency>
-		<!-- https://mvnrepository.com/artifact/io.logz.sender/logzio-java-sender -->
 		<dependency>
   			<groupId>io.logz.sender</groupId>
   			<artifactId>logzio-sender</artifactId>
-  			<version>1.1.5</version>
 		</dependency>
 	</dependencies>
 	
