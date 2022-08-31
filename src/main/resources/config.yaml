@@ -30,7 +30,7 @@ messages:
 # All the below properties should be added as JVM arguments / Environment Properties.
 # Example: -Dsalesforce.user=myuser -Dsalesforce.password=mypassword
 
-# Salesfoce Connection    
+# Salesfoce Connection
 salesforce:
   user: "myuser"
   password: "mypassword"
@@ -43,6 +43,4 @@ otel:
 # Logging - Provide next values as system properties
 # logzio.token: "MyToken"
 # logzio.url: "MyUrl"
-
-
-# logzio.url: "MyLogzioURL"
+# logzio.url: "

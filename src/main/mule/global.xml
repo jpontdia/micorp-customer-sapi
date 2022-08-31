@@ -77,7 +77,6 @@ http://www.mulesoft.org/schema/mule/opentelemetry http://www.mulesoft.org/schema
 		doc:name="Validation Config"
 		doc:id="ef305466-5381-4aa2-a02f-008f16bb2c8d" />
 		
-		
 	<opentelemetry:config 
 		name="OpenTelemetry_Config" 
 		doc:name="OpenTelemetry Config" 
