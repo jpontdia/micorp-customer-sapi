@@ -1,12 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<mule xmlns:validation="http://www.mulesoft.org/schema/mule/validation" xmlns:salesforce="http://www.mulesoft.org/schema/mule/salesforce"
-	xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core"
-	xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+<mule xmlns:json-logger="http://www.mulesoft.org/schema/mule/json-logger" xmlns:validation="http://www.mulesoft.org/schema/mule/validation"
+	xmlns:salesforce="http://www.mulesoft.org/schema/mule/salesforce"
+	xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
 http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd
 http://www.mulesoft.org/schema/mule/salesforce http://www.mulesoft.org/schema/mule/salesforce/current/mule-salesforce.xsd
-http://www.mulesoft.org/schema/mule/validation http://www.mulesoft.org/schema/mule/validation/current/mule-validation.xsd">
+http://www.mulesoft.org/schema/mule/validation http://www.mulesoft.org/schema/mule/validation/current/mule-validation.xsd
+http://www.mulesoft.org/schema/mule/json-logger http://www.mulesoft.org/schema/mule/json-logger/current/mule-json-logger.xsd">
 	<flow name="deleteFlow" doc:id="7eaec4ec-9f52-4a54-bc95-bef41836cdf1" >
+		<json-logger:log-start doc:name="Log start" doc:id="621f355a-b7e6-4d73-be4a-810d14babe6f" config-ref="JSON_Logger_Config" message="#[&quot;Delete customer customerId=&quot; ++ attributes.uriParams.'customerId']">
+			<json-logger:content><![CDATA[#[import modules::JSONLoggerModule
+output application/json
+---
+{
+	openTelemetry: if ( isEmpty(vars.OTEL_TRACE_CONTEXT) ) ""
+					else JSONLoggerModule::stringifyNonJSON(vars.OTEL_TRACE_CONTEXT)
+}]]]></json-logger:content>
+		</json-logger:log-start>
 		<ee:transform doc:name="get customerId" doc:id="503d81c8-6327-4f57-8f31-4d36389bf3e3" >
 			<ee:variables >
 				<ee:set-variable variableName="customerId" ><![CDATA[%dw 2.0

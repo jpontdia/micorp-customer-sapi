@@ -15,7 +15,7 @@ api:
   spec: "resource::${api.group}:${api.artifact}:${api.version}:raml:zip:api.raml"
   id: "17868760"
 
-# Services Messages
+# Service messages
 messages:
   customer-doesnt-exist-relations: "Customer does not exist or has relations with other resources"
   backend-error: "There was a problem while trying to access the backend repository"
@@ -35,3 +35,7 @@ salesforce:
   user: "myuser"
   password: "mypassword"
   token: "mytoken"
+  
+# Logging - Provide next values as system properties
+# logzio.token: "MyToken"
+# logzio.url: "MyLogzioURL"

@@ -35,7 +35,20 @@ jobs:
       - uses: Azure/get-keyvault-secrets@v1
         with:
           keyvault: "jpworks-keyvault" # The name of KeyVault in Azure
-          secrets: 'anypoint-environment-clientid, anypoint-environment-secret, cicd-connectedapp-clientid, cicd-connectedapp-secret, encrypt-key, salesforce-token, salesforce-password, salesforce-user, mulesoft-nexus-ee-user, mulesoft-nexus-ee-password'  # comma separated list of secret keys to fetch from key vault 
+          secrets: '
+            otlp-collector-endpont,
+            logzio-token,
+            logzio-url,
+            anypoint-environment-clientid,
+            anypoint-environment-secret,
+            cicd-connectedapp-clientid,
+            cicd-connectedapp-secret, 
+            encrypt-key, 
+            salesforce-token, 
+            salesforce-password, 
+            salesforce-user, 
+            mulesoft-nexus-ee-user, 
+            mulesoft-nexus-ee-password'  # comma separated list of secret keys to fetch from key vault 
         id: secretmanager # ID for secrets that you will reference
       
       # Creates a settings.xml file and configure the anypoint repositories for the organization and the mulesoft EE
@@ -129,27 +142,28 @@ jobs:
            -Danypoint.environment.secret="${{ steps.secretmanager.outputs.anypoint-environment-secret }}" \
            -Dcicd.connectedapp.clientid="${{ steps.secretmanager.outputs.cicd-connectedapp-clientid }}" \
            -Dcicd.connectedapp.secret="${{ steps.secretmanager.outputs.cicd-connectedapp-secret }}" \
+           -Dotel.exporter.otlp.traces.endpoint=${{ steps.secretmanager.outputs.otlp-collector-endpont }}" \
+           -Dlogzio.token="${{ steps.secretmanager.outputs.logzio-token }}" \
+           -Dlogzio.url="${{ steps.secretmanager.outputs.logzio-url }}" \
            -Ddeployment.prefix= \
            -Ddeployment.env=dev \
            -Dcommit.hash=-$commitHash \
            -Dbuild.id=-${{ github.run_number }}  
 
       - name: Publish MUnit Application Coverage Report
-        if: ${{ true }}
         uses: actions/upload-artifact@master
         with:
           name: munit-application-coverage-report
           path: target/site/munit/coverage/*
       
       - name: Publish MUnit Report
-        if: ${{ true }}
         uses: actions/upload-artifact@master
         with:
           name: munit-test-report
           path: target/surefire-reports/*
 
       - name: Upload Jar as an artifact 
-        if: ${{ false }}
+        if: ${{ true }}
         uses: actions/upload-artifact@master
         with:
           name: artifacts

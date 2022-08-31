@@ -11,7 +11,7 @@
 	
 	<groupId>078efef1-d139-48ed-92f5-f8d4a0592374</groupId>
 	<artifactId>micorp-customer-sapi</artifactId>
-	<version>1.0.13</version>
+	<version>1.0.16</version>
 	<packaging>mule-application</packaging>
 	<name>mule-micorp-customer-sapi</name>
 
@@ -23,7 +23,7 @@
 		<!-- API spec rest Connector: customer-item-sapi -->
 		<restconnector.api.spec.group>${project.groupId}</restconnector.api.spec.group>
 		<restconnector.api.spec.artifact>micorp-customer-sapi</restconnector.api.spec.artifact>
-		<restconnector.api.spec.version>1.0.1</restconnector.api.spec.version>
+		<restconnector.api.spec.version>1.0.6</restconnector.api.spec.version>
 	</properties>
 
 	<dependencies>
@@ -36,23 +36,6 @@
 			<classifier>raml</classifier>
 			<type>zip</type> 
 		</dependency>
-
-		<!-- JSON Logger dependencies -->
-		<dependency>
-			<groupId>com.mulesoft.connectors</groupId>
-			<artifactId>mule-amqp-connector</artifactId>
-			<classifier>mule-plugin</classifier>
-		</dependency>
-		<dependency>
-			<groupId>org.mule.connectors</groupId>
-			<artifactId>mule-jms-connector</artifactId>
-			<classifier>mule-plugin</classifier>
-		</dependency>
-		<dependency>
-			<groupId>078efef1-d139-48ed-92f5-f8d4a0592374</groupId>
-			<artifactId>json-logger</artifactId>
-			<classifier>mule-plugin</classifier>
-		</dependency>
 		
 		<!-- Salesforce connector -->
 		<dependency>
@@ -60,9 +43,49 @@
 			<artifactId>mule-salesforce-connector</artifactId>
 			<classifier>mule-plugin</classifier>
 		</dependency>
+		
+		<!-- OpenTelemetry connector -->
+		<dependency>
+			<groupId>078efef1-d139-48ed-92f5-f8d4a0592374</groupId>
+			<artifactId>opentelemetry-connector</artifactId>
+			<version>1.0.19</version>
+			<classifier>mule-plugin</classifier>
+		</dependency>
+		
+		<!-- Logging Dependencies-->
+
+		<!-- JSON Logger -->
+		<dependency>
+			<groupId>078efef1-d139-48ed-92f5-f8d4a0592374</groupId>
+			<artifactId>json-logger</artifactId>
+			<classifier>mule-plugin</classifier>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/org.apache.logging.log4j/log4j-core -->
+		<dependency>
+		    <groupId>org.apache.logging.log4j</groupId>
+		    <artifactId>log4j-core</artifactId>
+		    <version>2.18.0</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.logging.log4j</groupId>
+			<artifactId>log4j-api</artifactId>
+			<version>2.18.0</version>
+		</dependency>		
+		<!-- https://mvnrepository.com/artifact/io.logz.log4j2/logzio-log4j2-appender -->
+		<dependency>
+		    <groupId>io.logz.log4j2</groupId>
+		    <artifactId>logzio-log4j2-appender</artifactId>
+		    <version>1.0.16</version>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/io.logz.sender/logzio-java-sender -->
+		<dependency>
+  			<groupId>io.logz.sender</groupId>
+  			<artifactId>logzio-sender</artifactId>
+  			<version>1.1.5</version>
+		</dependency>
 	</dependencies>
 	
-	<!--Repository to get the artifacts for your Organization -->
+	<!--Repository to get the artifacts for your Anypoint organization -->
 	<repositories>
 		<repository>
 			<id>anypoint-exchange-v3</id>

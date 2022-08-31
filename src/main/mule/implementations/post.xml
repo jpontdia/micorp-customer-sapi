@@ -1,11 +1,29 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<mule xmlns:salesforce="http://www.mulesoft.org/schema/mule/salesforce" xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core"
-	xmlns="http://www.mulesoft.org/schema/mule/core"
-	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+<mule xmlns:json-logger="http://www.mulesoft.org/schema/mule/json-logger" xmlns:salesforce="http://www.mulesoft.org/schema/mule/salesforce"
+	xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core"
+	xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
 http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd
-http://www.mulesoft.org/schema/mule/salesforce http://www.mulesoft.org/schema/mule/salesforce/current/mule-salesforce.xsd">
+http://www.mulesoft.org/schema/mule/salesforce http://www.mulesoft.org/schema/mule/salesforce/current/mule-salesforce.xsd
+http://www.mulesoft.org/schema/mule/json-logger http://www.mulesoft.org/schema/mule/json-logger/current/mule-json-logger.xsd">
 	<flow name="post:\customers" doc:id="cea87749-52b5-418a-a782-c245faefe3e5" >
+		<json-logger:log-start doc:name="Log start" doc:id="6d28a2fc-6185-47d8-bea8-44352e14d5a7" config-ref="JSON_Logger_Config" message='#["Create customer firstName=" ++ payload.firstName]'>
+			<json-logger:content><![CDATA[#[import modules::JSONLoggerModule
+import * from dw::util::Values
+output application/json
+---
+{
+	openTelemetry: if ( isEmpty(vars.OTEL_TRACE_CONTEXT) ) ""
+					else JSONLoggerModule::stringifyNonJSON(vars.OTEL_TRACE_CONTEXT)
+} ++
+{
+    payload: JSONLoggerModule::stringifyNonJSON(payload)
+		mask field("lastName") with "*****"
+		mask field("address") with "*****"
+		mask field("email") with "*****"  
+}]]]></json-logger:content>
+		</json-logger:log-start>
+		<set-variable value='#[%dw 2.0&#10;output application/java&#10;---&#10;{&#10;    "firstName": payload.firstName default "",&#10;    "lastName": payload.lastName default ""&#10;}]' doc:name="otel Tags" doc:id="af30f746-c2f9-407d-a99c-5ef4e254fc3c" variableName="openTelemetryTags" />
 		<set-variable value='#[attributes.requestUri ++ "/"]' doc:name="initialize location" doc:id="ffa18d57-86c2-42f7-8267-79af038b769f" variableName="location"/>
 		<set-variable value="#[payload.firstName]" doc:name="firstName" doc:id="fa42db80-4579-40b0-ac10-acf9c24a6300" variableName="firstName"/>
 		<set-variable value="#[payload.lastName]" doc:name="lastName" doc:id="7763edff-16e0-45eb-a2c8-916b4627a78d" variableName="lastName"/>
@@ -25,7 +43,7 @@ output application/json
 ]]]></ee:set-payload>
 			</ee:message>
 		</ee:transform>
-		<salesforce:create type="Customer__c" doc:name="Create Customer" doc:id="0fe83364-a8f6-4c17-83b5-0df207cca401" config-ref="Salesforce_Config"/>
+				<salesforce:create type="Customer__c" doc:name="Create Customer" doc:id="0fe83364-a8f6-4c17-83b5-0df207cca401" config-ref="Salesforce_Config"/>
 		<choice doc:name="Create Validation" doc:id="b2496193-5c00-4040-8330-1c365825336b" >
 			<when expression="#[payload.successful == true]">
 				<ee:transform doc:name="Set Header" doc:id="9a0d9201-b72e-40b2-b3c3-c4e258dec584">

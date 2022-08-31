@@ -132,7 +132,7 @@ http://www.mulesoft.org/schema/mule/json-logger http://www.mulesoft.org/schema/m
 			doc:name="Verify created data"
 			doc:id="6e1f4a4b-f2b3-42ba-90d1-66825dcd287b"
 			config-ref="JSON_Logger_Config"
-			message='#["Testing the new resource, get data for: " ++ vars.customerId]' />
+			message='#["Testing new resource, customerId=" ++ vars.customerId]' />
 		<http:request
 			method="GET"
 			doc:name="get resource by id"
@@ -145,11 +145,7 @@ http://www.mulesoft.org/schema/mule/json-logger http://www.mulesoft.org/schema/m
 	"customerId" : vars.customerId
 }]]]></http:uri-params>
 		</http:request>
-		<json-logger:log-flow
-			doc:name="Resource Data"
-			doc:id="58027a85-d3ce-45f8-8a77-3fa8d79e4b9e"
-			config-ref="JSON_Logger_Config"
-			message="Resource data" />
+		<json-logger:log-end doc:name="Log end" doc:id="24c36ff7-7eb8-4218-bdbe-afe3ab80cf55" config-ref="JSON_Logger_Config" message='#["Testing new resource, customerId=" ++ vars.customerId]'/>
 	</sub-flow>
 	<sub-flow
 		name="deleteCustomer"
