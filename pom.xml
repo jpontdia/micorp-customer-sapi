@@ -47,7 +47,7 @@
 		<!-- OpenTelemetry connector -->
 		<dependency>
 			<groupId>${project.groupId}</groupId>
-			<artifactId>opentelemetry-connector</artifactId>
+			<artifactId>mule-otel-connector</artifactId>
 			<version>1.0.50</version>
 			<classifier>mule-plugin</classifier>
 		</dependency>
