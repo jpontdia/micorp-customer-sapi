@@ -20,15 +20,14 @@
 		<api.layer>system</api.layer>
 		<api.tags>micorp, salesforce, customer, sapi</api.tags>
 		
-		<!-- API spec rest Connector: customer-item-sapi -->
+		<!--RAML specification -->
 		<restconnector.api.spec.group>${project.groupId}</restconnector.api.spec.group>
 		<restconnector.api.spec.artifact>micorp-customer-sapi</restconnector.api.spec.artifact>
 		<restconnector.api.spec.version>1.0.6</restconnector.api.spec.version>
 	</properties>
 
-	<dependencies>
-		<!-- Service Dependencies  -->
-		<!-- RAML: micorp-customer-sapi -->
+	<dependencies>		
+		<!--RAML specification -->
 		<dependency>
 			<groupId>${restconnector.api.spec.group}</groupId>
 			<artifactId>${restconnector.api.spec.artifact}</artifactId>
