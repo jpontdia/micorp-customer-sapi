@@ -11,7 +11,7 @@
 	
 	<groupId>078efef1-d139-48ed-92f5-f8d4a0592374</groupId>
 	<artifactId>micorp-customer-sapi</artifactId>
-	<version>1.0.20</version>
+	<version>1.0.21</version>
 	<packaging>mule-application</packaging>
 	<name>mule-micorp-customer-sapi</name>
 
@@ -46,9 +46,9 @@
 		
 		<!-- OpenTelemetry connector -->
 		<dependency>
-			<groupId>078efef1-d139-48ed-92f5-f8d4a0592374</groupId>
+			<groupId>${project.groupId}</groupId>
 			<artifactId>opentelemetry-connector</artifactId>
-			<version>1.0.20</version>
+			<version>1.0.50</version>
 			<classifier>mule-plugin</classifier>
 		</dependency>
 		

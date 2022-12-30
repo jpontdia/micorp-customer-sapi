@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <mule
-	xmlns:opentelemetry="http://www.mulesoft.org/schema/mule/opentelemetry"
+	xmlns:open-telemetry="http://www.mulesoft.org/schema/mule/open-telemetry"
 	xmlns:api-gateway="http://www.mulesoft.org/schema/mule/api-gateway"
 	xmlns:validation="http://www.mulesoft.org/schema/mule/validation"
 	xmlns="http://www.mulesoft.org/schema/mule/core"
@@ -10,10 +10,26 @@
 	xmlns:json-logger="http://www.mulesoft.org/schema/mule/json-logger"
 	xmlns:salesforce="http://www.mulesoft.org/schema/mule/salesforce"
 	xmlns:secure-properties="http://www.mulesoft.org/schema/mule/secure-properties"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="
-http://www.mulesoft.org/schema/mule/api-gateway http://www.mulesoft.org/schema/mule/api-gateway/current/mule-api-gateway.xsd 
-http://www.mulesoft.org/schema/mule/validation http://www.mulesoft.org/schema/mule/validation/current/mule-validation.xsd  http://www.mulesoft.org/schema/mule/mule-apikit http://www.mulesoft.org/schema/mule/mule-apikit/current/mule-apikit.xsd  http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd http://www.mulesoft.org/schema/mule/salesforce http://www.mulesoft.org/schema/mule/salesforce/current/mule-salesforce.xsd http://www.mulesoft.org/schema/mule/secure-properties http://www.mulesoft.org/schema/mule/secure-properties/current/mule-secure-properties.xsd http://www.mulesoft.org/schema/mule/json-logger http://www.mulesoft.org/schema/mule/json-logger/current/mule-json-logger.xsd
-http://www.mulesoft.org/schema/mule/opentelemetry http://www.mulesoft.org/schema/mule/opentelemetry/current/mule-opentelemetry.xsd">
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xsi:schemaLocation="
+		http://www.mulesoft.org/schema/mule/api-gateway 
+		http://www.mulesoft.org/schema/mule/api-gateway/current/mule-api-gateway.xsd 
+		http://www.mulesoft.org/schema/mule/validation 
+		http://www.mulesoft.org/schema/mule/validation/current/mule-validation.xsd  
+		http://www.mulesoft.org/schema/mule/mule-apikit 
+		http://www.mulesoft.org/schema/mule/mule-apikit/current/mule-apikit.xsd  
+		http://www.mulesoft.org/schema/mule/http 
+		http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd 
+		http://www.mulesoft.org/schema/mule/core 
+		http://www.mulesoft.org/schema/mule/core/current/mule.xsd 
+		http://www.mulesoft.org/schema/mule/salesforce 
+		http://www.mulesoft.org/schema/mule/salesforce/current/mule-salesforce.xsd 
+		http://www.mulesoft.org/schema/mule/secure-properties 
+		http://www.mulesoft.org/schema/mule/secure-properties/current/mule-secure-properties.xsd 
+		http://www.mulesoft.org/schema/mule/json-logger 
+		http://www.mulesoft.org/schema/mule/json-logger/current/mule-json-logger.xsd
+		http://www.mulesoft.org/schema/mule/open-telemetry 
+		http://www.mulesoft.org/schema/mule/open-telemetry/current/mule-open-telemetry.xsd">
 
 	<configuration-properties
 		doc:name="Configuration properties"
@@ -44,19 +60,6 @@ http://www.mulesoft.org/schema/mule/opentelemetry http://www.mulesoft.org/schema
 		httpStatusVarName="httpStatus" />
 
 
-	<secure-properties:config
-		name="Secure_Properties_Config"
-		doc:name="Secure Properties Config"
-		file="config-secure.yaml"
-		key="${encrypt.key}" >
-	</secure-properties:config>
-
-	<global-property
-		doc:name="Global Property"
-		doc:id="18df1160-6341-4c46-b882-61008eaf49d8"
-		name="env"
-		value="local" />
-
 	<api-gateway:autodiscovery
 		apiId="${api.id}"
 		ignoreBasePath="true"
@@ -77,16 +80,10 @@ http://www.mulesoft.org/schema/mule/opentelemetry http://www.mulesoft.org/schema
 		doc:name="Validation Config"
 		doc:id="ef305466-5381-4aa2-a02f-008f16bb2c8d" />
 		
-	<opentelemetry:config 
-		name="OpenTelemetry_Config" 
-		doc:name="OpenTelemetry Config" 
-		doc:id="8c829ec5-4b8f-413a-97c0-a950eb826ac2"
-		serviceName="${deployment.name}">
-		<opentelemetry:exporter >
-			<opentelemetry:otlp-exporter collectorEndpoint="${otel.collectorendpoint}"/>
-		</opentelemetry:exporter>
-		<opentelemetry:resource-attributes >
-			<opentelemetry:attribute key="env" value="${env}" />
-		</opentelemetry:resource-attributes>		
-	</opentelemetry:config>
+	<open-telemetry:config 
+		name="Open_Telemetry_Connector_Config" 
+		doc:name="Open Telemetry Connector Config" 
+		serviceName="micorp-customer-papi"
+		additionalTags="env=${env}"
+    	collectorEndpoint="${otel.collectorendpoint}"/>
 </mule>
