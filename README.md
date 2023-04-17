@@ -36,8 +36,8 @@ Deployment in Anypoint Exchange:
 ## Build and packaging
 
 Configure the maven settings file with:
-- The credentials for the Maven Nexus EE repository
-- Connected app for deployment in the Anypoint organization.
+ - The credentials for the Maven Nexus EE repository
+ - Connected app for deployment in the Anypoint organization.
 
 The sensitive data was removed from the configuration files. The next properties must be provided to compile, test and package the service:
 
