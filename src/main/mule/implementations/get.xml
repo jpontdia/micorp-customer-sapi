@@ -3,11 +3,21 @@
 <mule xmlns:opentelemetry="http://www.mulesoft.org/schema/mule/opentelemetry"
 	xmlns:json-logger="http://www.mulesoft.org/schema/mule/json-logger" xmlns:salesforce="http://www.mulesoft.org/schema/mule/salesforce"
 	xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core"
-	xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="
-http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
-http://www.mulesoft.org/schema/mule/salesforce http://www.mulesoft.org/schema/mule/salesforce/current/mule-salesforce.xsd
-http://www.mulesoft.org/schema/mule/json-logger http://www.mulesoft.org/schema/mule/json-logger/current/mule-json-logger.xsd
-http://www.mulesoft.org/schema/mule/opentelemetry http://www.mulesoft.org/schema/mule/opentelemetry/current/mule-opentelemetry.xsd">
+	xmlns="http://www.mulesoft.org/schema/mule/core" 
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xsi:schemaLocation="
+		http://www.mulesoft.org/schema/mule/ee/core 
+		http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd 
+		http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+		http://www.mulesoft.org/schema/mule/salesforce 
+		http://www.mulesoft.org/schema/mule/salesforce/current/mule-salesforce.xsd
+		http://www.mulesoft.org/schema/mule/json-logger 
+		http://www.mulesoft.org/schema/mule/json-logger/current/mule-json-logger.xsd
+		http://www.mulesoft.org/schema/mule/opentelemetry 
+		http://www.mulesoft.org/schema/mule/opentelemetry/current/mule-opentelemetry.xsd">
+	
+	
 	<flow name="queryCustomer" doc:id="1921a8f0-6bb9-4ee6-b21f-b1a48465b6ed" >
 		<ee:transform doc:name="Where Filter" doc:id="98882926-8497-44cb-92f4-4d3e1ba9ca41" >
 			<ee:message >
@@ -39,7 +49,9 @@ FROM Customer__c
 	soqlFilter : vars.soqlFilter
 }]]]></salesforce:parameters>
 		</salesforce:query>
-		<ee:transform doc:name="Customer Payload" doc:id="2add41b8-bcb0-45af-8132-3039bdfe068d" >
+		<ee:transform 
+			doc:name="Customer Payload" 
+			doc:id="2add41b8-bcb0-45af-8132-3039bdfe068d" >
 			<ee:message >
 				<ee:set-payload ><![CDATA[%dw 2.0
 output json
@@ -56,32 +68,19 @@ payload map (item, value) ->
 		</ee:transform>
 		<error-handler ref="global-error-handler" />
 	</flow>
+	
+	
 	<flow name="getByName" doc:id="a2f2ef9f-b7dc-4bf8-a0ea-ffee34658749" >
-		<json-logger:log-start doc:name="Log start" doc:id="9122d212-822b-4b80-bb02-869f192a6571" config-ref="JSON_Logger_Config" message='#["Customer getByName firstName=" ++ attributes.queryParams.firstName]'>
-			<json-logger:content><![CDATA[#[import modules::JSONLoggerModule
-output application/json
----
-{
-	openTelemetry: if ( isEmpty(vars.OTEL_TRACE_CONTEXT) ) ""
-					else JSONLoggerModule::stringifyNonJSON(vars.OTEL_TRACE_CONTEXT)
-}]]]></json-logger:content>
-		</json-logger:log-start>
+		<logger level="INFO" doc:name="Logger" doc:id="55aed770-324c-4796-a4e0-4231505d4a66" message='#[%dw 2.0&#10;output application/json&#10;---&#10;{&#10;	message: "Customer getByName",&#10;    firstName: attributes.queryParams.firstName default "",&#10;	lastName: attributes.queryParams.lastName default ""  &#10;}]'/>
 		<set-variable value='#[%dw 2.0&#10;output application/java&#10;---&#10;{&#10;    "firstName": attributes.queryParams.firstName default "",&#10;    "lastName": attributes.queryParams.lastName default ""&#10;}]' doc:name="otel Tags" doc:id="2bcce25a-5ddd-4a60-aeb3-5fb8cc6987da" variableName="openTelemetryTags"/>
 		<set-variable value="#[attributes.queryParams.firstName]" doc:name="firstName" doc:id="a11096b2-5a2b-4be4-b17d-900871366c20" variableName="firstName"/>
 		<set-variable value="#[attributes.queryParams.lastName]" doc:name="lastName" doc:id="78be75c9-3c31-4aaa-84cb-3f9e73347dd9" variableName="lastName"/>
 		<flow-ref doc:name="queryCustomer" doc:id="1774a398-fdd4-428e-86f6-5160194044f5" name="queryCustomer"/>
 	</flow>
 
+
 	<flow name="getById" doc:id="dafe3155-a626-444b-aaa6-5a5daba53ddb" >
-		<json-logger:log-start doc:name="Log start" doc:id="8dd4b4e3-7ccf-4357-88df-b9860736edf2" config-ref="JSON_Logger_Config" message="#[&quot;Customer getById customerId=&quot; ++ (attributes.uriParams.'customerId' default &quot;&quot;)]">
-			<json-logger:content><![CDATA[#[import modules::JSONLoggerModule
-output application/json
----
-{
-	openTelemetry: if ( isEmpty(vars.OTEL_TRACE_CONTEXT) ) ""
-					else JSONLoggerModule::stringifyNonJSON(vars.OTEL_TRACE_CONTEXT)
-}]]]></json-logger:content>
-		</json-logger:log-start>
+		<logger level="INFO" doc:name="Logger" doc:id="f6b05462-8a5d-41cb-a618-92573801ef0b" message="#[%dw 2.0&#10;output application/json&#10;---&#10;{&#10;	message: &quot;Customer getById&quot;,&#10;    customerId: attributes.uriParams.'customerId' default &quot;&quot;&#10;}]"/>
 		<set-variable value="#[%dw 2.0&#10;output application/java&#10;---&#10;{&#10;    &quot;customerId&quot;: attributes.uriParams.'customerId' default &quot;&quot;,&#10;}]" doc:name="otel Tags" doc:id="ef1ab554-583b-4be2-9985-72155fba1629" variableName="openTelemetryTags" />
 		<logger level="INFO" doc:name="Logger" doc:id="811d44cb-fb68-45c2-9f4d-5fa1d9e4d08e" message="Test Message"/>
 		<ee:transform doc:name="get customerId" doc:id="64ca68fe-c777-4988-9bc2-3fefa3d4bd82" >

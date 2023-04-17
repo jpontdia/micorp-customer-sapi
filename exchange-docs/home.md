@@ -1,0 +1,1 @@
+This file is going to replaced using the content of README.md in the integration pipeline

@@ -21,8 +21,9 @@ api:
 # Service messages
 messages:
   customer-doesnt-exist-relations: "Customer does not exist or has relations with other resources"
+  customer-exists: "Customer already exists"
   backend-error: "There was a problem while trying to access the backend repository"
-  customer-error: "There was a problme while trying to create the Customer"
+  customer-error: "There was a problem while trying to create the Customer"
   apikit-400: "Bad request"
   apikit-404: "Resource not found"
   apikit-405: "Method not allowed"
@@ -35,9 +36,10 @@ messages:
 
 # Salesfoce Connection
 salesforce:
-  user: "myuser"
-  password: "mypassword"
-  token: "mytoken"
+  consumerkey: "my-consumer-key"
+  keystore: "my-keystore.jks"
+  storepassword: "the-kystore-password"
+  principal: "user-in-salesforce"  
   
 #OpenTelemtry configuration
 otel:

@@ -72,6 +72,7 @@ http://www.mulesoft.org/schema/mule/validation http://www.mulesoft.org/schema/mu
 				doc:id="3badef61-f25a-406d-a9d4-3006ff3b8dbd"
 				config-ref="JSON_Logger_Config"
 				message="Result" />
+			<logger level="INFO" doc:name="Logger" doc:id="f30b734a-2c08-4299-aa3c-8cc89c952592" message='#[%dw 2.0&#10;output application/json&#10;---&#10;{&#10;	message: "Result from delete customer with a fake id",&#10;	status: attributes.statusCode,&#10;	payload: payload&#10;}]'/>
 
 		</munit:execution>
 		<munit:validation>

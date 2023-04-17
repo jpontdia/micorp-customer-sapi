@@ -7,31 +7,47 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 http://www.mulesoft.org/schema/mule/salesforce http://www.mulesoft.org/schema/mule/salesforce/current/mule-salesforce.xsd
 http://www.mulesoft.org/schema/mule/validation http://www.mulesoft.org/schema/mule/validation/current/mule-validation.xsd
 http://www.mulesoft.org/schema/mule/json-logger http://www.mulesoft.org/schema/mule/json-logger/current/mule-json-logger.xsd">
-	<flow name="deleteFlow" doc:id="7eaec4ec-9f52-4a54-bc95-bef41836cdf1" >
-		<json-logger:log-start doc:name="Log start" doc:id="621f355a-b7e6-4d73-be4a-810d14babe6f" config-ref="JSON_Logger_Config" message="#[&quot;Delete customer customerId=&quot; ++ attributes.uriParams.'customerId']">
-			<json-logger:content><![CDATA[#[import modules::JSONLoggerModule
-output application/json
----
-{
-	openTelemetry: if ( isEmpty(vars.OTEL_TRACE_CONTEXT) ) ""
-					else JSONLoggerModule::stringifyNonJSON(vars.OTEL_TRACE_CONTEXT)
-}]]]></json-logger:content>
-		</json-logger:log-start>
-		<ee:transform doc:name="get customerId" doc:id="503d81c8-6327-4f57-8f31-4d36389bf3e3" >
+	<flow 
+		name="deleteFlow" 
+		doc:id="7eaec4ec-9f52-4a54-bc95-bef41836cdf1" >
+		
+		<logger 
+			level="INFO" 
+			doc:name="start" 
+			doc:id="cf6d0c26-7435-4818-acb0-564c9c47d859" 
+			message="#[&quot;Delete customer customerId=&quot; ++ attributes.uriParams.'customerId']"/>
+		
+		<ee:transform 
+			doc:name="get customerId" 
+			doc:id="503d81c8-6327-4f57-8f31-4d36389bf3e3" >
 			<ee:variables >
-				<ee:set-variable variableName="customerId" ><![CDATA[%dw 2.0
+				<ee:set-variable 
+					variableName="customerId" ><![CDATA[%dw 2.0
 output application/json
 ---
 attributes.uriParams.'customerId']]></ee:set-variable>
 			</ee:variables>
 		</ee:transform>
-		<salesforce:delete doc:name="Delete" doc:id="b2c142e9-2edd-4426-b12e-efa2c051689f" config-ref="Salesforce_Config" >
+		
+		<salesforce:delete 
+			doc:name="Delete" 
+			doc:id="b2c142e9-2edd-4426-b12e-efa2c051689f" 
+			config-ref="Salesforce_Config" >
 			<salesforce:ids ><![CDATA[#[[vars.customerId]]]]></salesforce:ids>
 		</salesforce:delete>
-		<validation:is-true doc:name="Is true" doc:id="1966d06d-b7a1-4c74-a485-865e21c452ca" expression="#[payload.successful]">
-			<error-mapping sourceType="VALIDATION:INVALID_BOOLEAN" targetType="DELETE:RELATIONSHIP" />
+		
+		<validation:is-true 
+			doc:name="Is true" 
+			doc:id="1966d06d-b7a1-4c74-a485-865e21c452ca" 
+			expression="#[payload.successful]">
+			<error-mapping 
+				sourceType="VALIDATION:INVALID_BOOLEAN" 
+				targetType="DELETE:RELATIONSHIP" />
 		</validation:is-true>
-		<ee:transform doc:name="Success Message" doc:id="a5079758-0a68-4fbc-aa18-fdbd88a584b7" >
+		
+		<ee:transform 
+			doc:name="Success Message" 
+			doc:id="a5079758-0a68-4fbc-aa18-fdbd88a584b7" >
 			<ee:message >
 				<ee:set-payload ><![CDATA[%dw 2.0
 output application/json
@@ -42,6 +58,8 @@ output application/json
 ]]></ee:set-payload>
 			</ee:message>
 		</ee:transform>
-		<error-handler ref="global-error-handler" />
+		
+		<error-handler 
+			ref="global-error-handler" />
 	</flow>
 </mule>

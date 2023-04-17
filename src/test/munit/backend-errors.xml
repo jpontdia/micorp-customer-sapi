@@ -77,10 +77,7 @@ http://www.mulesoft.org/schema/mule/json-logger http://www.mulesoft.org/schema/m
 				doc:name="post"
 				doc:id="72262c22-5481-486c-931e-9cc17b1bb790"
 				name="post:\customers" />
-			<json-logger:log-flow
-				doc:name="result"
-				config-ref="JSON_Logger_Config"
-				message='#["status: " ++ vars.httpStatus]' />
+			<logger level="INFO" doc:name="Logger" doc:id="ae0362b4-2ffa-43cf-9b24-672cbb2bccfa" message='#[%dw 2.0&#10;output application/json&#10;---&#10;{&#10;	message: "Result from customer creation",&#10;	status: vars.httpStatus,&#10;	payload: payload&#10;}]'/>
 				
 		</munit:execution>
 		<munit:validation>
@@ -163,11 +160,7 @@ http://www.mulesoft.org/schema/mule/json-logger http://www.mulesoft.org/schema/m
 					</on-error-continue>
 				</error-handler>
 			</try>
-			<json-logger:log-flow
-				doc:name="result"
-				doc:id="76761ca1-23d0-49ec-a3c7-3099d744ee5e"
-				config-ref="JSON_Logger_Config"
-				message='#["status: " ++ vars.httpStatus]' />
+			<logger level="INFO" doc:name="result" doc:id="b3bb99c3-ee71-406b-b562-8e49699dc6c6" message='#[%dw 2.0&#10;output application/json&#10;---&#10;{&#10;	message: "Result from customer creation",&#10;	status: vars.httpStatus,&#10;	payload: payload&#10;}]'/>
 		</munit:execution>
 		<munit:validation>
 			<munit-tools:assert-equals

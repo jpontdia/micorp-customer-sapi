@@ -33,29 +33,17 @@
 		doc:id="4a1c4b94-2e13-4fa7-9cdf-51c20581e84e"
 		file="config.yaml" />
 
-	<salesforce:sfdc-config
-		name="Salesforce_Config"
-		doc:name="Salesforce Config">
-		<salesforce:basic-connection
-			username="${salesforce.user}"
-			password="${salesforce.password}"
-			securityToken="${salesforce.token}" />
-	</salesforce:sfdc-config>
-
-
 	<http:listener-config name="api-httpListenerConfig">
 		<http:listener-connection
 			host="0.0.0.0"
 			port="${http.port}" />
 	</http:listener-config>
 
-
 	<apikit:config
 		name="api-config"
 		api="${api.spec}"
 		outboundHeadersMapName="outboundHeaders"
 		httpStatusVarName="httpStatus" />
-
 
 	<api-gateway:autodiscovery
 		apiId="${api.id}"
@@ -83,4 +71,15 @@
 		serviceName="micorp-customer-sapi"
 		additionalTags="env=${env}"
     	collectorEndpoint="${otel.collectorendpoint}"/>
+    	
+	<salesforce:sfdc-config 
+		name="Salesforce_Config" 
+		doc:name="Salesforce Config" 
+		doc:id="544dc724-8aab-4bfd-aa86-264083346245" >
+		<salesforce:jwt-connection
+			consumerKey="${salesforce.consumerkey}"
+			keyStore="${salesforce.keystore}"
+			storePassword="${salesforce.storepassword}"
+			principal="${salesforce.principal}" />
+	</salesforce:sfdc-config>
 </mule>
