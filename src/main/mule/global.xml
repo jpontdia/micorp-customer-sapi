@@ -7,8 +7,6 @@
 	xmlns:apikit="http://www.mulesoft.org/schema/mule/mule-apikit"
 	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
 	xmlns:http="http://www.mulesoft.org/schema/mule/http"
-	xmlns:json-logger="http://www.mulesoft.org/schema/mule/json-logger"
-	xmlns:salesforce="http://www.mulesoft.org/schema/mule/salesforce"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
 	xsi:schemaLocation="
 		http://www.mulesoft.org/schema/mule/api-gateway 
@@ -21,10 +19,6 @@
 		http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd 
 		http://www.mulesoft.org/schema/mule/core 
 		http://www.mulesoft.org/schema/mule/core/current/mule.xsd 
-		http://www.mulesoft.org/schema/mule/salesforce 
-		http://www.mulesoft.org/schema/mule/salesforce/current/mule-salesforce.xsd 
-		http://www.mulesoft.org/schema/mule/json-logger 
-		http://www.mulesoft.org/schema/mule/json-logger/current/mule-json-logger.xsd
 		http://www.mulesoft.org/schema/mule/open-telemetry 
 		http://www.mulesoft.org/schema/mule/open-telemetry/current/mule-open-telemetry.xsd">
 
@@ -51,14 +45,6 @@
 		doc:name="API Autodiscovery"
 		doc:id="92853cfc-bbfd-4e5c-9973-c2dbfd5d57e3"
 		flowRef="api-main" />
-	
-	<json-logger:config
-		name="JSON_Logger_Config"
-		doc:name="JSON Logger Config"
-		doc:id="34848090-dfaf-40bb-90b4-14822ee08a39"
-		environment="${env}"
-		applicationName="${project.artifact}"
-		applicationVersion="${project.version}" />
 
 	<validation:config
 		name="Validation_Config"
@@ -71,15 +57,9 @@
 		serviceName="micorp-customer-sapi"
 		additionalTags="env=${env}"
     	collectorEndpoint="${otel.collectorendpoint}"/>
-    	
-	<salesforce:sfdc-config 
-		name="Salesforce_Config" 
-		doc:name="Salesforce Config" 
-		doc:id="544dc724-8aab-4bfd-aa86-264083346245" >
-		<salesforce:jwt-connection
-			consumerKey="${salesforce.consumerkey}"
-			keyStore="${salesforce.keystore}"
-			storePassword="${salesforce.storepassword}"
-			principal="${salesforce.principal}" />
-	</salesforce:sfdc-config>
+    		
+	<import 
+		doc:name="Import" 
+		doc:id="fddb977b-d2f2-419c-bba8-4bcb2f37ccbf" 
+		file="micorp-configuration.xml" />
 </mule>

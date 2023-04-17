@@ -3,7 +3,6 @@
 <mule
 	xmlns:validation="http://www.mulesoft.org/schema/mule/validation"
 	xmlns:http="http://www.mulesoft.org/schema/mule/http"
-	xmlns:json-logger="http://www.mulesoft.org/schema/mule/json-logger"
 	xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xmlns:munit="http://www.mulesoft.org/schema/mule/munit"
@@ -15,7 +14,6 @@
 		http://www.mulesoft.org/schema/mule/munit http://www.mulesoft.org/schema/mule/munit/current/mule-munit.xsd
 		http://www.mulesoft.org/schema/mule/munit-tools  http://www.mulesoft.org/schema/mule/munit-tools/current/mule-munit-tools.xsd
 http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd
-http://www.mulesoft.org/schema/mule/json-logger http://www.mulesoft.org/schema/mule/json-logger/current/mule-json-logger.xsd
 http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
 http://www.mulesoft.org/schema/mule/validation http://www.mulesoft.org/schema/mule/validation/current/mule-validation.xsd">
 
@@ -42,11 +40,8 @@ http://www.mulesoft.org/schema/mule/validation http://www.mulesoft.org/schema/mu
 		</munit:enable-flow-sources>
 
 		<munit:execution>
-			<json-logger:log-flow
-				doc:name="Test delete with fake id"
-				config-ref="JSON_Logger_Config"
-				message='Test delete with fake id' />
 
+			<logger level="INFO" doc:name="start" doc:id="ccc2bb36-3b8a-489f-8ab0-43c8af089ce0" message="Test delete with fake id"/>
 			<http:request
 				method="DELETE"
 				doc:name="Delete"
@@ -67,12 +62,7 @@ http://www.mulesoft.org/schema/mule/validation http://www.mulesoft.org/schema/mu
 					<http:success-status-code-validator values="200,400" />
 				</http:response-validator>
 			</http:request>
-			<json-logger:log-flow
-				doc:name="Result"
-				doc:id="3badef61-f25a-406d-a9d4-3006ff3b8dbd"
-				config-ref="JSON_Logger_Config"
-				message="Result" />
-			<logger level="INFO" doc:name="Logger" doc:id="f30b734a-2c08-4299-aa3c-8cc89c952592" message='#[%dw 2.0&#10;output application/json&#10;---&#10;{&#10;	message: "Result from delete customer with a fake id",&#10;	status: attributes.statusCode,&#10;	payload: payload&#10;}]'/>
+			<logger level="INFO" doc:name="result" doc:id="77fd2802-0fb7-46d3-a942-d816e9ef5ea6" message='#[%dw 2.0&#10;output application/json&#10;---&#10;{&#10;	message: "Result",&#10;	payload: payload&#10;}]' />
 
 		</munit:execution>
 		<munit:validation>
@@ -101,11 +91,13 @@ http://www.mulesoft.org/schema/mule/validation http://www.mulesoft.org/schema/mu
 		</munit:enable-flow-sources>
 
 		<munit:execution>
-			<json-logger:log-flow
-				doc:name="Test apikit 400 scenario"
-				config-ref="JSON_Logger_Config"
-				message='Test apikit 400 scenario' />
 
+			<logger
+				level="INFO" 
+				doc:name="start" 
+				doc:id="80919b2a-0f6c-4973-99db-b4ebfad8da74" 
+				message="Test apikit 400 scenario" />
+				
 			<http:request
 				method="POST"
 				doc:name="Connect"
@@ -127,11 +119,12 @@ http://www.mulesoft.org/schema/mule/validation http://www.mulesoft.org/schema/mu
 					<http:success-status-code-validator values="400" />
 				</http:response-validator>
 			</http:request>
-			<json-logger:log-flow
-				doc:name="Result"
-				doc:id="214e2020-bf85-433a-8f63-89fe1421acbd"
-				config-ref="JSON_Logger_Config"
-				message="Result" />
+			
+			<logger
+				level="INFO" 
+				doc:name="result" 
+				doc:id="7e0468c0-9d34-49ed-b475-3adddf971a55" 
+				message='#[%dw 2.0&#10;output application/json&#10;---&#10;{&#10;	message: "Result",&#10;	payload: payload&#10;}]' />
 
 		</munit:execution>
 		<munit:validation>
@@ -159,11 +152,13 @@ http://www.mulesoft.org/schema/mule/validation http://www.mulesoft.org/schema/mu
 		</munit:enable-flow-sources>
 
 		<munit:execution>
-			<json-logger:log-flow
-				doc:name="Test apikit 404 scenario"
-				config-ref="JSON_Logger_Config"
-				message='Test apikit 404 scenario' />
 
+			<logger
+				level="INFO" 
+				doc:name="start" 
+				doc:id="eb8f28c6-9b3f-4cf0-942d-90a4631b80d9" 
+				message="Test apikit 404 scenario" />
+			
 			<http:request
 				method="POST"
 				doc:name="Connect"
@@ -184,11 +179,12 @@ http://www.mulesoft.org/schema/mule/validation http://www.mulesoft.org/schema/mu
 					<http:success-status-code-validator values="404" />
 				</http:response-validator>
 			</http:request>
-			<json-logger:log-flow
-				doc:name="Result"
-				doc:id="24d52d1d-9012-4611-bd73-e9d1b8e3dd50"
-				config-ref="JSON_Logger_Config"
-				message="Result" />
+			
+			<logger 
+				level="INFO" 
+				doc:name="result" 
+				doc:id="26f65766-d960-4522-a550-006e800aafc2" 
+				message='#[%dw 2.0&#10;output application/json&#10;---&#10;{&#10;	message: "Result",&#10;	payload: payload&#10;}]' />
 
 		</munit:execution>
 		<munit:validation>
@@ -217,10 +213,12 @@ http://www.mulesoft.org/schema/mule/validation http://www.mulesoft.org/schema/mu
 		</munit:enable-flow-sources>
 
 		<munit:execution>
-			<json-logger:log-flow
-				doc:name="Test apikit 405 scenario"
-				config-ref="JSON_Logger_Config"
-				message='Test apikit 405 scenario' />
+
+            <logger
+                level="INFO" 
+                doc:name="start" 
+                doc:id="bd6e7ed9-c5a1-45ea-ac69-1eae42dcef3a" 
+                message="Test apikit 405 scenario" />
 
 			<http:request
 				method="OPTIONS"
@@ -242,11 +240,12 @@ http://www.mulesoft.org/schema/mule/validation http://www.mulesoft.org/schema/mu
 					<http:success-status-code-validator values="405" />
 				</http:response-validator>
 			</http:request>
-			<json-logger:log-flow
-				doc:name="Result"
-				doc:id="214e2020-bf85-433a-8f63-89fe1421acbd"
-				config-ref="JSON_Logger_Config"
-				message="Result" />
+			
+            <logger
+                level="INFO" 
+                doc:name="result" 
+                doc:id="2a66e8c2-fb44-47b5-83ce-af3588fc6323" 
+                message='#[%dw 2.0&#10;output application/json&#10;---&#10;{&#10;   message: "Result",&#10; payload: payload&#10;}]' />
 
 		</munit:execution>
 		<munit:validation>
@@ -274,10 +273,11 @@ http://www.mulesoft.org/schema/mule/validation http://www.mulesoft.org/schema/mu
 		</munit:enable-flow-sources>
 
 		<munit:execution>
-			<json-logger:log-flow
-				doc:name="Test apikit 406 scenario"
-				config-ref="JSON_Logger_Config"
-				message='Test apikit 406 scenario' />
+            <logger
+                level="INFO" 
+                doc:name="start" 
+                doc:id="1dd40fb4-9a7f-4ca0-a54a-66a58327eab7" 
+                message="Test apikit 406 scenario" />
 
 			<http:request
 				method="POST"
@@ -294,11 +294,12 @@ http://www.mulesoft.org/schema/mule/validation http://www.mulesoft.org/schema/mu
 					<http:success-status-code-validator values="406" />
 				</http:response-validator>
 			</http:request>
-			<json-logger:log-flow
-				doc:name="Result"
-				doc:id="38a68e57-c135-41f1-a301-1c45227ebe7d"
-				config-ref="JSON_Logger_Config"
-				message="Result" />
+			
+            <logger
+                level="INFO" 
+                doc:name="result" 
+                doc:id="87cf8a2c-705c-4c50-9a28-1a9675faf3a5" 
+                message='#[%dw 2.0&#10;output application/json&#10;---&#10;{&#10;   message: "Result",&#10; payload: payload&#10;}]' />
 
 		</munit:execution>
 		<munit:validation>
@@ -326,10 +327,11 @@ http://www.mulesoft.org/schema/mule/validation http://www.mulesoft.org/schema/mu
 		</munit:enable-flow-sources>
 
 		<munit:execution>
-			<json-logger:log-flow
-				doc:name="Test apikit 415 scenario"
-				config-ref="JSON_Logger_Config"
-				message='Test apikit 415 scenario' />
+            <logger
+                level="INFO" 
+                doc:name="start" 
+                doc:id="13d48446-bb31-414a-870d-16265eaf8287" 
+                message="Test apikit 415 scenario" />
 
 			<http:request
 				method="POST"
@@ -346,11 +348,12 @@ http://www.mulesoft.org/schema/mule/validation http://www.mulesoft.org/schema/mu
 					<http:success-status-code-validator values="415" />
 				</http:response-validator>
 			</http:request>
-			<json-logger:log-flow
-				doc:name="Result"
-				doc:id="90a610e8-3fb3-439f-8149-bc1090db7bb1"
-				config-ref="JSON_Logger_Config"
-				message="Result" />
+			
+            <logger
+                level="INFO" 
+                doc:name="result" 
+                doc:id="befbad22-75f7-43be-bf42-558ccccceca4" 
+                message='#[%dw 2.0&#10;output application/json&#10;---&#10;{&#10;   message: "Result",&#10; payload: payload&#10;}]' />
 
 		</munit:execution>
 		<munit:validation>
@@ -393,10 +396,11 @@ http://www.mulesoft.org/schema/mule/validation http://www.mulesoft.org/schema/mu
 			</munit-tools:mock-when>
 		</munit:behavior>
 		<munit:execution>
-			<json-logger:log-flow
-				doc:name="Test apikit 501 scenario"
-				config-ref="JSON_Logger_Config"
-				message='Test apikit 415 scenario' />
+            <logger
+                level="INFO" 
+                doc:name="start" 
+                doc:id="05ba8ce2-8b7f-41d2-8f15-d9dee2633c72" 
+                message="Test apikit 501 scenario" />
 
 			<http:request
 				method="POST"
@@ -413,11 +417,12 @@ http://www.mulesoft.org/schema/mule/validation http://www.mulesoft.org/schema/mu
 					<http:success-status-code-validator values="501" />
 				</http:response-validator>
 			</http:request>
-			<json-logger:log-flow
-				doc:name="Result"
-				doc:id="1d839e60-e030-49e6-a197-d7ffd0915f9f"
-				config-ref="JSON_Logger_Config"
-				message="Result" />
+			
+            <logger
+                level="INFO" 
+                doc:name="result" 
+                doc:id="f7526f93-2d4d-4354-9e80-f96952a3414e" 
+                message='#[%dw 2.0&#10;output application/json&#10;---&#10;{&#10;   message: "Result",&#10; payload: payload&#10;}]' />
 
 		</munit:execution>
 		<munit:validation>
@@ -451,11 +456,12 @@ http://www.mulesoft.org/schema/mule/validation http://www.mulesoft.org/schema/mu
 			<munit:enable-flow-source value="api-console" />
 		</munit:enable-flow-sources>
 		<munit:execution>
-			<json-logger:log-flow
-				doc:name="Log flow"
-				doc:id="4477cf77-b0a7-4842-8a8e-6ce09b42feb7"
-				config-ref="JSON_Logger_Config"
-				message="Test console" />
+			<logger
+                level="INFO" 
+                doc:name="start" 
+                doc:id="30e6fcc0-85be-4c40-a8d4-55dec7d2c0b8" 
+                message="Test console" />
+                
 			<http:request
 				method="GET"
 				doc:name="Console"
@@ -478,11 +484,11 @@ output text
 payload as String]]></ee:set-payload>
 				</ee:message>
 			</ee:transform>
-			<json-logger:log-flow
-				doc:name="Log flow"
-				doc:id="c5f52165-6f4c-4318-86ab-5a38668e1e7d"
-				config-ref="JSON_Logger_Config"
-				message="Response from ApiKit Console" />
+			<logger
+                level="INFO" 
+                doc:name="result" 
+                doc:id="6dfc2c99-1a48-49cb-954c-e128b8ba102d" 
+                message='#[%dw 2.0&#10;output application/json&#10;---&#10;{&#10;   message: "Result",&#10; payload: payload&#10;}]' />
 		</munit:execution>
 		<munit:validation>
 			<munit-tools:assert-that

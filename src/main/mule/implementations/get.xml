@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <mule xmlns:opentelemetry="http://www.mulesoft.org/schema/mule/opentelemetry"
-	xmlns:json-logger="http://www.mulesoft.org/schema/mule/json-logger" xmlns:salesforce="http://www.mulesoft.org/schema/mule/salesforce"
+	xmlns:salesforce="http://www.mulesoft.org/schema/mule/salesforce"
 	xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core"
 	xmlns="http://www.mulesoft.org/schema/mule/core" 
 	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" 
@@ -12,8 +12,6 @@
 		http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
 		http://www.mulesoft.org/schema/mule/salesforce 
 		http://www.mulesoft.org/schema/mule/salesforce/current/mule-salesforce.xsd
-		http://www.mulesoft.org/schema/mule/json-logger 
-		http://www.mulesoft.org/schema/mule/json-logger/current/mule-json-logger.xsd
 		http://www.mulesoft.org/schema/mule/opentelemetry 
 		http://www.mulesoft.org/schema/mule/opentelemetry/current/mule-opentelemetry.xsd">
 	
@@ -37,9 +35,7 @@ output application/json
 sqlFilter3	]]></ee:set-variable>
 			</ee:variables>
 		</ee:transform>
-		
-		
-		<salesforce:query doc:name="Customer" doc:id="6c1f1ee6-a895-49b2-9cf7-aa19397fe187" config-ref="Salesforce_Config">
+		<salesforce:query doc:name="Customer" doc:id="6c1f1ee6-a895-49b2-9cf7-aa19397fe187" config-ref="MicorpSalesforceConfig">
 			<salesforce:salesforce-query ><![CDATA[SELECT firstName__c, lastName__c, address__c, Id 
 FROM Customer__c 
  :soqlFilter]]></salesforce:salesforce-query>
@@ -82,7 +78,6 @@ payload map (item, value) ->
 	<flow name="getById" doc:id="dafe3155-a626-444b-aaa6-5a5daba53ddb" >
 		<logger level="INFO" doc:name="Logger" doc:id="f6b05462-8a5d-41cb-a618-92573801ef0b" message="#[%dw 2.0&#10;output application/json&#10;---&#10;{&#10;	message: &quot;Customer getById&quot;,&#10;    customerId: attributes.uriParams.'customerId' default &quot;&quot;&#10;}]"/>
 		<set-variable value="#[%dw 2.0&#10;output application/java&#10;---&#10;{&#10;    &quot;customerId&quot;: attributes.uriParams.'customerId' default &quot;&quot;,&#10;}]" doc:name="otel Tags" doc:id="ef1ab554-583b-4be2-9985-72155fba1629" variableName="openTelemetryTags" />
-		<logger level="INFO" doc:name="Logger" doc:id="811d44cb-fb68-45c2-9f4d-5fa1d9e4d08e" message="Test Message"/>
 		<ee:transform doc:name="get customerId" doc:id="64ca68fe-c777-4988-9bc2-3fefa3d4bd82" >
 			<ee:variables >
 				<ee:set-variable variableName="customerId" ><![CDATA[attributes.uriParams.'customerId']]></ee:set-variable>
