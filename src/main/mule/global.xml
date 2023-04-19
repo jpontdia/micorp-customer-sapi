@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <mule
-	xmlns:open-telemetry="http://www.mulesoft.org/schema/mule/open-telemetry"
 	xmlns:api-gateway="http://www.mulesoft.org/schema/mule/api-gateway"
 	xmlns:validation="http://www.mulesoft.org/schema/mule/validation"
 	xmlns="http://www.mulesoft.org/schema/mule/core"
@@ -18,9 +17,7 @@
 		http://www.mulesoft.org/schema/mule/http 
 		http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd 
 		http://www.mulesoft.org/schema/mule/core 
-		http://www.mulesoft.org/schema/mule/core/current/mule.xsd 
-		http://www.mulesoft.org/schema/mule/open-telemetry 
-		http://www.mulesoft.org/schema/mule/open-telemetry/current/mule-open-telemetry.xsd">
+		http://www.mulesoft.org/schema/mule/core/current/mule.xsd">
 
 	<configuration-properties
 		doc:name="Configuration properties"
@@ -50,13 +47,6 @@
 		name="Validation_Config"
 		doc:name="Validation Config"
 		doc:id="ef305466-5381-4aa2-a02f-008f16bb2c8d" />
-		
-	<open-telemetry:config 
-		name="Open_Telemetry_Connector_Config" 
-		doc:name="Open Telemetry Connector Config" 
-		serviceName="micorp-customer-sapi"
-		additionalTags="env=${env}"
-    	collectorEndpoint="${otel.collectorendpoint}"/>
     		
 	<import 
 		doc:name="Import" 
