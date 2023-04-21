@@ -7,9 +7,6 @@ on:
 
 jobs:
   build-and-deploy:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
-      - uses: /mule-build-and-deploy/.github/workflows/build-deploy-exchange.yml@main
-        with:
-          keyvault: '${{ secrets.KEYVAULT_NAME }}'
+    uses: /mule-build-and-deploy/.github/workflows/build-deploy-exchange.yml@main
+    with:
+      keyvault: '${{ secrets.KEYVAULT_NAME }}'
