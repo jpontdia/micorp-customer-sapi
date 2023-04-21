@@ -10,4 +10,5 @@ jobs:
     uses: ./.github/workflows/deployment-exchange.yml
     #uses: jpontdia/mule-build-and-deploy/.github/workflows/build-deploy-exchange.yml@main
     with:
-      keyvault-key: 'aa'
+      keyvault-key: 'jpworks-keyvault'
+      azurecredentials: '${{ secrets.AZURE_CREDENTIALS }}'

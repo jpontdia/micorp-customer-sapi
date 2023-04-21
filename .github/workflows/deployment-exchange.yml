@@ -5,6 +5,10 @@ on:
       keyvault-key:
         description: Access key to KeyVault
         type: string
+      azurecredentials:
+        description: Azure Credentials for login
+        type: string
+
 
 jobs:
   build-deploy:
@@ -27,12 +31,12 @@ jobs:
       - name: Log in with Azure
         uses: azure/login@v1
         with:
-          creds: '${{ secrets.AZURE_CREDENTIALS }}'
+          creds: '${{ inputs.azurecredentiasl }}'
 
       - name: Get secrets from KeyValult
         uses: Azure/get-keyvault-secrets@v1
         with:
-          keyvault: "jpworks-keyvault" # The name of KeyVault in Azure
+          keyvault: '${{ inputs.keyvault-key }}' # The name of KeyVault in Azure
           secrets: '
             salesforce-principal,
             salesforce-consumerkey,
