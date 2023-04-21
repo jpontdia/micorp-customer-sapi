@@ -120,16 +120,26 @@ jobs:
           cat $HOME/.m2/settings.xml
           echo ${{ github.run_number }}
         
-      - name: Package and Deploy
+      - name: Run test cases and package
         run: |
           ## Get the git commit hash 
           commitHash=$(git rev-parse --short "$GITHUB_SHA")
 
-          mvn clean package deploy \
+          mvn package \
            -Dsalesforce.principal="${{ steps.secretmanager.outputs.salesforce-principal }}" \
            -Dsalesforce.consumerkey="${{ steps.secretmanager.outputs.salesforce-consumerkey }}" \
            -Dsalesforce.keystore="${{ steps.secretmanager.outputs.salesforce-keystore }}" \
            -Dsalesforce.storepassword="${{ steps.secretmanager.outputs.salesforce-storepassword }}"
+
+      - name: Deploy to anypoint exchange
+        run: |
+          ## Deploy to anypoint exchange
+          mvn deploy -DskipTests \
+           -Dsalesforce.principal="${{ steps.secretmanager.outputs.salesforce-principal }}" \
+           -Dsalesforce.consumerkey="${{ steps.secretmanager.outputs.salesforce-consumerkey }}" \
+           -Dsalesforce.keystore="${{ steps.secretmanager.outputs.salesforce-keystore }}" \
+           -Dsalesforce.storepassword="${{ steps.secretmanager.outputs.salesforce-storepassword }}"
+
 
       - name: Publish MUnit Application Coverage Report
         uses: actions/upload-artifact@master
