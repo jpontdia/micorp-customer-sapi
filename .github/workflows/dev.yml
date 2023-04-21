@@ -130,7 +130,7 @@ jobs:
           mvn clean package deploy \
            -Dsalesforce.principal="${{ steps.secretmanager.outputs.salesforce-principal }}" \
            -Dsalesforce.consumerkey="${{ steps.secretmanager.outputs.salesforce-consumerkey }}" \
-           -Dsalesforce.keystore="${{ steps.secretmanager.outputs.salesforce-keystoren }}" \
+           -Dsalesforce.keystore="${{ steps.secretmanager.outputs.salesforce-keystore }}" \
            -Dsalesforce.storepassword="${{ steps.secretmanager.outputs.salesforce-storepassword }}"
 
       - name: Publish MUnit Application Coverage Report
