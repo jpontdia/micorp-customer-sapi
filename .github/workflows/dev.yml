@@ -41,7 +41,10 @@ jobs:
             salesforce-keystore,
             salesforce-storepassword,
             mulesoft-nexus-ee-user,
-            mulesoft-nexus-ee-password'
+            mulesoft-nexus-ee-password,
+            cicd-connectedapp-clientid,
+            cicd-connectedapp-secret
+            '
         id: secretmanager # ID for secrets that you will reference
       
       # Creates a settings.xml file and configure the anypoint repositories for the organization and the mulesoft EE
