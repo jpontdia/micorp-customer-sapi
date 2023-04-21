@@ -44,9 +44,10 @@ jobs:
             cicd-connectedapp-clientid,
             cicd-connectedapp-secret,
             encrypt-key,
-            salesforce-token,
-            salesforce-password,
-            salesforce-user,
+            salesforce-principal,
+            salesforce-consumerkey,
+            salesforce-keystore,
+            salesforce-storepassword,
             mulesoft-nexus-ee-user,
             mulesoft-nexus-ee-password'
         id: secretmanager # ID for secrets that you will reference
@@ -131,22 +132,16 @@ jobs:
           ## Get the git commit hash 
           commitHash=$(git rev-parse --short "$GITHUB_SHA")
 
-          mvn clean package deploy -DmuleDeploy \
-           -Dencrypt.key="${{ steps.secretmanager.outputs.encrypt-key }}" \
-           -Dlogzio.token="${{ steps.secretmanager.outputs.logzio-token }}" \
-           -Dsalesforce.user="${{ steps.secretmanager.outputs.salesforce-user }}" \
-           -Dsalesforce.password="${{ steps.secretmanager.outputs.salesforce-password }}" \
-           -Dsalesforce.token="${{ steps.secretmanager.outputs.salesforce-token }}" \
-           -Danypoint.environment.clientid="${{ steps.secretmanager.outputs.anypoint-environment-clientid }}" \
-           -Danypoint.environment.secret="${{ steps.secretmanager.outputs.anypoint-environment-secret }}" \
-           -Dcicd.connectedapp.clientid="${{ steps.secretmanager.outputs.cicd-connectedapp-clientid }}" \
-           -Dcicd.connectedapp.secret="${{ steps.secretmanager.outputs.cicd-connectedapp-secret }}" \
-           -Dotel.collectorendpoint="${{ steps.secretmanager.outputs.otel-collector-endpoint }}" \
-           -Dlogzio.url="${{ steps.secretmanager.outputs.logzio-url }}" \
-           -Ddeployment.prefix= \
-           -Ddeployment.env=dev \
-           -Dcommit.hash=-$commitHash \
-           -Dbuild.id=-${{ github.run_number }}  
+            salesforce-principal,
+            salesforce-consumerkey,
+            salesforce-keystore,
+            salesforce-storepassword,
+
+          mvn clean package deploy \
+           -Dsalesforce.principal="${{ steps.secretmanager.outputs.salesforce-principal }}" \
+           -Dsalesforce.consumerkey="${{ steps.secretmanager.outputs.salesforce-consumerkey }}" \
+           -Dsalesforce.keystore="${{ steps.secretmanager.outputs.salesforce-keystoren }}" \
+           -Dsalesforce.storepassword="${{ steps.secretmanager.outputs.salesforce-storepassword }}"
 
       - name: Publish MUnit Application Coverage Report
         uses: actions/upload-artifact@master
