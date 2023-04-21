@@ -36,14 +36,6 @@ jobs:
         with:
           keyvault: "jpworks-keyvault" # The name of KeyVault in Azure
           secrets: '
-            otel-collector-endpoint,
-            logzio-token,
-            logzio-url,
-            anypoint-environment-clientid,
-            anypoint-environment-secret,
-            cicd-connectedapp-clientid,
-            cicd-connectedapp-secret,
-            encrypt-key,
             salesforce-principal,
             salesforce-consumerkey,
             salesforce-keystore,
@@ -131,11 +123,6 @@ jobs:
         run: |
           ## Get the git commit hash 
           commitHash=$(git rev-parse --short "$GITHUB_SHA")
-
-            salesforce-principal,
-            salesforce-consumerkey,
-            salesforce-keystore,
-            salesforce-storepassword,
 
           mvn clean package deploy \
            -Dsalesforce.principal="${{ steps.secretmanager.outputs.salesforce-principal }}" \
