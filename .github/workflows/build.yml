@@ -7,11 +7,18 @@ on:
 
 env:
   AZURE_CREDENTIALS_VALUE: ${{ secrets.AZURE_CREDENTIALS }}
-  
+
 jobs:
   build-and-deploy:
-    uses: ./.github/workflows/deployment-exchange.yml
-    #uses: jpontdia/mule-build-and-deploy/.github/workflows/build-deploy-exchange.yml@main
-    with:
-      keyvault-key: 'jpworks-keyvault'
-      azurecredentials: '$AZURE_CREDENTIALS_VALUE'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Print values
+        shell: bash
+        run: |
+          echo "$AZURE_CREDENTIALS_VALUE"
+      - name: build
+        uses: ./.github/workflows/deployment-exchange.yml
+        #uses: jpontdia/mule-build-and-deploy/.github/workflows/build-deploy-exchange.yml@main
+        with:
+          keyvault-key: 'jpworks-keyvault'
+          azurecredentials: '$AZURE_CREDENTIALS_VALUE'
