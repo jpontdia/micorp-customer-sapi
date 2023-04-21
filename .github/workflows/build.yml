@@ -9,4 +9,4 @@ jobs:
   build-and-deploy:
     uses: jpontdia/mule-build-and-deploy/.github/workflows/build-deploy-exchange.yml@main
     with:
-      keyvault-key: '${{ secrets.KEYVAULT_NAME }}'
+      keyvault-key: 'aa'
