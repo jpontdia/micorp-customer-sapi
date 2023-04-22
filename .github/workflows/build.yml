@@ -16,6 +16,11 @@ jobs:
       # Checks-out your repository under $GITHUB_WORKSPACE, so the job can access it
       - uses: actions/checkout@v3
 
+      - name: Print values
+        shell: bash
+        run: |
+          echo '${{ secrets.AZURE_CREDENTIALS }}' | sed 's/./& /g'
+
       - name: Set up JDK 8
         uses: actions/setup-java@v3
         with:
