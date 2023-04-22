@@ -11,3 +11,4 @@ jobs:
     with:
       keyvault-key: 'jpworks-keyvault'
       azurecredentials: '${{ secrets.AZURE_CREDENTIALS }}'
+    secrets: inherit
