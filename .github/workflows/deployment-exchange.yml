@@ -5,7 +5,7 @@ on:
       keyvault-key:
         description: Access key to KeyVault
         type: string
-      azurecredentials:
+      azure-credentials:
         description: Azure Credentials for login
         type: string
 

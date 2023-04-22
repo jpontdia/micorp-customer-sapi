@@ -12,4 +12,4 @@ jobs:
     with:
       keyvault-key: 'jpworks-keyvault'
     secrets:
-      azurecredentials: '${{ secrets.AZURE_CREDENTIALS }}'
+      azure-credentials: '${{ secrets.AZURE_CREDENTIALS }}'
