@@ -29,15 +29,10 @@ jobs:
           check-latest: true
           #cache: 'maven'
 
-      - name: Print values
-        shell: bash
-        run: |
-          echo '${{ inputs.azurecredentiasl }}' | sed 's/./& /g'
-
       - name: Log in with Azure
-        uses: azure/actions/login@v1
+        uses: azure/login@v1
         with:
-          creds: ${{ inputs.azurecredentiasl }}
+          creds: ${{ secrets.azure-credentials }}
 
       - name: Get secrets from KeyValult
         uses: Azure/get-keyvault-secrets@v1
