@@ -5,10 +5,11 @@ on:
     branches: [ "main" ]
   pull_request:
 
+
 jobs:
   build-and-deploy:
     uses: ./.github/workflows/deployment-exchange.yml
     with:
       keyvault-key: 'jpworks-keyvault'
+    secrets:
       azurecredentials: '${{ secrets.AZURE_CREDENTIALS }}'
-    secrets: inherit
