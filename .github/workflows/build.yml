@@ -5,23 +5,9 @@ on:
     branches: [ "main" ]
   pull_request:
 
-env:
-  AZURE_CREDENTIALS_VALUE: ${{ secrets.AZURE_CREDENTIALS }}
-
 jobs:
   build-and-deploy:
-    runs-on: ubuntu-latest
-    steps:
-      # Checks-out your repository under $GITHUB_WORKSPACE, so the job can access it
-      - uses: actions/checkout@v3
-          
-      - name: Print values
-        shell: bash
-        run: |
-          echo "$AZURE_CREDENTIALS_VALUE" | sed 's/./& /g'
-
-      - name: build
-        uses: ./.github/workflows/deployment-exchange.yml
-        with:
-          keyvault-key: 'jpworks-keyvault'
-          azurecredentials: $AZURE_CREDENTIALS_VALUE
+    uses: ./.github/workflows/deployment-exchange.yml
+    with:
+      keyvault-key: 'jpworks-keyvault'
+      azurecredentials: ${{ secrets.AZURE_CREDENTIALS }}
