@@ -3,11 +3,13 @@ on:
   workflow_call:
     inputs:
       keyvault-key:
+        required: true
         description: Access key to KeyVault
         type: string
+    secrets:
       azure-credentials:
+        required: true
         description: Azure Credentials for login
-        type: string
 
 jobs:
   build-deploy:
