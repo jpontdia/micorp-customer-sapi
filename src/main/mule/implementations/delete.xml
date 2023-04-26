@@ -40,28 +40,37 @@ attributes.uriParams.'customerId']]></ee:set-variable>
 			<salesforce:ids ><![CDATA[#[[vars.customerId]]]]></salesforce:ids>
 		</salesforce:delete>
 		
-		<validation:is-true 
-			doc:name="Is true" 
-			doc:id="1966d06d-b7a1-4c74-a485-865e21c452ca" 
-			expression="#[payload.successful]">
-			<error-mapping 
-				sourceType="VALIDATION:INVALID_BOOLEAN" 
-				targetType="DELETE:RELATIONSHIP" />
-		</validation:is-true>
-		
-		<ee:transform 
-			doc:name="Success Message" 
-			doc:id="a5079758-0a68-4fbc-aa18-fdbd88a584b7" >
-			<ee:message >
-				<ee:set-payload ><![CDATA[%dw 2.0
+		<choice doc:name="Choice" doc:id="06eab0a5-3b0f-45ea-9c95-692e8a577009" >
+			<when expression="#[payload.successful]">
+				<ee:transform doc:name="Success Message" doc:id="a5079758-0a68-4fbc-aa18-fdbd88a584b7">
+			<ee:message>
+				<ee:set-payload><![CDATA[%dw 2.0
 output application/json
 ---
 {
-  message: "Customer deleted successfully"
+  message: "${messages.customer-deleted}"
 }
 ]]></ee:set-payload>
 			</ee:message>
 		</ee:transform>
+			</when>
+			<otherwise >
+				<ee:transform doc:name="Response" doc:id="c730e900-57ce-4e95-96b2-2473c7146ac1" >
+					<ee:message >
+						<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+{
+  message: "${messages.customer-doesnt-exist-relations}"
+}
+]]></ee:set-payload>
+					</ee:message>
+					<ee:variables >
+						<ee:set-variable variableName="httpStatus" ><![CDATA[400]]></ee:set-variable>
+					</ee:variables>
+				</ee:transform>
+			</otherwise>
+		</choice>
 		
 		<error-handler 
 			ref="global-error-handler" />

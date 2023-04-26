@@ -52,4 +52,9 @@
 		doc:name="Import" 
 		doc:id="fddb977b-d2f2-419c-bba8-4bcb2f37ccbf" 
 		file="micorp-configuration.xml" />
+		
+	<import 
+		doc:name="Import" 
+		doc:id="2e0de2c9-ad7c-4349-aa72-e24fd4ca7e5e" 
+		file="global-error.xml" />
 </mule>

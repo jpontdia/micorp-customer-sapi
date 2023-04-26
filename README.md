@@ -10,7 +10,7 @@ Mulesoft service for creating customers in Salesforce using data from the Corpor
 1. [Exchange deployment](#exchange-deployment)
 1. [Additional runtime properties](#additional-runtime-properties)
 
-## Description
+## Description  
 Mulesoft service for creating customers in Salesforce using data from the Corporate Orders System. The next diagram shows the architecture of the service:
 
 ![architecture](https://github.com/jpontdia/mule-micorp-customer-sapi/raw/main/docs/architecture.png)

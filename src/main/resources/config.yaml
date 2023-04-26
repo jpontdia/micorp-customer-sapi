@@ -23,6 +23,7 @@ messages:
   customer-doesnt-exist-relations: "Customer does not exist or has relations with other resources"
   customer-exists: "Customer already exists"
   customer-error: "There was a problem while trying to create the Customer"
+  customer-deleted: "Customer deleted successfully"
   
 # All the below properties should be added as JVM arguments / Environment Properties.
 # Example: -Dsalesforce.user=myuser -Dsalesforce.password=mypassword
