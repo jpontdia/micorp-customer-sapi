@@ -174,5 +174,55 @@ http://www.mulesoft.org/schema/mule/validation http://www.mulesoft.org/schema/mu
 				is="#[MunitTools::notNullValue()]" />
 		</munit:validation>
 	</munit:test>
+	
+	
+	<munit:test name="delete-with-fake-id">
+		<munit:enable-flow-sources>
+			<munit:enable-flow-source value="api-main" />
+			<munit:enable-flow-source value="get:\customers:api-config" />
+			<munit:enable-flow-source value="get:\customers\(customerId):api-config" />
+			<munit:enable-flow-source value="delete:\customers\(customerId):api-config" />
+			<munit:enable-flow-source value="post:\customers:application\json:api-config" />
+		</munit:enable-flow-sources>
+
+		<munit:execution>
+
+			<logger level="INFO" doc:name="start" doc:id="b43161e2-713b-427f-8dfd-627b7f4ecf85" message="Test delete with fake id"/>
+			<http:request
+				method="DELETE"
+				doc:name="Delete"
+				doc:id="3f820317-8219-4dbd-a7b5-5b4878d9beb5"
+				config-ref="http_test_local_configuration"
+				path="/api/customers/{customerId}">
+				<http:headers><![CDATA[#[output application/java
+---
+{
+	"Content-Type" : "application/json"
+}]]]></http:headers>
+				<http:uri-params><![CDATA[#[output application/java
+---
+{
+	"customerId" : "a018b00000yYNxGAA1"
+}]]]></http:uri-params>
+				<http:response-validator>
+					<http:success-status-code-validator values="200,400" />
+				</http:response-validator>
+			</http:request>
+			<logger level="INFO" doc:name="result" doc:id="db5e815b-7923-4a2f-9f38-9a7a5a562107" message='#[%dw 2.0&#10;output application/json&#10;---&#10;{&#10;	message: "Result",&#10;	payload: payload&#10;}]' />
+
+		</munit:execution>
+		<munit:validation>
+			<munit-tools:assert-equals
+				actual="#[attributes.statusCode]"
+				expected="#[400]"
+				message="The status code must be 400"
+				doc:name="status 400" />
+			<munit-tools:assert-that
+				doc:name="verify message"
+				doc:id="58e2a1fb-98b2-49c4-900e-190c679a5bfa"
+				expression='#[payload.message contains "${messages.customer-doesnt-exist-relations}"]'
+				is="#[MunitTools::notNullValue()]" />
+		</munit:validation>
+	</munit:test>	
 
 </mule>
