@@ -5,13 +5,13 @@
 	<parent>
 		<groupId>078efef1-d139-48ed-92f5-f8d4a0592374</groupId>
 		<artifactId>parent-pom</artifactId>
-		<version>1.0.20</version>
+		<version>1.0.22</version>
 		<relativePath/>
 	</parent>
 	
 	<groupId>078efef1-d139-48ed-92f5-f8d4a0592374</groupId>
 	<artifactId>micorp-customer-sapi-app</artifactId>
-	<version>1.1.24</version> 
+	<version>1.1.25</version> 
 	<packaging>mule-application</packaging>
 	<name>mule-micorp-customer-sapi</name>
 	<description>Mulesoft service for creating customers in Salesforce using data from the Corporate Orders System</description>
@@ -39,14 +39,28 @@
 			<type>zip</type> 
 		</dependency>
 		
+		<!-- Salesforce connector -->
+		<dependency>
+			<groupId>com.mulesoft.connectors</groupId>
+			<artifactId>mule-salesforce-connector</artifactId>
+			<classifier>mule-plugin</classifier>
+		</dependency>
+		
 		<!-- Micorp commons -->
 		<dependency>
 			<groupId>078efef1-d139-48ed-92f5-f8d4a0592374</groupId>
 			<artifactId>micorp-commons-library</artifactId>
-			<version>1.0.19</version>
+			<version>1.0.21</version>
 			<classifier>mule-plugin</classifier>
 		</dependency>
 		
+		<!-- Salesforce connector -->
+		<dependency>
+			<groupId>com.mulesoft.connectors</groupId>
+			<artifactId>mule-salesforce-connector</artifactId>
+			<classifier>mule-plugin</classifier>
+		</dependency>
+
 		<!-- Logging Dependencies-->
 		<dependency>
 		    <groupId>org.apache.logging.log4j</groupId>
