@@ -6,7 +6,7 @@ on:
   pull_request:
 
 jobs:
-  build-and-deploy:
+  Mulesoft:
     uses: jpontdia/mule-build-and-deploy/.github/workflows/mulesoft.yml@main
     with:
       keyvault-key: jpworks-keyvault
