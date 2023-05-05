@@ -16,7 +16,7 @@
 	<name>mule-micorp-customer-sapi</name>
 	<description>Mulesoft service for creating customers in Salesforce using data from the Corporate Orders System</description>
 
-	<properties> 
+	<properties>
 		<!-- Exchange documentation. Details on https://docs.mulesoft.com/exchange/to-publish-assets-maven#publish-an-asset-with-mutable-data -->
         <categories key="API layer">System</categories>
         <categories key="Backend">Salesforce</categories>
