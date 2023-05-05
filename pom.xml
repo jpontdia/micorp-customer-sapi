@@ -29,7 +29,7 @@
 		<restconnector.api.spec.version>1.0.6</restconnector.api.spec.version>
 	</properties>
 
-	<dependencies>		
+	<dependencies>
 		<!--RAML specification -->
 		<dependency>
 			<groupId>${restconnector.api.spec.group}</groupId>
