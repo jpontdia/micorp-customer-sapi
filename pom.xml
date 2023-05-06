@@ -53,13 +53,6 @@
 			<version>1.0.21</version>
 			<classifier>mule-plugin</classifier>
 		</dependency>
-		
-		<!-- Salesforce connector -->
-		<dependency>
-			<groupId>com.mulesoft.connectors</groupId>
-			<artifactId>mule-salesforce-connector</artifactId>
-			<classifier>mule-plugin</classifier>
-		</dependency>
 
 		<!-- Logging Dependencies-->
 		<dependency>
