@@ -6,8 +6,8 @@
 		<groupId>078efef1-d139-48ed-92f5-f8d4a0592374</groupId>
 		<artifactId>parent-pom</artifactId>
 		<version>1.0.22</version>
-		<relativePath/> 
-	</parent> 
+		<relativePath/>
+	</parent>
 	
 	<groupId>078efef1-d139-48ed-92f5-f8d4a0592374</groupId>
 	<artifactId>micorp-customer-sapi-app</artifactId>
