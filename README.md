@@ -5,7 +5,7 @@ Mulesoft service for creating customers in Salesforce using data from the Corpor
 
 ## Table of contents
 1. [Description](#description)
-1. [Prerequisites](#prerequisites)
+1. [Prerequisites](#prerequisites) 
 1. [Build and packaging](#build-and-packaging)
 1. [Exchange deployment](#exchange-deployment)
 1. [Additional runtime properties](#additional-runtime-properties)
