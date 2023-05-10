@@ -47,7 +47,7 @@
 		</dependency>
 		
 		<!-- Micorp commons -->
-		<dependency> 
+		<dependency>
 			<groupId>078efef1-d139-48ed-92f5-f8d4a0592374</groupId>
 			<artifactId>micorp-commons-library</artifactId>
 			<version>1.0.21</version>
