@@ -30,7 +30,7 @@
 	</properties> 
 
 	<dependencies>
-		<!--RAML specification --> 
+		<!--RAML specification -->
 		<dependency>
 			<groupId>${restconnector.api.spec.group}</groupId>
 			<artifactId>${restconnector.api.spec.artifact}</artifactId>
