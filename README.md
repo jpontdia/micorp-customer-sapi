@@ -16,7 +16,7 @@ Mulesoft service for creating customers in Salesforce using data from the Corpor
 ![architecture](https://github.com/jpontdia/mule-micorp-customer-sapi/raw/main/docs/architecture.png)
 
 <br>
-
+ 
 ## Prerequisites
 To compile and build the project:
 
