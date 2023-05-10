@@ -70,7 +70,7 @@ mvn clean package \
 maven command to deploy asset in anypoint exchange:
 
 
-```bash
+```bash 
 mvn deploy
 ```
 
