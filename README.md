@@ -17,7 +17,7 @@ Mulesoft service for creating customers in Salesforce using data from the Corpor
 
 <br>
 
-## Prerequisites
+## Prerequisites 
 To compile and build the project:
 
  - Java Development Kit (JDK) 8. Must be version 8!
