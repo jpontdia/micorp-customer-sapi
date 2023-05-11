@@ -3,10 +3,10 @@
   "secureProperties": [
   	"anypoint.platform.client_id",
   	"anypoint.platform.client_secret",
-	"otel.collectorendpoint",
-  	"encrypt.key",
-  	"salesforce.user",
-  	"salesforce.password",
-  	"salesforce.token"
+  	"salesforce.storepassword",
+  	"salesforce.principal",
+  	"salesforce.keystore",
+  	"salesforce.consumerkey",
+	"logzio.token"
   ]
 }
