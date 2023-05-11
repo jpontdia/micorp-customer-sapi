@@ -27,7 +27,7 @@
 		<restconnector.api.spec.group>${project.groupId}</restconnector.api.spec.group>
 		<restconnector.api.spec.artifact>micorp-customer-sapi</restconnector.api.spec.artifact>
 		<restconnector.api.spec.version>1.0.6</restconnector.api.spec.version>
-	</properties> 
+	</properties>
 
 	<dependencies>
 		<!--RAML specification --> 
