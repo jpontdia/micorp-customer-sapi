@@ -11,7 +11,4 @@ jobs:
     with:
       keyvault-key: jpworks-keyvault
     secrets:
-      azure-credentials: ${{ secrets.AZURE_CREDENTIALS }}
-      configurations-token: ${{ secrets.CONFIGURATIONS_TOKEN }}
-
-      
+      azure-credentials: ${{ secrets.AZURE_CREDENTIALS }}      
