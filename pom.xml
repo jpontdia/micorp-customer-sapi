@@ -21,7 +21,7 @@
         <categories key="API layer">System</categories>
         <categories key="Backend">Salesforce</categories>
         <fields key="sourceCode">https://github.com/jpontdia/mule-micorp-customer-sapi</fields>
-        <tags>Micorp, Salesfoce, Customer, System</tags>	
+        <tags>Micorp, Salesforce, Customer, System</tags>	
 		
 		<!--RAML specification -->
 		<restconnector.api.spec.group>${project.groupId}</restconnector.api.spec.group>
