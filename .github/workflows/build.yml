@@ -3,7 +3,7 @@ name: Build and deploy to Anypoint Exchange
 on:
   push:
     branches: [ "main" ]
-  pull_request:
+  pull_request: 
 
 jobs:
   Mulesoft:
