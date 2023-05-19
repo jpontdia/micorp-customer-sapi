@@ -1,0 +1,7 @@
+suite:
+  name: "micorp-customer-sapi"
+files:
+  - file: test/micorp-customer-sapi.dwl
+reporters:
+    - type: HTML
+      outFile: output-reports/HTML.html
