@@ -3,14 +3,20 @@ import * from bat::Assertions
 import * from bat::Mutable
 
 var context = bat::Mutable::HashMap()
+var firstName = "Maria-1009"
+var lastName = "Bonita-1009"
 ---
 describe("The CRUD process for micorp-customer-sapi") in [
 
   it("Create a new customer") in [
-    POST `http://micorp-customer-sapi-dev.us-w1.cloudhub.io/api/customers` with {
+    POST `$(config.url)` with {
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
       body: {
-        "firstName": "Maria",
-        "lastName": "Bonita-1008",
+        "firstName": "$(firstName)",
+        "lastName": "$(lastName)",
         "address": "1234 Main St San Jose 12345"
       }
     }  assert [
@@ -33,7 +39,7 @@ describe("The CRUD process for micorp-customer-sapi") in [
   ],
 
   it must 'Get the customer created by name' in [
-    GET `http://micorp-customer-sapi-dev.us-w1.cloudhub.io/api/customers?firstName=Maria&lastName=Bonita-1008` with {
+    GET `http://micorp-customer-sapi-dev.us-w1.cloudhub.io/api/customers?firstName=$(firstName)&lastName=$(lastName)` with {
 
     } assert [
       $.response.status mustEqual 200,
@@ -51,7 +57,6 @@ describe("The CRUD process for micorp-customer-sapi") in [
     ] execute [
       log($.response)
     ]
-  ],
-
-
+  ]
+  
 ]

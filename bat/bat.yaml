@@ -5,3 +5,7 @@ files:
 reporters:
     - type: HTML
       outFile: output-reports/HTML.html
+    - type: JSON
+      outFile: output-reports/JSON.json
+    - type: JUnit
+      outFile: output-reports/JUnit.xml
