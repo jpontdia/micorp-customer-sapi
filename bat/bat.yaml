@@ -4,8 +4,8 @@ files:
   - file: test/micorp-customer-sapi.dwl
 reporters:
     - type: HTML
-      outFile: output-reports/HTML.html
+      outFile: target/HTML.html
     - type: JSON
-      outFile: output-reports/JSON.json
+      outFile: target/JSON.json
     - type: JUnit
-      outFile: output-reports/JUnit.xml
+      outFile: target/JUnit.xml
