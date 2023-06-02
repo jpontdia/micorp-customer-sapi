@@ -87,5 +87,5 @@ The table below shows the additional properties that can be customized in the se
 
 ---
 [Markdown Cheatsheet](https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet)
-
 [Mulesoft Documentation](https://docs.mulesoft.com/general/)
+[Git log standard](https://github.com/ahmadawais/Emoji-Log)
