@@ -1,5 +1,6 @@
 # Salesforce Customer SAPI
-![Build and deploy](https://github.com/jpontdia/mule-micorp-customer-sapi/actions/workflows/dev.yml/badge.svg)
+![Powered by](https://img.shields.io/badge/Powered%20by-Mulesoft-blue.svg) 
+![Build and deploy](https://github.com/jpontdia/mule-micorp-customer-sapi/actions/workflows/build.yml/badge.svg)
 
 Mulesoft service for creating customers in Salesforce using data from the Corporate Orders System
 
@@ -86,6 +87,6 @@ The table below shows the additional properties that can be customized in the se
 <br>
 
 ---
-[Markdown Cheatsheet](https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet)
-[Mulesoft Documentation](https://docs.mulesoft.com/general/)
-[Git log standard](https://github.com/ahmadawais/Emoji-Log)
+- [Markdown Cheatsheet](https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet)
+- [Mulesoft Documentation](https://docs.mulesoft.com/general/)
+- [Git log standard](https://github.com/ahmadawais/Emoji-Log)
