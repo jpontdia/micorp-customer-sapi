@@ -1,7 +1,15 @@
 # Salesforce Customer SAPI
-![Powered by](https://img.shields.io/badge/Powered%20by-Mulesoft-blue.svg) 
+![Powered by](https://img.shields.io/badge/Powered%20by-Mulesoft-blue.svg)
+&nbsp;&nbsp;
+![Unit test](https://gist.githubusercontent.com/jpontdia/497b75eb7c74c14113baa9a875bed936/raw/mule-micorp-customer-sapi-ut.svg)
+&nbsp;&nbsp;
+![Code coverage](https://gist.githubusercontent.com/jpontdia/497b75eb7c74c14113baa9a875bed936/raw/mule-micorp-customer-sapi-cc.svg)
+<br> 
 ![Build and deploy](https://github.com/jpontdia/mule-micorp-customer-sapi/actions/workflows/build.yml/badge.svg)
-![dev](https://badgen.net/github/checks/jpontdia/mule-micorp-customer-sapi/main/dev?label=Deployment%20dev) ![tst](https://badgen.net/github/checks/jpontdia/mule-micorp-customer-sapi/main/tst?label=Deployment%20tst)
+&nbsp;&nbsp;
+![dev](https://badgen.net/github/checks/jpontdia/mule-micorp-customer-sapi/main/dev?label=Deployment%20dev)
+&nbsp;&nbsp;
+![tst](https://badgen.net/github/checks/jpontdia/mule-micorp-customer-sapi/main/tst?label=Deployment%20tst)
 <br>
 Mulesoft service for creating customers in Salesforce using data from the Corporate Orders System
 
