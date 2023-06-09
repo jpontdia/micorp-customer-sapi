@@ -7,8 +7,7 @@ on:
 
 jobs:
   Mulesoft:
-    uses: jpontdia/devops-pipelines/.github/workflows/mulesoft.yml@main
-    #uses: jpontdia/devops-pipelines/.github/workflows/test.yml@main
+    uses: jpontdia/mulesoft-pipeline/.github/workflows/mulesoft.yml@main
     with:
       keyvault-key: jpworks-keyvault
     secrets:
