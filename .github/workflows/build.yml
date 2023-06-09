@@ -7,6 +7,12 @@ on:
 
 jobs:
   Mulesoft:
+    permissions:
+      contents: read
+      issues: read
+      checks: write
+      pull-requests: write
+          
     uses: jpontdia/devops-pipelines/.github/workflows/mulesoft.yml@main
     #uses: jpontdia/devops-pipelines/.github/workflows/test.yml@main
     with:
