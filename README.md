@@ -4,12 +4,8 @@
 ![Unit test](https://gist.githubusercontent.com/jpontdia/ef8cdef1ff940eac4d8716f6361d2363/raw/micorp-customer-sapi-ut.svg)
 &nbsp;&nbsp;
 ![Code coverage](https://gist.githubusercontent.com/jpontdia/ef8cdef1ff940eac4d8716f6361d2363/raw/micorp-customer-sapi-cc.svg)
-<br> 
+&nbsp;&nbsp;
 ![Build and deploy](https://github.com/jpontdia/mule-micorp-customer-sapi/actions/workflows/build.yml/badge.svg)
-&nbsp;&nbsp;
-![dev](https://badgen.net/github/checks/jpontdia/mule-micorp-customer-sapi/main/dev?label=Deployment%20dev)
-&nbsp;&nbsp;
-![tst](https://badgen.net/github/checks/jpontdia/mule-micorp-customer-sapi/main/tst?label=Deployment%20tst)
 <br>
 Mulesoft service for creating customers in Salesforce using data from the Corporate Orders System
   
