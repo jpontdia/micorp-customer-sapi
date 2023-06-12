@@ -78,7 +78,12 @@
     		<artifactId>org.everit.json.schema</artifactId>
     		<version>1.12.2.redhat-00002</version>
 		</dependency>
+
+		com.github.everit-org.json-schema:org.everit.json.schema:jar:1.12.2 
+
 -->
+
+
 		<dependency>
 			<groupId>com.github.everit-org.json-schema</groupId>
 			<artifactId>org.everit.json.schema</artifactId>
@@ -93,6 +98,13 @@
 			<id>anypoint-exchange-v3</id>
 			<name>Anypoint Exchange V3</name>
 			<url>https://maven.anypoint.mulesoft.com/api/v3/maven</url>
+			<layout>default</layout>
+		</repository>
+
+		<repository>
+			<id>org-mulesoft-repository</id>
+			<name>Org Mulesoft Repository</name>
+			<url>https://repository.mulesoft.org/nexus/content/repositories/public</url>
 			<layout>default</layout>
 		</repository>
 
