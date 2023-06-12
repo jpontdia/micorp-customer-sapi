@@ -71,25 +71,6 @@
   			<groupId>io.logz.sender</groupId>
   			<artifactId>logzio-sender</artifactId>
 		</dependency>
-
-		<!--
-		<dependency>
-    		<groupId>org.everit.json</groupId>
-    		<artifactId>org.everit.json.schema</artifactId>
-    		<version>1.12.2.redhat-00002</version>
-		</dependency>
-
-		com.github.everit-org.json-schema:org.everit.json.schema:jar:1.12.2 
-
--->
-
-
-		<dependency>
-			<groupId>com.github.everit-org.json-schema</groupId>
-			<artifactId>org.everit.json.schema</artifactId>
-			<version>1.12.2</version>
-		</dependency>
-
 	</dependencies>
 	
 	<!--Repository to get the artifacts for your Anypoint organization -->
@@ -100,21 +81,5 @@
 			<url>https://maven.anypoint.mulesoft.com/api/v3/maven</url>
 			<layout>default</layout>
 		</repository>
-
-		<repository>
-			<id>org-mulesoft-repository</id>
-			<name>Org Mulesoft Repository</name>
-			<url>https://repository.mulesoft.org/nexus/content/repositories/public</url>
-			<layout>default</layout>
-		</repository>
-
-		<!--
-		<repository>
-			<id>redhat-ga-repository</id>
-			<name>Redhat GA Repository</name>
-			<url>https://maven.repository.redhat.com/ga</url>
-			<layout>default</layout>
-		</repository>
-		-->
 	</repositories>		
 </project>
