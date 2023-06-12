@@ -5,13 +5,13 @@
 	<parent>
 		<groupId>078efef1-d139-48ed-92f5-f8d4a0592374</groupId>
 		<artifactId>parent-pom</artifactId>
-		<version>1.0.27</version>
+		<version>1.0.26</version>
 		<relativePath/>
 	</parent>
 	 
 	<groupId>078efef1-d139-48ed-92f5-f8d4a0592374</groupId>
 	<artifactId>micorp-customer-sapi-app</artifactId>
-	<version>1.1.54</version> 
+	<version>1.1.55</version> 
 	<packaging>mule-application</packaging>   
 	<name>micorp-customer-sapi</name>
 	<description>Mulesoft service for creating customers in Salesforce using data from the Corporate Orders System</description>
