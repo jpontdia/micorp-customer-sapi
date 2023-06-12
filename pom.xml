@@ -73,9 +73,9 @@
 		</dependency>
 
 		<dependency>
-				<groupId>com.github.everit-org.json-schema</groupId>
-				<artifactId>org.everit.json.schema</artifactId>
-				<scope>test</scope>
+    		<groupId>org.everit.json</groupId>
+    		<artifactId>org.everit.json.schema</artifactId>
+    		<version>1.12.2.redhat-00002</version>
 		</dependency>
 	</dependencies>
 	
