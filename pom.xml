@@ -71,6 +71,12 @@
   			<groupId>io.logz.sender</groupId>
   			<artifactId>logzio-sender</artifactId>
 		</dependency>
+
+		<dependency>
+				<groupId>com.github.everit-org.json-schema</groupId>
+				<artifactId>org.everit.json.schema</artifactId>
+				<scope>test</scope>
+		</dependency>
 	</dependencies>
 	
 	<!--Repository to get the artifacts for your Anypoint organization -->
