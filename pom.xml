@@ -87,5 +87,12 @@
 			<url>https://maven.anypoint.mulesoft.com/api/v3/maven</url>
 			<layout>default</layout>
 		</repository>
+
+		<repository>
+			<id>redhat-ga-repository</id>
+			<name>Redhat GA Repository</name>
+			<url>https://maven.repository.redhat.com/ga</url>
+			<layout>default</layout>
+		</repository>
 	</repositories>		
 </project>
