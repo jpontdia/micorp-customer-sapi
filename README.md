@@ -54,7 +54,7 @@ The sensitive data was removed from the configuration files. The next properties
 | salesforce.principal    | Salesforce User |
 | salesforce.storepassword  | Password for the keystore |
 
-Mac example:
+Mac example: 
 
 ```bash
 #Properties for salesforce
