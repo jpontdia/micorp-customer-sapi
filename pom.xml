@@ -4,14 +4,14 @@
 
 	<parent>
 		<groupId>078efef1-d139-48ed-92f5-f8d4a0592374</groupId>
-		<artifactId>parent-pom</artifactId>
-		<version>1.0.28</version>
+			<artifactId>common-parent-pom</artifactId>
+			<version>1.0.1</version>
 		<relativePath/>
 	</parent>
 	 
 	<groupId>078efef1-d139-48ed-92f5-f8d4a0592374</groupId>
 	<artifactId>micorp-customer-sapi-app</artifactId>
-	<version>1.1.58</version> 
+	<version>1.2.1</version> 
 	<packaging>mule-application</packaging>   
 	<name>micorp-customer-sapi</name>
 	<description>Mulesoft service for creating customers in Salesforce using data from the Corporate Orders System</description>
@@ -21,8 +21,9 @@
         <categories key="API layer">System</categories>
         <categories key="Backend">Salesforce</categories>
         <fields key="sourceCode">https://github.com/jpontdia/mule-micorp-customer-sapi</fields>
-        <tags>Micorp, Salesfoce, Customer, System</tags>	
-		
+        <tags>Micorp, Salesfoce, Customer, System</tags>
+		<type>mule-application-example</type>
+
 		<!--RAML specification -->
 		<restconnector.api.spec.group>${project.groupId}</restconnector.api.spec.group>
 		<restconnector.api.spec.artifact>micorp-customer-sapi</restconnector.api.spec.artifact>
@@ -39,6 +40,14 @@
 			<type>zip</type> 
 		</dependency>
 		
+		<!-- Common Assets -->
+		<dependency>
+			<groupId>078efef1-d139-48ed-92f5-f8d4a0592374</groupId>
+			<artifactId>common-core</artifactId>
+			<version>1.0.0</version>
+			<classifier>mule-plugin</classifier>
+		</dependency>
+
 		<!-- Salesforce connector -->
 		<dependency>
 			<groupId>com.mulesoft.connectors</groupId>
@@ -46,14 +55,6 @@
 			<classifier>mule-plugin</classifier>
 		</dependency>
 		
-		<!-- Micorp commons -->
-		<dependency>
-			<groupId>078efef1-d139-48ed-92f5-f8d4a0592374</groupId>
-			<artifactId>micorp-commons-library</artifactId>
-			<version>1.0.21</version>
-			<classifier>mule-plugin</classifier>
-		</dependency>
-
 		<!-- Logging Dependencies-->
 		<dependency>
 		    <groupId>org.apache.logging.log4j</groupId>

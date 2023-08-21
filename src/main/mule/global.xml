@@ -51,7 +51,7 @@
 	<import 
 		doc:name="Import" 
 		doc:id="fddb977b-d2f2-419c-bba8-4bcb2f37ccbf" 
-		file="micorp-configuration.xml" />
+		file="global-configuration.xml" />
 		
 	<import 
 		doc:name="Import" 

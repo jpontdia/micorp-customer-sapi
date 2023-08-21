@@ -7,10 +7,10 @@
 	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" 
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
 	xsi:schemaLocation="
-http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd http://www.mulesoft.org/schema/mule/core 
-		http://www.mulesoft.org/schema/mule/core/current/mule.xsd
 		http://www.mulesoft.org/schema/mule/ee/core 
-		http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd
+		http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd 
+		http://www.mulesoft.org/schema/mule/core 
+		http://www.mulesoft.org/schema/mule/core/current/mule.xsd
 		http://www.mulesoft.org/schema/mule/salesforce 
 		http://www.mulesoft.org/schema/mule/salesforce/current/mule-salesforce.xsd">
 		
@@ -108,7 +108,7 @@ output application/json
 			doc:name="Logger" 
 			doc:id="d3795ee7-dc66-4f97-9e6f-945d1570ca3a" 
 			message="#[payload]"/>
-		<salesforce:create type="Customer__c" doc:name="Create Customer" doc:id="7d728d25-59ed-4b19-b0f3-35453d7083bf" config-ref="MicorpSalesforceConfig"/>
+		<salesforce:create type="Customer__c" doc:name="Create Customer" doc:id="7d728d25-59ed-4b19-b0f3-35453d7083bf" config-ref="GlobalSalesforceConfig"/>
 		<logger level="DEBUG" doc:name="Logger" doc:id="87545764-12a1-4bf1-a13b-76daacfdfe41" message="#[payload]"/>
 		<choice doc:name="verify success" doc:id="6cba7c6b-f46d-4de0-aef1-4cec4a3a95f2" >
 			<when expression="#[payload.successful == true]">

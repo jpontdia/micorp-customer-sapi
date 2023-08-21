@@ -7,23 +7,25 @@
 	xmlns="http://www.mulesoft.org/schema/mule/core" 
 	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" 
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
-	xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
-http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd
-http://www.mulesoft.org/schema/mule/salesforce http://www.mulesoft.org/schema/mule/salesforce/current/mule-salesforce.xsd
-http://www.mulesoft.org/schema/mule/validation http://www.mulesoft.org/schema/mule/validation/current/mule-validation.xsd">
+	xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core 
+		http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+		http://www.mulesoft.org/schema/mule/ee/core 
+		http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd
+		http://www.mulesoft.org/schema/mule/salesforce 
+		http://www.mulesoft.org/schema/mule/salesforce/current/mule-salesforce.xsd
+		http://www.mulesoft.org/schema/mule/validation 
+		http://www.mulesoft.org/schema/mule/validation/current/mule-validation.xsd">
+		
 	<flow 
-		name="deleteFlow" 
-		doc:id="7eaec4ec-9f52-4a54-bc95-bef41836cdf1" >
+		name="deleteFlow">
 		
 		<logger 
 			level="INFO" 
 			doc:name="start" 
-			doc:id="cf6d0c26-7435-4818-acb0-564c9c47d859" 
 			message="#[&quot;Delete customer customerId=&quot; ++ attributes.uriParams.'customerId']"/>
 		
 		<ee:transform 
-			doc:name="get customerId" 
-			doc:id="503d81c8-6327-4f57-8f31-4d36389bf3e3" >
+			doc:name="get customerId" >
 			<ee:variables >
 				<ee:set-variable 
 					variableName="customerId" ><![CDATA[%dw 2.0
@@ -35,14 +37,13 @@ attributes.uriParams.'customerId']]></ee:set-variable>
 		
 		<salesforce:delete 
 			doc:name="Delete" 
-			doc:id="b2c142e9-2edd-4426-b12e-efa2c051689f" 
-			config-ref="MicorpSalesforceConfig" >
+			config-ref="GlobalSalesforceConfig" >
 			<salesforce:ids ><![CDATA[#[[vars.customerId]]]]></salesforce:ids>
 		</salesforce:delete>
 		
-		<choice doc:name="Choice" doc:id="06eab0a5-3b0f-45ea-9c95-692e8a577009" >
+		<choice doc:name="Choice">
 			<when expression="#[payload.successful]">
-				<ee:transform doc:name="Success Message" doc:id="a5079758-0a68-4fbc-aa18-fdbd88a584b7">
+				<ee:transform doc:name="Success Message">
 			<ee:message>
 				<ee:set-payload><![CDATA[%dw 2.0
 output application/json
@@ -55,7 +56,7 @@ output application/json
 		</ee:transform>
 			</when>
 			<otherwise >
-				<ee:transform doc:name="Response" doc:id="c730e900-57ce-4e95-96b2-2473c7146ac1" >
+				<ee:transform doc:name="Response">
 					<ee:message >
 						<ee:set-payload ><![CDATA[%dw 2.0
 output application/json
@@ -72,7 +73,6 @@ output application/json
 			</otherwise>
 		</choice>
 		
-		<error-handler 
-			ref="global-error-handler" />
+		<error-handler ref="global-error-handler" />
 	</flow>
 </mule>

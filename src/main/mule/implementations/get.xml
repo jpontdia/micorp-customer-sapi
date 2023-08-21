@@ -16,7 +16,7 @@
 		http://www.mulesoft.org/schema/mule/opentelemetry/current/mule-opentelemetry.xsd">
 	
 	
-	<flow name="queryCustomer" doc:id="1921a8f0-6bb9-4ee6-b21f-b1a48465b6ed" >
+	<flow name="queryCustomer" >
 		<ee:transform doc:name="Where Filter" doc:id="98882926-8497-44cb-92f4-4d3e1ba9ca41" >
 			<ee:message >
 			</ee:message>
@@ -35,7 +35,7 @@ output application/json
 sqlFilter3	]]></ee:set-variable>
 			</ee:variables>
 		</ee:transform>
-		<salesforce:query doc:name="Customer" doc:id="6c1f1ee6-a895-49b2-9cf7-aa19397fe187" config-ref="MicorpSalesforceConfig">
+		<salesforce:query doc:name="Customer" config-ref="GlobalSalesforceConfig">
 			<salesforce:salesforce-query ><![CDATA[SELECT firstName__c, lastName__c, address__c, Id 
 FROM Customer__c 
  :soqlFilter]]></salesforce:salesforce-query>
