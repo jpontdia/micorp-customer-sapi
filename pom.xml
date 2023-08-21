@@ -5,7 +5,7 @@
 	<parent>
 		<groupId>078efef1-d139-48ed-92f5-f8d4a0592374</groupId>
 			<artifactId>common-parent-pom</artifactId>
-			<version>1.0.1</version>
+			<version>1.0.3</version>
 		<relativePath/>
 	</parent>
 	 
@@ -20,6 +20,7 @@
 		<!-- Exchange documentation. Details on https://docs.mulesoft.com/exchange/to-publish-assets-maven#publish-an-asset-with-mutable-data -->
         <categories key="API layer">System</categories>
         <categories key="Backend">Salesforce</categories>
+		<categories key="Asset type">API</categories>
         <fields key="sourceCode">https://github.com/jpontdia/mule-micorp-customer-sapi</fields>
         <tags>Micorp, Salesfoce, Customer, System</tags>
 		<type>mule-application-example</type>
