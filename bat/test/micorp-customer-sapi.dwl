@@ -8,6 +8,10 @@ var lastName = "Bonita-1009"
 ---
 describe("The CRUD process for micorp-customer-sapi") in [
 
+  it("Print env variables") in [
+    log("Env variable: $(config.principal)")
+  ],
+
   it("Create a new customer") in [
     POST `$(config.url)` with {
       headers: {

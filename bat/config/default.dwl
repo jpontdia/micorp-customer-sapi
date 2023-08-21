@@ -3,5 +3,6 @@ import * from dw::System
 output application/json
 ---
 {
-    url: "http://micorp-customer-sapi-dev.us-w1.cloudhub.io/api/customers"
+    url: "http://micorp-customer-sapi-dev.us-w1.cloudhub.io/api/customers",
+    principal: envVar('salesforce_principal') default "Undefined"
 }
