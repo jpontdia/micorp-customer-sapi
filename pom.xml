@@ -23,7 +23,6 @@
 		<categories key="Asset type">API</categories>
         <fields key="sourceCode">https://github.com/jpontdia/mule-micorp-customer-sapi</fields>
         <tags>Micorp, Salesfoce, Customer, System</tags>
-		<type>mule-application-example</type>
 
 		<!--RAML specification -->
 		<restconnector.api.spec.group>${project.groupId}</restconnector.api.spec.group>
