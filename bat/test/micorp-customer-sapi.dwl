@@ -10,6 +10,7 @@ describe("The CRUD process for micorp-customer-sapi") in [
 
   it("Print env variables") in [
     log("Env variable: $(config.principal)")
+    log("Env variable: $(config.host)")
   ],
 
   it("Create a new customer") in [
