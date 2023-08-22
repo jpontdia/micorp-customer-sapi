@@ -9,8 +9,8 @@ var lastName = "Bonita-1009"
 describe("The CRUD process for micorp-customer-sapi") in [
 
   it("Print env variables") in [
-    log("Env variable: $(config.principal)")
-    log("Env variable: $(config.host)")
+    log("Env variable, principal: $(config.principal)")
+    log("Env variable, host: $(config.host)")
   ],
 
   it("Create a new customer") in [
