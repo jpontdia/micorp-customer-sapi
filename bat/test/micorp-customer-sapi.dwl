@@ -8,13 +8,8 @@ var lastName = "Bonita-1009"
 ---
 describe("The CRUD process for micorp-customer-sapi") in [
 
-  it("Print env variables") in [
-    log("Env variable, principal: $(config.principal)")
-    log("Env variable, host: $(config.host)")
-  ],
-
   it("Create a new customer") in [
-    POST `$(config.url)` with {
+    POST `$(config.protocol)://$(config.host):$(config.port)/$(config.basepath)` with {
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json'
