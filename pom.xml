@@ -4,14 +4,14 @@
 
 	<parent>
 		<groupId>078efef1-d139-48ed-92f5-f8d4a0592374</groupId>
-			<artifactId>common-parent-pom</artifactId>
-			<version>1.0.3</version>
+		<artifactId>common-parent-pom</artifactId>
+		<version>1.0.3</version>
 		<relativePath/>
 	</parent>
 	 
 	<groupId>078efef1-d139-48ed-92f5-f8d4a0592374</groupId>
-	<artifactId>micorp-customer-sapi-asset</artifactId>
-	<version>1.3.1</version> 
+	<artifactId>micorp-customer-sapi-app</artifactId>
+	<version>1.3.0</version> 
 	<packaging>mule-application</packaging>   
 	<name>micorp-customer-sapi</name>
 	<description>Mulesoft service for creating customers in Salesforce using data from the Corporate Orders System</description>
@@ -21,17 +21,17 @@
         <categories key="API layer">System</categories>
         <categories key="Backend">Salesforce</categories>
 		<categories key="Asset type">API</categories>
-        <fields key="sourceCode">https://github.com/jpontdia/mule-micorp-customer-sapi</fields>
-        <tags>Micorp, Salesfoce, Customer, System</tags>
+        <tags>Micorp, Salesforce, System</tags>
+		<fields key="sourceCode">https://github.com/jpontdia/micorp-customer-sapi</fields>
 
-		<!--RAML specification -->
+		<!-- RAML specification -->
 		<restconnector.api.spec.group>${project.groupId}</restconnector.api.spec.group>
 		<restconnector.api.spec.artifact>micorp-customer-sapi</restconnector.api.spec.artifact>
 		<restconnector.api.spec.version>1.0.6</restconnector.api.spec.version>
 	</properties>
 
 	<dependencies>
-		<!--RAML specification --> 
+		<!-- RAML specification --> 
 		<dependency>
 			<groupId>${restconnector.api.spec.group}</groupId>
 			<artifactId>${restconnector.api.spec.artifact}</artifactId>

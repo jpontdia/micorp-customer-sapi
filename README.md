@@ -2,12 +2,12 @@
 ![Powered by](https://img.shields.io/badge/Powered%20by-Mulesoft-blue.svg)
   ![Unit test](https://gist.githubusercontent.com/jpontdia/ef8cdef1ff940eac4d8716f6361d2363/raw/micorp-customer-sapi-ut.svg)
   ![Code coverage](https://gist.githubusercontent.com/jpontdia/ef8cdef1ff940eac4d8716f6361d2363/raw/micorp-customer-sapi-cc.svg)
-  ![Build and deploy](https://github.com/jpontdia/mule-micorp-customer-sapi/actions/workflows/build.yml/badge.svg)
+  ![Build and deploy](https://github.com/jpontdia/micorp-customer-sapi/actions/workflows/build.yml/badge.svg)
 <br>
 
 Mulesoft service for creating customers in Salesforce using data from the Corporate Orders System
 
-  > This project follows the standards defined in the Development Process Document in Anypoint Exchange. The details to compile and package the asset are in the Build Environment section. 
+  > This project follows the standards defined in the Development Process Document in Anypoint Exchange
   
 ## Table of contents
 1. [Description](#description)
@@ -16,7 +16,7 @@ Mulesoft service for creating customers in Salesforce using data from the Corpor
 ## Description  
 Mulesoft service for creating customers in Salesforce using data from the Corporate Orders System. The next diagram shows the architecture of the service:
 
-![architecture](https://github.com/jpontdia/mule-micorp-customer-sapi/raw/main/docs/architecture.png)
+![architecture](https://github.com/jpontdia/micorp-customer-sapi/raw/main/docs/architecture.png)
 
 <br>
  
