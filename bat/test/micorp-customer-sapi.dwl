@@ -5,11 +5,12 @@ import * from bat::Mutable
 var context = bat::Mutable::HashMap()
 var firstName = "Maria-1009"
 var lastName = "Bonita-1009"
+var url = "$(config.protocol)://$(config.host):$(config.port)$(config.basepath)"
 ---
 describe("The CRUD process for micorp-customer-sapi") in [
 
   it("Create a new customer") in [
-    POST `$(config.protocol)://$(config.host):$(config.port)/$(config.basepath)` with {
+    POST `$(url)` with {
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json'
@@ -28,7 +29,7 @@ describe("The CRUD process for micorp-customer-sapi") in [
   ],
 
   it must 'Get the customer created by id' in [
-    GET `http://micorp-customer-sapi-dev.us-w1.cloudhub.io/api/customers/$(context.get('customerId'))` with {
+    GET `$(url)/$(context.get('customerId'))` with {
 
     } assert [
       $.response.status mustEqual 200,
@@ -39,7 +40,7 @@ describe("The CRUD process for micorp-customer-sapi") in [
   ],
 
   it must 'Get the customer created by name' in [
-    GET `http://micorp-customer-sapi-dev.us-w1.cloudhub.io/api/customers?firstName=$(firstName)&lastName=$(lastName)` with {
+    GET `$(url)?firstName=$(firstName)&lastName=$(lastName)` with {
 
     } assert [
       $.response.status mustEqual 200,
@@ -50,7 +51,7 @@ describe("The CRUD process for micorp-customer-sapi") in [
   ],
 
   it must 'Delete the customer' in [
-    DELETE `http://micorp-customer-sapi-dev.us-w1.cloudhub.io/api/customers/$(context.get('customerId'))` with {
+    DELETE `$(url)/$(context.get('customerId'))` with {
 
     } assert [
       $.response.status mustEqual 200
