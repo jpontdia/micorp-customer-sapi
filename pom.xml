@@ -10,7 +10,7 @@
 	</parent>
 	 
 	<groupId>078efef1-d139-48ed-92f5-f8d4a0592374</groupId>
-	<artifactId>micorp-customer-sapi-app</artifactId>
+	<artifactId>micorp-customer-sapi-artifacttest</artifactId>
 	<version>1.3.0</version> 
 	<packaging>mule-application</packaging>   
 	<name>micorp-customer-sapi</name>
