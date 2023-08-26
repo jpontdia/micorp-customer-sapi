@@ -11,7 +11,7 @@
 	 
 	<groupId>078efef1-d139-48ed-92f5-f8d4a0592374</groupId>
 	<artifactId>micorp-customer-sapi-app</artifactId>
-	<version>1.3.0</version> 
+	<version>1.4.0</version> 
 	<packaging>mule-application</packaging>   
 	<name>micorp-customer-sapi</name>
 	<description>Mulesoft service for creating customers in Salesforce using data from the Corporate Orders System</description>
