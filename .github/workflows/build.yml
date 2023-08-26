@@ -12,4 +12,3 @@ jobs:
       keyvault-key: jpworks-keyvault
     secrets:
       azure-credentials: ${{ secrets.AZURE_CREDENTIALS }}
-      #gist-accesstoken: ${{ secrets.GIST_ACCESSTOKEN }}
