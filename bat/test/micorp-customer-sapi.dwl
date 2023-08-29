@@ -5,7 +5,7 @@ import * from bat::Mutable
 var context = bat::Mutable::HashMap()
 var firstName = "Maria-1009"
 var lastName = "Bonita-1009"
-var url = "$(config.protocol)://$(config.host):$(config.port)$(config.basepath)"
+var url = "$(config.protocol)://$(config.host):$(config.port)$(config.basepath)/customers"
 ---
 describe("The CRUD process for micorp-customer-sapi") in [
 
