@@ -25,7 +25,8 @@
 			value='#[%dw 2.0&#10;output application/java&#10;---&#10;{&#10;    "firstName": payload.firstName default "",&#10;    "lastName": payload.lastName default ""&#10;}]' 
 			doc:name="otel Tags" 
 			variableName="openTelemetryTags" />
-		<ee:transform doc:name="assign variables" doc:id="dca47b2e-aa99-4b85-b277-339edff10ea6" >
+
+		<ee:transform doc:name="assign variables" >
 			<ee:message >
 				<ee:set-payload ><![CDATA[%dw 2.0
 output application/java
@@ -45,7 +46,7 @@ output application/java
 			doc:name="Get Customer By FirstName and LastName" 
 			name="queryCustomer"/>
 					
-		<choice doc:name="Customer Exist?" doc:id="a134d639-64b2-4cd5-b442-b8637e28cfda" >
+		<choice doc:name="Customer Exist?" >
 			<when expression="#[sizeOf(payload) == 0]">
 
 				<flow-ref 

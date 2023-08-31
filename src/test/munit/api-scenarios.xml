@@ -9,10 +9,10 @@
 	xmlns="http://www.mulesoft.org/schema/mule/core"
 	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
 	xsi:schemaLocation="
-http://www.mulesoft.org/schema/mule/munit http://www.mulesoft.org/schema/mule/munit/current/mule-munit.xsd 
-http://www.mulesoft.org/schema/mule/validation http://www.mulesoft.org/schema/mule/validation/current/mule-validation.xsd 
-http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd 
-http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd 
+		http://www.mulesoft.org/schema/mule/validation 
+		http://www.mulesoft.org/schema/mule/validation/current/mule-validation.xsd 
+		http://www.mulesoft.org/schema/mule/ee/core 
+		http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd 
 		http://www.mulesoft.org/schema/mule/http
  		http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd 
 		http://www.mulesoft.org/schema/mule/core 
@@ -21,13 +21,15 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 		http://www.mulesoft.org/schema/mule/munit/current/mule-munit.xsd
 		http://www.mulesoft.org/schema/mule/munit-tools  
 		http://www.mulesoft.org/schema/mule/munit-tools/current/mule-munit-tools.xsd">
+
 	<munit:config name="api-scenarios.xml" />
 
     <http:request-config name="HTTP_Request_Configuration">
         <http:request-connection host="localhost" port="8081" />
     </http:request-config>
     
-	<munit:test name="api-scenariosTest" doc:id="db7ae2b5-a9e7-476c-a419-3d2cf5b515c8" >
+	<munit:test name="api-scenariosTest">
+		
 		<munit:enable-flow-sources >
 			<munit:enable-flow-source value="api-main" />
 			<munit:enable-flow-source value="get:\customers:api-config" />
@@ -35,13 +37,15 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 			<munit:enable-flow-source value="delete:\customers\(customerId):api-config" />
 			<munit:enable-flow-source value="post:\customers:application\json:api-config" />
 		</munit:enable-flow-sources>
+
 		<munit:behavior >
-			<munit:set-event doc:name="Set Event" doc:id="810e98ff-db88-4dd4-b81f-19b9019be46e" >
+			<munit:set-event doc:name="Set Event"  >
 				<munit:payload value='#[%dw 2.0&#10;output application/json&#10;---&#10;readUrl("classpath://post/set-event_payload.dwl")]' />
 			</munit:set-event>
-			<set-variable value="#[payload]" doc:name="save payload" doc:id="709e06ad-310d-46cf-947b-590d3e6cb672" variableName="sourcePayload"/>
-			<logger level="INFO" doc:name="Logger" doc:id="0b0471a0-f615-4ccb-a452-3f133baeea19" message="#[vars.sourcePayload]"/>
+			<set-variable value="#[payload]" doc:name="save payload" variableName="sourcePayload"/>
+			<logger level="INFO" doc:name="Logger" message="#[vars.sourcePayload]"/>
 		</munit:behavior>
+
 		<munit:execution>
 
 			<logger 
@@ -50,39 +54,32 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 				doc:id="2596a9cd-c020-44bd-9e3d-0501a30c6def" 
 				message="Customer Main Flow Test - Start"/>
 
-			<logger level="INFO" doc:name="payload" doc:id="777e6367-1455-43d6-9b95-6a1deba9ea76" message="#[payload]"/>
+			<logger level="INFO" doc:name="payload" message="#[payload]"/>
 			<flow-ref
 				doc:name="getCustomer by name"
-				doc:id="4ab88677-8f6c-4153-9a14-8314c942d561"
 				name="testGetCustomerByName" />
 				
-			<choice
-				doc:name="Customer Exist?"
-				doc:id="56d55dc2-05b8-4998-9bb6-b5a13a76df01">
+			<choice doc:name="Customer Exist?">
 				
 				<when expression="payload[0] != null">
 				
 					<flow-ref
 						doc:name="deleteCustomer"
-						doc:id="381b5ae0-a244-4bc7-bd00-2ddcca1dffca"
 						name="testDeleteCustomer" />
 				</when>
 			</choice>
 			
 			<flow-ref
 				doc:name="create Customer"
-				doc:id="39e4a52c-86a1-4178-884a-730d35aa80ee"
 				name="testCreateCustomer" />
 			
 			<flow-ref
 				doc:name="Verify Data"
-				doc:id="a27673fa-99ae-4fd7-a846-f1d8c7a12366"
 				name="testVerifyData" />
 			
 			<logger 
 				level="INFO" 
 				doc:name="End" 
-				doc:id="7386737f-13e1-42b1-9251-886d42bacbca" 
 				message="Customer Main Flow Test - End"/>
 
 		</munit:execution>
@@ -91,23 +88,18 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 	<!-- *************************************************** -->
 	<!-- **** SUB FLOWS                                ***** -->
 	<!-- *************************************************** -->	
-	<sub-flow
-		name="testGetCustomerByName"
-		doc:id="57ef7f98-2a52-405b-bad0-5cb725eac5b8">
+	<sub-flow name="testGetCustomerByName">
 		<set-variable
 			value="#[payload.lastName]"
 			doc:name="lastName"
-			doc:id="6f6b2dac-8299-4c61-a157-1642cea52a09"
 			variableName="lastName" />
 		<set-variable
 			value="#[payload.firstName]"
 			doc:name="firstName"
-			doc:id="11b1ca5e-2085-4cff-b5f4-e07a8081d828"
 			variableName="firstName" />
 		<http:request
 			method="GET"
 			doc:name="get Customer By FirstName and LastName"
-			doc:id="80a92ddb-8fae-4430-b6cd-dd870f189220"
 			config-ref="HTTP_Request_Configuration"
 			path="/api/customers">
 			<http:headers><![CDATA[#[output application/java
@@ -126,19 +118,16 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 			</http:response-validator>
 		</http:request>
 	</sub-flow>
-	<sub-flow
-		name="testVerifyData"
-		doc:id="1e61bed0-68a0-4060-95d3-188489edd426">
+
+	<sub-flow name="testVerifyData">
 			
 		<logger level="INFO" 
 			doc:name="Logger" 
-			doc:id="707ef02f-889a-4652-ae9e-15dea109f598" 
 			message='#["Testing new resource, customerId=" ++ vars.customerId]' />
 			
 		<http:request
 			method="GET"
 			doc:name="get resource by id"
-			doc:id="b1e68a8a-fcc5-4744-9c8a-96892fa43691"
 			config-ref="HTTP_Request_Configuration"
 			path='#["/api/customers/" ++ vars.customerId]'>
 			<http:uri-params><![CDATA[#[output application/java
@@ -150,18 +139,15 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 		
 		<logger level="INFO" 
 			doc:name="end" 
-			doc:id="944a89e6-4528-4c3c-ac9c-5f5dc1ffeffc" 
 			message='#["Testing new resource, customerId=" ++ vars.customerId]'/>
 		
 	</sub-flow>
-	<sub-flow
-		name="testDeleteCustomer"
-		doc:id="dc2f843f-15c6-444d-b9f3-6bcdc31bc762">
+
+	<sub-flow name="testDeleteCustomer">
 		
 		<logger 
 			level="INFO" 
 			doc:name="delete" 
-			doc:id="9576cc1e-66f3-4da9-9e0e-45caf66d4d1f" 
 			message='Customer exist on database, delete it' />
 		
 		<set-variable
@@ -172,13 +158,11 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 		
 		<logger level="INFO" 
 			doc:name="customerId" 
-			doc:id="073a367b-8563-4ea0-85a7-3b5ae5542432" 
 			message='#["To delete customerId: " ++ vars.customerId]' />	
 			
 		<http:request
 			method="DELETE"
 			doc:name="DELETE"
-			doc:id="e431f3e3-569d-4234-954f-e6ec6fc5a580"
 			config-ref="HTTP_Request_Configuration"
 			path="/api/customers/{customerId}">
 			<http:headers><![CDATA[#[output application/java
@@ -206,16 +190,15 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 	<sub-flow
 		name="testCreateCustomer"
 		doc:id="7e396587-a705-412e-8ac7-20de099d7794">
-		<logger level="INFO" doc:name="create" doc:id="7ac317f0-4fba-40de-ad86-a565286e5b98" message="Create Customer" />
+		<logger level="INFO" doc:name="create" message="Create Customer" />
+		
 		<set-payload
 			value="#[vars.sourcePayload]"
-			doc:name="payload"
-			doc:id="5efd2b6e-76ce-4c67-9957-25992a226902" />	
+			doc:name="payload"/>	
 
 		<http:request
 			method="POST"
 			doc:name="POST"
-			doc:id="04fc8b3c-8ad3-4cec-99b1-7d457cf2cdf2"
 			config-ref="HTTP_Request_Configuration"
 			path="/api/customers">
 			<http:headers><![CDATA[#[output application/java
@@ -227,14 +210,13 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 				<http:success-status-code-validator values="201,409" />
 			</http:response-validator>
 		</http:request>
+
 		<validation:is-true
 			doc:name="status Created?"
-			doc:id="09cf8e59-cebf-4033-9961-380d2f9ea271"
 			config-ref="Validation_Config"
 			expression="#[attributes.statusCode == 201]" />
-		<ee:transform
-			doc:name="get customerId"
-			doc:id="acac396a-300b-475b-a812-1e53cafdb61e">
+
+		<ee:transform doc:name="get customerId" >
 			<ee:message />
 			<ee:variables>
 				<ee:set-variable variableName="customerId"><![CDATA[%dw 2.0
@@ -251,17 +233,15 @@ else null
 		<logger 
 			level="INFO" 
 			doc:name="new customerId" 
-			doc:id="95583b25-8972-429e-9f07-1b32e3f7a1dc" 
 			message='#["New customerId: " ++ vars.customerId]' />
 			
 		<set-payload
 			value="#[vars.sourcePayload]"
-			doc:name="payload"
-			doc:id="cf323203-38b1-4403-8172-819a51ec4742" />
+			doc:name="payload" />
+
 		<http:request
 			method="POST"
 			doc:name="POST - Retry again"
-			doc:id="bc4d397e-82da-4587-a899-0f86719b1b74"
 			config-ref="HTTP_Request_Configuration"
 			path="/api/customers">
 			<http:headers><![CDATA[#[output application/java
@@ -276,14 +256,12 @@ else null
 		
 		<validation:is-true
 			doc:name="status duplicated?"
-			doc:id="11954349-38f1-41bd-8c39-6d69a4cd4ca0"
 			config-ref="Validation_Config"
 			expression="#[attributes.statusCode == 409]" />
 		
 		<logger 
 			level="INFO" 
 			doc:name="Customer Duplicated" 
-			doc:id="df816b29-de21-4300-9e7f-e90b902c49c2" 
 			message='The Customer is already present in the database' />
 			
 	</sub-flow>
