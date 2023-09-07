@@ -52,6 +52,11 @@
 		doc:name="Import" 
 		doc:id="fddb977b-d2f2-419c-bba8-4bcb2f37ccbf" 
 		file="global-configuration.xml" />
+
+	<import 
+		doc:name="Import" 
+		doc:id="fddb977b-d2f2-419c-bba8-4bcb2f37ccbf" 
+		file="global-configuration-salesforce.xml" />		
 		
 	<import 
 		doc:name="Import" 
