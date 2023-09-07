@@ -7,7 +7,7 @@
 
 Mulesoft service for creating customers in Salesforce using data from the Corporate Orders System.
  
-  > This project follows the standards defined in the Development Process Document in Anypoint Exchange
+  > This project follows the standards defined in the Development Process Document in Anypoint Exchange. 
   
 ## Table of contents
 1. [Description](#description) 
