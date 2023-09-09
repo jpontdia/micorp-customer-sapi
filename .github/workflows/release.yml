@@ -2,8 +2,8 @@ name: Release
  
 on:
   release:
-    types: [created]
-    
+    types: [published]
+
 jobs: 
   Mulesoft:
     uses: jpontdia/common-devops/.github/workflows/mulesoft-release.yml@main
