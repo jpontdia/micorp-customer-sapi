@@ -2,11 +2,11 @@ name: Release
  
 on:
   release:
-    type: created
-
+    types: [created]
+    
 jobs: 
   Mulesoft:
-    uses: jpontdia/common-devops/.github/workflows/release.yml@main
+    uses: jpontdia/common-devops/.github/workflows/mulesoft-release.yml@main
     with:
       keyvault-key: jpworks-keyvault
     secrets:
