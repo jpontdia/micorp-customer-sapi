@@ -1,9 +1,14 @@
 name: Release
  
 on:
+  workflow_dispatch:
   release:
-    types: []
+    types: [published]
 
+permissions:
+  contents: write
+  pull-requests: write
+      
 jobs: 
   Mulesoft:
     uses: jpontdia/common-devops/.github/workflows/mulesoft-release.yml@main

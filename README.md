@@ -1,5 +1,5 @@
 # Salesforce Customer SAPI
-![Powered by](https://img.shields.io/badge/Powered%20by-Mulesoft-blue.svg)
+![Powered by](https://img.shields.io/badge/Powered%20by-Mulesoft-535597.svg)
   ![Unit test](https://gist.githubusercontent.com/jpontdia/2f22ca2ddf1ba473d6e2cff61cc2fba9/raw/micorp-customer-sapi-ut.svg)
   ![Code coverage](https://gist.githubusercontent.com/jpontdia/2f22ca2ddf1ba473d6e2cff61cc2fba9/raw/micorp-customer-sapi-cc.svg)
   ![Build](https://github.com/jpontdia/micorp-customer-sapi/actions/workflows/build.yml/badge.svg)
