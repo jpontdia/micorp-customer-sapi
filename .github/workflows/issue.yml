@@ -2,11 +2,7 @@ name: Release
  
 on:
   release:
-    types: [published]
-
-permissions:
-  contents: write
-  pull-requests: write
+    types: [opened, edited, milestoned]
 
 jobs: 
   Release:
