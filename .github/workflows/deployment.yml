@@ -2,7 +2,7 @@ name: Deployment
  
 on:
   issues:
-    types: [opened, edited, milestoned]
+    types: [opened]
 
 jobs: 
   Release:
