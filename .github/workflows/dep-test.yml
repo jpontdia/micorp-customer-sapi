@@ -1,0 +1,38 @@
+name: Deployment
+ 
+on:
+  issues:
+    types: [opened, edited, pinned, labeled]
+
+jobs: 
+  dep-test:
+    runs-on: ubuntu-latest
+    steps:
+        - name: Get the release metadata
+          env:
+            GITHUB_CONTEXT: ${{ toJson(github) }}      
+          shell: bash
+          run: |
+            echo " "
+            echo "***********************************************"
+            echo "Get the workflow metadata "
+            echo "***********************************************"
+            echo "Values from github context: "
+            echo "  Issue number: ${{ github.event.issue.number}}"
+            echo "  Title: ${{ github.event.issue.title}}"
+            echo '  Labels: ${{ toJson(github.event.issue.labels) }}'
+            echo "  Repository: ${{ github.repository }}"
+            echo " "
+            line=$(echo "${{ github.event.issue.title}}")
+            action="$(cut -d' ' -f1 <<<$line)"
+            deployment_environment="$(cut -d' ' -f2 <<< $line)"
+            service="$(cut -d' ' -f3 <<< $line)"
+            version="$(cut -d' ' -f4 <<< $line)"
+            echo "Values from issue title:"
+            echo "  Action: $action"
+            echo "  Environment: $deployment_environment"
+            echo "  Service: $service"
+            echo "  Version: $version"
+            echo "deployment_environment=$deployment_environment" >> $GITHUB_ENV
+            echo "deployment_version=$version" >> $GITHUB_ENV
+            echo "deployment_service=$service" >> $GITHUB_ENV
