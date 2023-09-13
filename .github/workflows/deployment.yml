@@ -7,6 +7,11 @@ on:
 jobs: 
   Deployment:
     uses: jpontdia/common-devops/.github/workflows/mulesoft-deployment.yml@main
+    if: |
+      contains(toJson(github.event.issue.labels), 'deployment-forward') ||
+      contains(toJson(github.event.issue.labels), 'deployment-dev') ||
+      contains(toJson(github.event.issue.labels), 'deployment-tst') ||
+      contains(toJson(github.event.issue.labels), 'deployment-prd')
     with:
       keyvault-key: jpworks-keyvault
     secrets:
