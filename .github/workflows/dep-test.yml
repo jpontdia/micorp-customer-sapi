@@ -2,7 +2,6 @@ name: Deployment
  
 on:
   issues:
-    types: [opened, edited, pinned, labeled]
 
 jobs: 
   dep-test:
