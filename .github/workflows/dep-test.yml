@@ -1,4 +1,4 @@
-name: Deployment
+name: dep-test
  
 on:
   issues:
