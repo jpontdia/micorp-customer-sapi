@@ -76,7 +76,7 @@ payload map (item, value) ->
 
 
 	<flow name="getById" doc:id="dafe3155-a626-444b-aaa6-5a5daba53ddb" >
-		<logger level="INFO" doc:name="Logger" doc:id="f6b05462-8a5d-41cb-a618-92573801ef0b" message="#[%dw 2.0&#10;output application/json&#10;---&#10;{&#10;	message: &quot;Customer getById&quot;,&#10;    customerId: attributes.uriParams.'customerId' default &quot;&quot;&#10;}]"/>
+		<logger level="INFO" doc:name="Logger" doc:id="f6b05462-8a5d-41cb-a618-92573801ef0b" message="#[%dw 2.0&#10;output application/json&#10;---&#10;{&#10;	message: &quot;Customer  getById&quot;,&#10;    customerId: attributes.uriParams.'customerId' default &quot;&quot;&#10;}]"/>
 		<set-variable value="#[%dw 2.0&#10;output application/java&#10;---&#10;{&#10;    &quot;customerId&quot;: attributes.uriParams.'customerId' default &quot;&quot;,&#10;}]" doc:name="otel Tags" doc:id="ef1ab554-583b-4be2-9985-72155fba1629" variableName="openTelemetryTags" />
 		<ee:transform doc:name="get customerId" doc:id="64ca68fe-c777-4988-9bc2-3fefa3d4bd82" >
 			<ee:variables >
