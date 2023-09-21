@@ -6,7 +6,7 @@ on:
 
 jobs: 
   Deployment:
-    uses: jpontdia/common-devops/.github/workflows/mulesoft-deployment.yml@main
+    uses: jpontdia/common-devops/.github/workflows/mule-deployment.yml@main
     if: |
       contains(toJson(github.event.issue.labels), 'dev') ||
       contains(toJson(github.event.issue.labels), 'tst') ||
