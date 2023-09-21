@@ -7,7 +7,7 @@ on:
 
 jobs: 
   Mulesoft:
-    uses: jpontdia/common-devops/.github/workflows/mulesoft.yml@main
+    uses: jpontdia/common-devops/.github/workflows/mule-build.yml@main
     with:
       keyvault-key: jpworks-keyvault
     secrets:
