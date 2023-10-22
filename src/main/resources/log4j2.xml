@@ -1,31 +1,110 @@
 <?xml version="1.0" encoding="utf-8"?>
-<Configuration packages="io.logz.log4j2">
+<Configuration status="INFO" name="cloudhub" 
+    packages="com.mulesoft.ch.logging.appender,org.apache.logging.log4j,io.logz.log4j2">
+
+	<!-- Default values for loggers and appenders -->
+	<Properties>
+		<Property name="logapplication">INFO</Property>
+		<Property name="logconnectors">WARN</Property>
+		<Property name="logroot">INFO</Property>
+	</Properties>
 
     <Appenders>
-        <RollingFile name="file" fileName="${sys:mule.home}${sys:file.separator}logs${sys:file.separator}micorp-integrationorder-systemapi.log"
-                 filePattern="${sys:mule.home}${sys:file.separator}logs${sys:file.separator}micorp-integrationorder-systemapi-%i.log">
-            <PatternLayout pattern="%-5p %d [%t] [processor: %X{processorPath}; event: %X{correlationId}] %c: %m%n"/>
-            <SizeBasedTriggeringPolicy size="10 MB"/>
-            <DefaultRolloverStrategy max="10"/>
-        </RollingFile>    
+
+        <!-- Logz.io appender  -->
         <LogzioAppender name="Logzio">
 			<logzioToken>${sys:logzio.token}</logzioToken>
 			<logzioUrl>${sys:logzio.url}</logzioUrl>
-			<logzioType>micorp-customer-sapi</logzioType>
+			<logzioType>${project.name}:${project.version}</logzioType>
 		</LogzioAppender>
+
+        <!-- Integrate with Your Logging System Using Log4j -->
+        <!-- https://docs.mulesoft.com/cloudhub/custom-log-appender -->
+
+        <!-- 1) Sends log data to CloudHub -->
+        <Log4J2CloudhubLogAppender name="CLOUDHUB"
+                addressProvider="com.mulesoft.ch.logging.DefaultAggregatorAddressProvider"
+                applicationContext="com.mulesoft.ch.logging.DefaultApplicationContext"
+                appendRetryIntervalMs="${sys:logging.appendRetryInterval}"
+                appendMaxAttempts="${sys:logging.appendMaxAttempts}"
+                batchSendIntervalMs="${sys:logging.batchSendInterval}"
+                batchMaxRecords="${sys:logging.batchMaxRecords}"
+                memBufferMaxSize="${sys:logging.memBufferMaxSize}"
+                journalMaxWriteBatchSize="${sys:logging.journalMaxBatchSize}"
+                journalMaxFileSize="${sys:logging.journalMaxFileSize}"
+                clientMaxPacketSize="${sys:logging.clientMaxPacketSize}"
+                clientConnectTimeoutMs="${sys:logging.clientConnectTimeout}"
+                clientSocketTimeoutMs="${sys:logging.clientSocketTimeout}"
+                serverAddressPollIntervalMs="${sys:logging.serverAddressPollInterval}"
+                serverHeartbeatSendIntervalMs="${sys:logging.serverHeartbeatSendIntervalMs}"
+                statisticsPrintIntervalMs="${sys:logging.statisticsPrintIntervalMs}">
+            <PatternLayout pattern="[%d{MM-dd HH:mm:ss}] %-5p %c{1} [%t]: %m%n"/>
+        </Log4J2CloudhubLogAppender>
+
+        <!-- 2) Sends log data to the filesystem of the VM. -->
+        <RollingFile name="FILE"        
+                     fileName="${sys:mule.home}${sys:file.separator}logs${sys:file.separator}${sys:domain}.log"
+                     filePattern="${sys:mule.home}${sys:file.separator}logs${sys:file.separator}${sys:domain}-%i.log">
+            <PatternLayout pattern="[%d{MM-dd HH:mm:ss.SSS}] %-5p %c{1} [%t]: %m%n"/>
+            <DefaultRolloverStrategy max="10"/>
+            <Policies>
+                <SizeBasedTriggeringPolicy size="10 MB" />
+            </Policies>
+        </RollingFile>
+
     </Appenders>
 
     <Loggers>
+        <!-- Defined in guide: Integrate with Your Logging System Using Log4j  -->
+        <AsyncLogger name="com.gigaspaces" level="ERROR"/>
+        <AsyncLogger name="com.j_spaces" level="ERROR"/>
+        <AsyncLogger name="com.sun.jini" level="ERROR"/>
+        <AsyncLogger name="net.jini" level="ERROR"/>
+        <AsyncLogger name="org.apache" level="WARN"/>
+        <AsyncLogger name="org.apache.cxf" level="WARN"/>
+        <AsyncLogger name="org.springframework.beans.factory" level="WARN"/>
+        <AsyncLogger name="org.mule" level="INFO"/>
+        <AsyncLogger name="com.mulesoft" level="INFO"/>
+        <AsyncLogger name="org.jetel" level="WARN"/>
+        <AsyncLogger name="Tracking" level="WARN"/>
+
+        <!-- Mulesoft connector loggers -->
+
         <!-- Http Logger shows wire traffic on DEBUG -->
-        <!--AsyncLogger name="org.mule.service.http.impl.service.HttpMessageLogger" level="DEBUG"/-->
-        <AsyncLogger name="org.mule.service.http" level="WARN"/>
-        <AsyncLogger name="org.mule.extension.http" level="WARN"/>
+        <!-- AsyncLogger name="org.mule.service.http.impl.service.HttpMessageLogger" level="DEBUG"/-->
+        <AsyncLogger name="org.mule.service.http" level="${sys:logconnectors}"/>
+        <AsyncLogger name="org.mule.extension.http" level="${sys:logconnectors}"/>
+
+        <!-- Salesforce 
+        <AsyncLogger name="org.mule.extension.salesforce" level="DEBUG" />
+        
+        Ftp
+        <AsyncLogger name="org.mule.extension.ftp" level="DEBUG" />
+        
+        Database
+        <AsyncLogger name="org.mule.extension.db" level="DEBUG" />
+        
+        JMS
+        <AsyncLogger name="org.mule.extensions.jms" level="DEBUG" />
+        
+        Virtual Machine
+        <AsyncLogger name="org.mule.extensions.vm" level="DEBUG" />
+        
+        Amazon S3
+        <AsyncLogger name="org.mule.extension.s3" level="DEBUG" />
+        -->
 
         <!-- Mule logger -->
-        <AsyncLogger name="org.mule.runtime.core.internal.processor.LoggerMessageProcessor" level="INFO"/>
+        <AsyncLogger 
+            name="org.mule.runtime.core.internal.processor.LoggerMessageProcessor" 
+            level="INFO"/>
+
+        <!-- Application logs -->
+        <AsyncLogger name="app" level="${sys:logapplication}"/>
 
         <AsyncRoot level="INFO">
-            <AppenderRef ref="file"/>
+            <AppenderRef ref="FILE"/>
+            <AppenderRef ref="CLOUDHUB"/>
             <AppenderRef ref="Logzio"/>
         </AsyncRoot>
     </Loggers>
