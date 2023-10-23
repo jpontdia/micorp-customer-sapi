@@ -15,7 +15,9 @@
         <LogzioAppender name="Logzio">
 			<logzioToken>${sys:logzio.token}</logzioToken>
 			<logzioUrl>${sys:logzio.url}</logzioUrl>
-			<logzioType>${project.name}:${project.version}</logzioType>
+            <logzioType>${sys:domain}</logzioType>
+            <addHostname>true</addHostname>
+            <additionalFields>service=${project.name};version=${project.version};worker=${sys:worker.id};env=${sys:env:-local};worker-host=${sys:host};deployment-region=${sys:application.aws.region};organizationid=${sys:csorganization.id}</additionalFields>
 		</LogzioAppender>
 
         <!-- Integrate with Your Logging System Using Log4j -->

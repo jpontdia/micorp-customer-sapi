@@ -18,6 +18,10 @@ api:
   spec: "resource::${api.group}:${api.artifact}:${api.version}:raml:zip:api.raml"
   id: "0"
 
+# Open Telemetry configuration
+otel:
+  servicename: "${project.name}:${project.version}"
+
 # Service messages
 messages:
   customer-doesnt-exist-relations: "Customer does not exist or has relations with other resources"
