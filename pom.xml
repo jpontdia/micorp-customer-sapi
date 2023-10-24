@@ -11,7 +11,7 @@
 	 
 	<groupId>078efef1-d139-48ed-92f5-f8d4a0592374</groupId>
 	<artifactId>micorp-customer-sapi-asset</artifactId>
-	<version>1.3.50</version>
+	<version>1.3.51</version>
 	<packaging>mule-application</packaging>   
 	<name>micorp-customer-sapi</name>
 	<description>Mulesoft service for creating customers in Salesforce using data from the Corporate Orders System</description>
@@ -44,7 +44,7 @@
 		<dependency>
 			<groupId>078efef1-d139-48ed-92f5-f8d4a0592374</groupId>
 			<artifactId>common-core</artifactId>
-			<version>1.0.17</version>
+			<version>1.0.18</version>
 			<classifier>mule-plugin</classifier>
 		</dependency>
 
@@ -57,20 +57,20 @@
 		
 		<!-- Logging Dependencies-->
 		<dependency>
-		    <groupId>org.apache.logging.log4j</groupId>
-		    <artifactId>log4j-core</artifactId>
+			<groupId>org.apache.logging.log4j</groupId>
+			<artifactId>log4j-core</artifactId>
 		</dependency>
-		<dependency> 
+		<dependency>
 			<groupId>org.apache.logging.log4j</groupId>
 			<artifactId>log4j-api</artifactId>
-		</dependency>		
-		<dependency>
-		    <groupId>io.logz.log4j2</groupId>
-		    <artifactId>logzio-log4j2-appender</artifactId>
 		</dependency>
 		<dependency>
-  			<groupId>io.logz.sender</groupId>
-  			<artifactId>logzio-sender</artifactId>
+			<groupId>io.logz.log4j2</groupId>
+			<artifactId>logzio-log4j2-appender</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>io.logz.sender</groupId>
+			<artifactId>logzio-sender</artifactId>
 		</dependency>
 	</dependencies>
 	
