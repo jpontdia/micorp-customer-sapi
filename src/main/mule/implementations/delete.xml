@@ -22,7 +22,7 @@
 		<logger 
 			level="INFO" 
 			doc:name="start" 
-			message="#[&quot;Delete customer customerId=&quot; ++ attributes.uriParams.'customerId']"/>
+			message="#[&quot;Delete customer customerId=&quot; ++ attributes.uriParams.'customerId']" category="app"/>
 		
 		<ee:transform 
 			doc:name="get customerId" >
@@ -43,6 +43,7 @@ attributes.uriParams.'customerId']]></ee:set-variable>
 		
 		<choice doc:name="Choice">
 			<when expression="#[payload.successful]">
+				<logger level="DEBUG" doc:name="Logger" doc:id="8d669634-922f-47cd-a70a-311794f79dd2" message="The customer was deleted" category="app"/>
 				<ee:transform doc:name="Success Message">
 			<ee:message>
 				<ee:set-payload><![CDATA[%dw 2.0
@@ -56,6 +57,7 @@ output application/json
 		</ee:transform>
 			</when>
 			<otherwise >
+				<logger level="DEBUG" doc:name="Logger" doc:id="0d2301ca-9e41-4072-88c6-12c1a8f16e0d" message="The customer couldn't be deleted" category="app"/>
 				<ee:transform doc:name="Response">
 					<ee:message >
 						<ee:set-payload ><![CDATA[%dw 2.0

@@ -49,19 +49,15 @@ FROM Customer__c
 }]]]></salesforce:parameters>
 		</salesforce:query>
 
+		<logger 
+			level="DEBUG" 
+			doc:name="Logger"
+			category="app" 
+			message="#[${file::script-records-found.dwl}]"/>
+			
 		<ee:transform doc:name="Customer Payload">
 			<ee:message >
-				<ee:set-payload ><![CDATA[%dw 2.0
-output json
-
----
-payload map (item, value) ->
-{
-    firstName: item.firstName__c,
-    lastName: item.lastName__c,
-    address: item.address__c,
-    customerId: item.Id
-}    ]]></ee:set-payload>
+				<ee:set-payload ><![CDATA[${file::script-records-from-payload.dwl}]]></ee:set-payload>
 			</ee:message>
 		</ee:transform>
 		
@@ -73,7 +69,7 @@ payload map (item, value) ->
 		<logger 
 			level="INFO" 
 			doc:name="Logger" 
-			message='#[%dw 2.0&#10;output application/json&#10;---&#10;{&#10;	message: "Customer getByName",&#10;    firstName: attributes.queryParams.firstName default "",&#10;	lastName: attributes.queryParams.lastName default ""  &#10;}]'/>
+			message='#[%dw 2.0&#10;output application/json&#10;---&#10;{&#10;	message: "Customer getByName",&#10;    firstName: attributes.queryParams.firstName default "",&#10;	lastName: attributes.queryParams.lastName default ""  &#10;}]' category="app"/>
 		<set-variable 
 			value='#[%dw 2.0&#10;output application/java&#10;---&#10;{&#10;    "firstName": attributes.queryParams.firstName default "",&#10;    "lastName": attributes.queryParams.lastName default ""&#10;}]'
 			doc:name="otel Tags" 
@@ -94,7 +90,8 @@ payload map (item, value) ->
 		<logger 
 			level="INFO" 
 			doc:name="Logger" 
-			message="#[%dw 2.0&#10;output application/json&#10;---&#10;{&#10;	message: &quot;Customer  getById&quot;,&#10;    customerId: attributes.uriParams.'customerId' default &quot;&quot;&#10;}]"/>
+			message="#[%dw 2.0&#10;output application/json&#10;---&#10;{&#10;	message: &quot;Customer  getById&quot;,&#10;    customerId: attributes.uriParams.'customerId' default &quot;&quot;&#10;}]" 
+			category="app"/>
 		<set-variable value="#[%dw 2.0&#10;output application/java&#10;---&#10;{&#10;    &quot;customerId&quot;: attributes.uriParams.'customerId' default &quot;&quot;,&#10;}]" doc:name="otel Tags" doc:id="ef1ab554-583b-4be2-9985-72155fba1629" variableName="openTelemetryTags" />
 		<ee:transform doc:name="get customerId" >
 			<ee:variables >

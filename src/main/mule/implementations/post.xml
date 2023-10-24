@@ -19,7 +19,7 @@
 		<logger 
 			level="INFO" 
 			doc:name="Logger" 
-			message='#[%dw 2.0&#10;import * from dw::util::Values&#10;output application/json&#10;---&#10;{&#10;	message: "Create customer",&#10;    payload: payload&#10;		mask field("lastName") with "*****"&#10;		mask field("address") with "*****"&#10;		mask field("email") with "*****"  &#10;}]'/>
+			message='#[%dw 2.0&#10;import * from dw::util::Values&#10;output application/json&#10;---&#10;{&#10;	message: "Create customer",&#10;    payload: payload&#10;		mask field("lastName") with "*****"&#10;		mask field("address") with "*****"&#10;		mask field("email") with "*****"  &#10;}]' category="app"/>
 			
 		<set-variable 
 			value='#[%dw 2.0&#10;output application/java&#10;---&#10;{&#10;    "firstName": payload.firstName default "",&#10;    "lastName": payload.lastName default ""&#10;}]' 
@@ -48,14 +48,13 @@ output application/java
 					
 		<choice doc:name="Customer Exist?" >
 			<when expression="#[sizeOf(payload) == 0]">
-
 				<flow-ref 
 					doc:name="newCustomer" 
 					name="newCustomer"/>
-
 			</when>
 			
 			<otherwise >
+				<logger level="DEBUG" doc:name="Logger" doc:id="d289c341-9138-44e6-a641-10b67ae6f575" message="The customer already exists in the database" category="app"/>
 				<ee:transform doc:name="response">
 					<ee:message >
 						<ee:set-payload ><![CDATA[%dw 2.0
@@ -81,9 +80,9 @@ output application/json
 	
 	<sub-flow name="newCustomer">
 		<logger 
-			level="INFO" 
+			level="DEBUG" 
 			doc:name="Logger" 
-			message="Customer doesn't exist"/>
+			message="The customer is going to be created" category="app"/>
 
 		<ee:transform doc:name="Insert Payload" >
 			<ee:message >
@@ -99,7 +98,7 @@ output application/json
 			</ee:message>
 		</ee:transform>
 		<logger 
-			level="INFO" 
+			level="DEBUG" 
 			doc:name="Logger" 
 			message="#[payload]"/>
 
@@ -108,10 +107,20 @@ output application/json
 			doc:name="Create Customer" 
 			config-ref="GlobalSalesforceConfig"/>
 
-		<logger level="DEBUG" doc:name="Logger" message="#[payload]"/>
+		<logger 
+			level="DEBUG" 
+			doc:name="Logger" 
+			message="#[payload]" 
+			category="app"/>
 
-		<choice doc:name="verify success" doc:id="6cba7c6b-f46d-4de0-aef1-4cec4a3a95f2" >
+		<choice doc:name="verify success" >
 			<when expression="#[payload.successful == true]">
+				<logger 
+					level="DEBUG" 
+					doc:name="Logger"  
+					message="Customer created successfully" 
+					category="app"/>
+
 				<ee:transform doc:name="headers and response" >
 					<ee:message>
 						<ee:set-payload><![CDATA[%dw 2.0
@@ -121,8 +130,10 @@ output application/json
   message: "Customer created successfully"
 }]]></ee:set-payload>
 					</ee:message>
+
 					<ee:variables >
-						<ee:set-variable variableName="outboundHeaders" ><![CDATA[%dw 2.0
+						<ee:set-variable 
+							variableName="outboundHeaders" ><![CDATA[%dw 2.0
 output application/java
 ---
 {"Location": 
@@ -133,7 +144,14 @@ output application/java
 					</ee:variables>
 				</ee:transform>
 			</when>
+
 			<otherwise >
+				<logger 
+					level="DEBUG" 
+					doc:name="Logger"
+					message="The customer couldn't be created" 
+					category="app"/>
+				
 				<ee:transform doc:name="Status 500 Response" >
 					<ee:message >
 						<ee:set-payload ><![CDATA[%dw 2.0
@@ -143,8 +161,10 @@ output application/json
   message: "${messages.customer-error}"
 }]]></ee:set-payload>
 					</ee:message>
+
 					<ee:variables >
-						<ee:set-variable variableName="httpStatus" ><![CDATA["500"]]></ee:set-variable>
+						<ee:set-variable 
+							variableName="httpStatus" ><![CDATA["500"]]></ee:set-variable>
 					</ee:variables>
 				</ee:transform>
 			</otherwise>
