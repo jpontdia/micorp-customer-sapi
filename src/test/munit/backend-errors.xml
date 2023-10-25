@@ -88,7 +88,7 @@ http://www.mulesoft.org/schema/mule/validation http://www.mulesoft.org/schema/mu
 			<munit-tools:assert-that
 				doc:name="verify response"
 				doc:id="f0a119d7-96ac-4e8d-8c0b-0f12b9e685e8"
-				expression='#[payload.message contains "${messages.customer-error}"]'
+				expression='#[payload.message contains "${messages.record-create-error}"]'
 				is="#[MunitTools::notNullValue()]" />
 		</munit:validation>
 	</munit:test>
