@@ -68,7 +68,7 @@ FROM Customer__c
 		<logger 
 			level="INFO" 
 			doc:name="Logger" 
-			message='#[%dw 2.0&#10;output application/json&#10;---&#10;{&#10;	message: "Customer getByName",&#10;    firstName: attributes.queryParams.firstName default "",&#10;	lastName: attributes.queryParams.lastName default ""  &#10;}]' category="app"/>
+			message='#[%dw 2.0&#10;output application/json&#10;---&#10;{&#10;	message: "Query customer by name",&#10;    firstName: attributes.queryParams.firstName default "",&#10;	lastName: attributes.queryParams.lastName default ""  &#10;}]' category="app"/>
 		<set-variable 
 			value='#[%dw 2.0&#10;output application/java&#10;---&#10;{&#10;    "firstName": attributes.queryParams.firstName default "",&#10;    "lastName": attributes.queryParams.lastName default ""&#10;}]'
 			doc:name="otel Tags" 
@@ -89,7 +89,7 @@ FROM Customer__c
 		<logger 
 			level="INFO" 
 			doc:name="Logger" 
-			message="#[%dw 2.0&#10;output application/json&#10;---&#10;{&#10;	message: &quot;Customer  getById&quot;,&#10;    customerId: attributes.uriParams.'customerId' default &quot;&quot;&#10;}]" 
+			message="#[%dw 2.0&#10;output application/json&#10;---&#10;{&#10;	message: &quot;Query Customer by Id&quot;,&#10;    customerId: attributes.uriParams.'customerId' default &quot;&quot;&#10;}]" 
 			category="app"/>
 		<set-variable value="#[%dw 2.0&#10;output application/java&#10;---&#10;{&#10;    &quot;customerId&quot;: attributes.uriParams.'customerId' default &quot;&quot;,&#10;}]" doc:name="otel Tags" doc:id="ef1ab554-583b-4be2-9985-72155fba1629" variableName="openTelemetryTags" />
 		<ee:transform doc:name="get customerId" >
