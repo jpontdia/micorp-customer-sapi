@@ -95,7 +95,8 @@ FROM Customer__c
 		<set-variable value="#[%dw 2.0&#10;output application/java&#10;---&#10;{&#10;    &quot;customerId&quot;: attributes.uriParams.'customerId' default &quot;&quot;,&#10;}]" doc:name="otel Tags" doc:id="ef1ab554-583b-4be2-9985-72155fba1629" variableName="openTelemetryTags" />
 		<ee:transform doc:name="get customerId" >
 			<ee:variables >
-				<ee:set-variable variableName="customerId" ><![CDATA[attributes.uriParams.'customerId']]></ee:set-variable>
+				<ee:set-variable 
+					variableName="customerId" ><![CDATA[attributes.uriParams.'customerId']]></ee:set-variable>
 			</ee:variables>
 		</ee:transform>
 		<flow-ref 

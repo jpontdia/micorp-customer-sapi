@@ -61,7 +61,7 @@ output application/java
 output application/json
 ---
 {
-  message: "${messages.customer-exists}"
+  message: "${messages.record-exists}"
 }
 ]]></ee:set-payload>
 					</ee:message>
@@ -127,7 +127,7 @@ output application/json
 output application/json
 ---
 {
-  message: "Customer created successfully"
+  message: "${messages.record-create-success}"
 }]]></ee:set-payload>
 					</ee:message>
 
@@ -158,7 +158,7 @@ output application/java
 output application/json
 ---
 {
-  message: "${messages.customer-error}"
+  message: "${messages.record-create-error}"
 }]]></ee:set-payload>
 					</ee:message>
 
