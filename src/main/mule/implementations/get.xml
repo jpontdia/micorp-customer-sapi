@@ -15,7 +15,6 @@
 		http://www.mulesoft.org/schema/mule/opentelemetry 
 		http://www.mulesoft.org/schema/mule/opentelemetry/current/mule-opentelemetry.xsd">
 	
-	
 	<flow name="queryCustomer" >
 		<ee:transform doc:name="Where Filter" >
 			<ee:message >
