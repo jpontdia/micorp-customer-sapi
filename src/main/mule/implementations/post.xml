@@ -19,7 +19,8 @@
 		<logger 
 			level="INFO" 
 			doc:name="Logger" 
-			message='#[%dw 2.0&#10;import * from dw::util::Values&#10;output application/json&#10;---&#10;{&#10;	message: "Create customer",&#10;    payload: payload&#10;		mask field("lastName") with "*****"&#10;		mask field("address") with "*****"&#10;		mask field("email") with "*****"  &#10;}]' category="app"/>
+			message='#[%dw 2.0&#10;import * from dw::util::Values&#10;output application/json&#10;---&#10;{&#10;	message: "Create customer",&#10;    payload: payload&#10;		mask field("lastName") with "*****"&#10;		mask field("address") with "*****"&#10;		mask field("email") with "*****"  &#10;}]'
+			category="app"/>
 			
 		<set-variable 
 			value='#[%dw 2.0&#10;output application/java&#10;---&#10;{&#10;    "firstName": payload.firstName default "",&#10;    "lastName": payload.lastName default ""&#10;}]' 
@@ -54,7 +55,12 @@ output application/java
 			</when>
 			
 			<otherwise >
-				<logger level="DEBUG" doc:name="Logger" doc:id="d289c341-9138-44e6-a641-10b67ae6f575" message="The customer already exists in the database" category="app"/>
+				<logger 
+					level="DEBUG" 
+					doc:name="Logger"
+					message="The customer already exists in the database"
+					category="app"/>
+
 				<ee:transform doc:name="response">
 					<ee:message >
 						<ee:set-payload ><![CDATA[%dw 2.0
@@ -82,7 +88,8 @@ output application/json
 		<logger 
 			level="DEBUG" 
 			doc:name="Logger" 
-			message="The customer is going to be created" category="app"/>
+			message="The customer is going to be created" 
+			category="app"/>
 
 		<ee:transform doc:name="Insert Payload" >
 			<ee:message >
