@@ -24,7 +24,7 @@
 			
 		<set-variable 
 			value='#[%dw 2.0&#10;output application/java&#10;---&#10;{&#10;    "firstName": payload.firstName default "",&#10;    "lastName": payload.lastName default ""&#10;}]' 
-			doc:name="otel Tags" 
+			doc:name="OpenTelemetry Tags" 
 			variableName="openTelemetryTags" />
 
 		<ee:transform doc:name="assign variables" >
@@ -107,7 +107,7 @@ output application/json
 		<logger 
 			level="DEBUG" 
 			doc:name="Logger" 
-			message="#[payload]"/>
+			message="#[output application/java --- payload]" category="app"/>
 
 		<salesforce:create 
 			type="Customer__c" 
@@ -117,7 +117,7 @@ output application/json
 		<logger 
 			level="DEBUG" 
 			doc:name="Logger" 
-			message="#[payload]" 
+			message="#[output application/json --- payload]" 
 			category="app"/>
 
 		<choice doc:name="verify success" >
@@ -125,7 +125,7 @@ output application/json
 				<logger 
 					level="DEBUG" 
 					doc:name="Logger"  
-					message="Customer created successfully" 
+					message="#['Record created successfully with id=' ++ payload.items[0].id]" 
 					category="app"/>
 
 				<ee:transform doc:name="headers and response" >
