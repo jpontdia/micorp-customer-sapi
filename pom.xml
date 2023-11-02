@@ -21,7 +21,7 @@
         <categories key="API layer">System</categories>
         <categories key="Backend">Salesforce</categories>
 		<categories key="Asset type">API</categories>
-        <tags>Micorp, Salesforce, System</tags>
+        <tags>Micorp, Salesforce, System, Customer</tags>
 		<fields key="sourceCode">https://github.com/jpontdia/micorp-customer-sapi</fields>
 
 		<!-- RAML specification -->
