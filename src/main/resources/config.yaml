@@ -20,7 +20,7 @@ api:
 
 # Open Telemetry configuration
 otel:
-  servicename: "${project.name}:${project.version}"
+  servicename: "${project.name}-local"
   
 # Components to configure:
 # - Salesforce connector
