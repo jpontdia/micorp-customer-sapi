@@ -1,19 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<mule xmlns:opentelemetry="http://www.mulesoft.org/schema/mule/opentelemetry"
+<mule xmlns:validation="http://www.mulesoft.org/schema/mule/validation"
+	xmlns:opentelemetry="http://www.mulesoft.org/schema/mule/opentelemetry"
 	xmlns:salesforce="http://www.mulesoft.org/schema/mule/salesforce"
-	xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core"
+	xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" 
 	xmlns="http://www.mulesoft.org/schema/mule/core" 
 	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" 
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
-	xsi:schemaLocation="
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="
 		http://www.mulesoft.org/schema/mule/ee/core 
 		http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd 
 		http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
 		http://www.mulesoft.org/schema/mule/salesforce 
 		http://www.mulesoft.org/schema/mule/salesforce/current/mule-salesforce.xsd
 		http://www.mulesoft.org/schema/mule/opentelemetry 
-		http://www.mulesoft.org/schema/mule/opentelemetry/current/mule-opentelemetry.xsd">
+		http://www.mulesoft.org/schema/mule/opentelemetry/current/mule-opentelemetry.xsd
+http://www.mulesoft.org/schema/mule/validation http://www.mulesoft.org/schema/mule/validation/current/mule-validation.xsd">
 	
 	<flow name="queryCustomer" >
 		<ee:transform doc:name="Where Filter" >
@@ -82,6 +83,11 @@ FROM Customer__c
 			value="#[attributes.queryParams.lastName]" 
 			doc:name="lastName" 
 			variableName="lastName"/>
+		<validation:is-true
+			doc:name="customer exception"
+			config-ref="Validation_Config"
+			expression="#[attributes.queryParams.firstName != 'Dart' and attributes.queryParams.lastName !='Vader']" 
+			message="The error customer was sent to the service to make it fail and create and exception"/>
 		<flow-ref doc:name="queryCustomer" name="queryCustomer"/>
 	</flow>
 
